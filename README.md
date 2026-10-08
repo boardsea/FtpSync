@@ -1,78 +1,80 @@
-# FTP Sync для Notepad++
+# FTP Sync for Notepad++
 
-FTP Sync - самостоятельный FTP/FTPES/SFTP-клиент для Notepad++: дерево серверов, открытие и сохранение файлов прямо на сервере, журнал, очередь передач и защита от перезаписи чужих правок. Перед сохранением и в фоне плагин сверяет открытый файл с копией на сервере; если файл на сервере изменился, показывает различия и предлагает слияние. Ничего не затирается молча, а все версии файлов копятся в бекапах. Другие плагины для работы не нужны.
+**English** | [Русский](README.ru.md)
 
-## Установка
+FTP Sync is a standalone FTP / FTPES / SFTP client for Notepad++: a server tree, opening and saving files directly on the server, a journal, a transfer queue, and protection against overwriting someone else's changes. Before saving, and in the background, the plugin compares the open file with the copy on the server; if the file changed there, it shows the differences and offers a merge. Nothing is overwritten silently, and every version of a file is kept in backups. No other plugins are required.
 
-1. Нужен Notepad++ (64-бит; для 32-бит возьмите zip `x86`) и .NET Framework 4.x (есть в Windows 10/11).
-2. Распакуйте zip так, чтобы получилось `...\Notepad++\plugins\FtpSync\FtpSync.dll` (рядом `FtpSync.Managed.dll` и `Renci.SshNet.dll`).
-3. Если Windows пометила файлы как скачанные: ПКМ по каждому файлу → Свойства → «Разблокировать» (или `Get-ChildItem -Recurse | Unblock-File`).
-4. Перезапустите Notepad++. Меню **Плагины → FTP Sync**.
+## Installation
 
-При первом запуске плагин предложит импортировать профили из `NppFTP.xml`, если он есть на компьютере. Профили можно также перенести из FileZilla.
+1. You need Notepad++ (64-bit; for 32-bit take the `x86` zip) and .NET Framework 4.x (included in Windows 10/11).
+2. Unzip so that you get `...\Notepad++\plugins\FtpSync\FtpSync.dll` (next to `FtpSync.Managed.dll`, `Renci.SshNet.dll` and the `lang` folder).
+3. If Windows marked the files as downloaded: right-click each file → Properties → "Unblock" (or run `Get-ChildItem -Recurse | Unblock-File`).
+4. Restart Notepad++. Menu **Plugins → FTP Sync**.
 
-Обновление с прежних версий (папки `NppFtpGuard` и `NppFtpSync`): удалите старую папку из `plugins`; настройки, пароли и бекапы из `plugins\Config` переносятся в `FtpSync` автоматически.
+On first start the plugin offers to import profiles from `NppFTP.xml` if it exists on the computer. Profiles can also be imported from FileZilla.
 
-## Языки
+Upgrading from earlier versions (folders `NppFtpGuard` and `NppFtpSync`): delete the old folder from `plugins`; settings, passwords and backups from `plugins\Config` are moved to `FtpSync` automatically.
 
-Интерфейс мультиязычный: русский (встроен), English, Українська, Deutsch, Español, Français, 中文. Язык выбирается автоматически по языку Windows, либо вручную: «Профили и настройки» → «Язык интерфейса» (после смены перезапустите Notepad++).
+## Languages
 
-Добавить свой язык: скопируйте `lang\_template.txt` в `lang\xx.txt` (xx - код языка, например `it`), первой строкой напишите `#name: Italiano` и переведите правую колонку (формат `ключ<TAB>перевод`, `\n` - перенос строки, `{0}` `{1}` сохраняйте). Непереведённое показывается по-русски. Язык появится в списке сам.
+The interface is multilingual: Russian (built in), English, Українська, Deutsch, Español, Français, 中文. The language follows Windows by default, or choose it in "Profiles and settings" → "Interface language" (restart Notepad++ after changing).
 
-## Дерево подключений (справа)
+To add your own language, copy `lang\_template.txt` to `lang\xx.txt` (xx is the language code, e.g. `it`), write `#name: Italiano` on the first line and translate the right-hand column (format `key<TAB>translation`, `\n` is a line break, keep `{0}` `{1}`). Untranslated text is shown in Russian. The language appears in the list automatically.
 
-После установки справа появляется панель «FTP Sync - подключения» (если закрыли: Плагины → FTP Sync → «Показать дерево подключений», либо иконка на панели инструментов).
+## Connection tree (right side)
 
-* Дерево профилей. Двойной щелчок по профилю = подключение; открывается сразу ваша папка: путь `/ › home › … › ваша папка` без лишних соседей, содержимое только вашей папки. Стартовая папка: последняя, где вы работали на этом аккаунте (запоминается в профиле), иначе заданная в профиле, иначе домашняя папка сервера. Чтобы увидеть полный список любой папки на пути, выделите её и нажмите F5.
-* При раскрытии папки и при открытии файла двойным щелчком дерево само прокручивается так, чтобы выбранный элемент оказался в центре окна дерева (по вертикали и по горизонтали). Если вы сами покрутили колесо, полосу прокрутки или нажали клавишу, пока папка грузилась, автопрокрутка не вмешивается.
-* Папки подгружаются по мере раскрытия, папки подгружаются по мере раскрытия. Скрытые файлы (`.cache`, `.htaccess`) видны (можно отключить в профиле).
-* Значки без подписей различают типы файлов: PHP (фиолетовый овал), JS (жёлтый), TS (синий), CSS (синий щит), HTML (оранжевый щит), JSON (зелёный), XML (оранжевые скобки), MD/TXT/LOG (строки на листе), картинки, архивы, SQL (цилиндр), настройки `.ini/.conf/.htaccess/.env/.yml` (шестерёнка), скрипты `.sh/.bat`, PDF, аудио/видео. Те же значки в дереве бекапов и в списке статуса файлов.
-* Двойной щелчок по файлу: скачивается в локальный кэш и открывается во вкладке. Если локальная копия отличается и не была выложена, плагин спросит, что делать.
-* При сохранении файла из локального кэша он сам выкладывается на сервер (можно выключить в профиле). Перед записью на сервер прежняя серверная версия попадает в бекапы.
-* Правый щелчок: открыть, обновить (F5), выложить файлы, скачать папку в кэш, новая папка/файл, переименовать (F2), удалить (Del; копии удаляемых файлов сохраняются в бекапы), скопировать путь, «Бекапы этого файла».
-* Перетащите файлы или папки из Проводника на папку в дереве, чтобы выложить.
-* Строка пути над деревом: введите путь и Enter, чтобы перейти.
-* Внизу одна короткая строка состояния (список очереди с боковой панели убран, история передач в журнале): идущая передача с процентами (`⬆ main.css 45%` для выкладки, `⬇` для скачивания, плюс тонкая полоска), `✔ готово`, либо `✖ Ошибка выкладки/скачивания/подключения: …`. Щелчок по строке или кнопка `≡` открывает полный журнал. Кнопка `■` останавливает очередь.
+After installation the "FTP Sync - connections" panel appears on the right (if closed: Plugins → FTP Sync → "Show connection tree", or the toolbar icon).
 
-## Журнал
+* A tree of profiles. Double-click a profile to connect; your own folder opens right away: the path `/ › home › … › your folder` without unrelated neighbours, with only your folder's content. Start folder: the last one you worked in on this account (remembered in the profile), otherwise the one set in the profile, otherwise the server's home folder. To see the full listing of any folder on the path, select it and press F5.
+* When a folder is expanded or a file opened by double-click, the tree scrolls so that the selected item is centred (vertically and horizontally). If you use the wheel, the scroll bar or a key while a folder is loading, auto-scroll stays out of the way.
+* Folders load as you expand them. Hidden files (`.cache`, `.htaccess`) are visible (can be turned off in the profile).
+* Icons without captions tell file types apart: PHP, JS, TS, CSS, HTML, JSON, XML, MD/TXT/LOG, images, archives, SQL, settings (`.ini/.conf/.htaccess/.env/.yml`), scripts (`.sh/.bat`), PDF, audio/video. The same icons are used in the backup tree and the file status list.
+* Double-click a file: it is downloaded to the local cache and opened in a tab. If the local copy differs and was never uploaded, the plugin asks what to do.
+* When a file from the local cache is saved, it is uploaded to the server automatically (can be turned off in the profile). Before writing to the server, the previous server version goes to backups.
+* Right-click: open, refresh (F5), upload files, download folder to the cache, new folder/file, rename (F2), delete (Del; copies of deleted files are kept in backups), copy path, "Backups of this file".
+* Drag files or folders from Explorer onto a folder in the tree to upload them.
+* Path bar above the tree: type a path and press Enter to go there.
+* One short status line at the bottom: the running transfer with percentage (`⬆ main.css 45%` for upload, `⬇` for download, plus a thin progress bar), `✔ done`, or `✖ Upload/download/connection error: …`. Click the line or the `≡` button to open the full journal. The `■` button stops the queue.
 
-Нижняя панель, вкладка «Журнал»: цвета записей: **зелёный** - готово, **оранжевый** - выкладка, **красный** - ошибка, коричневый - предупреждение, чёрный - обычное сообщение. Фильтр по цвету есть. Все события (подключения, скачивание, выкладка, проверки, ошибки). Последняя строка видна сразу (автопрокрутка). Строки с `▸` содержат подробности: выберите строку и нажмите «Раскрыть» (или двойной щелчок), чтобы прочитать полный текст ошибки; «Копировать» кладёт запись с подробностями в буфер. Вкладка «Журнал» - простой журнал без кнопок: цветные записи, последняя строка внизу; двойной щелчок по записи с `▸` раскрывает полный текст ошибки. Вкладка «Расширенный журнал» - тот же журнал с кнопками (раскрыть, копировать, очистить, файл журнала), фильтром по цвету, поиском и автопрокруткой. Полный журнал пишется в файл `plugins\Config\FtpSync\log.txt` (кнопка «Файл журнала»).
+## Journal
 
-## Возможности
+Bottom panel, "Journal" tab: record colours: **green** - done, **orange** - upload, **red** - error, brown - warning, black - plain message. There is a colour filter. All events are logged (connections, downloads, uploads, checks, errors). The last line is always visible (auto-scroll). Lines with `▸` carry details: select the line and press "Expand" (or double-click) to read the full error text; "Copy" puts the record with details on the clipboard. The "Journal" tab is a plain journal without buttons; the "Extended journal" tab is the same journal with buttons (expand, copy, clear, journal file), colour filter, search and auto-scroll. The full journal is written to `plugins\Config\FtpSync\log.txt` ("Journal file" button).
 
-| Функция | Как работает |
+## Features
+
+| Feature | How it works |
 |---|---|
-| Предупреждение при сохранении | Перед записью файла сравнивает сервер с тем, что вы загружали. Если сервер изменился, окно с различиями: **авто-слияние**, **взять серверную** (ваш текст уходит в новую вкладку и в бекап), **перезаписать сервер**. Закрытие окна = безопасный вариант. |
-| Фоновая проверка | При открытии файла, при переключении вкладки, при возврате в окно Notepad++ и по таймеру (по умолчанию 60 с). Показывает окно «файл изменён на сервере» с различиями. |
-| Три версии файла | Хранит «базу» (то, что вы загрузили), поэтому понимает, кто что менял, и умеет трёхстороннее слияние (diff3). |
-| Бекапы по тому же пути | Каждая версия, которую плагин увидел (серверная, ваша при сохранении, перед перезаписью, перед выкладкой), копируется в `…\FtpSync\Backups\<профиль>\<путь на сервере>\<файл>\<дата_причина>.<расширение>`. Дерево в панели повторяет структуру сайта. Одинаковое содержимое не дублируется. |
-| Панель | Плагины → FTP Sync → «Показать панель»: вкладка «Статус файлов» и вкладка «Бекапы» (дерево, фильтр, «текущий файл»). По версии: открыть копию, сравнить с сервером / с редактором, восстановить в редактор, выложить на сервер, показать в проводнике, удалить. |
-| Импорт из NppFTP | По желанию: профили, пути кэша и соответствие папок читаются из `NppFTP.xml`. Пароль расшифровывается (NppFTP шифрует его DES с ключом по умолчанию `NppFTP00`); если не получится, введите вручную. Пароли хранятся через Windows DPAPI. |
-| Импорт из FileZilla | Меню «Импорт профилей из FileZilla (XML/CSV)…» (или кнопка в настройках). По умолчанию предлагается `%APPDATA%\FileZilla\sitemanager.xml` (или файл из «Файл → Экспорт» FileZilla). Из XML переносится всё: папки менеджера сайтов (в дерево как группы), хост, порт, протокол (FTP, FTPES, SFTP; HTTP/HTTPS пропускаются), логин, пароль (base64), файл ключа SFTP, пассивный/активный режим, комментарий, локальная и удалённая папка, закладки (в меню «Закладки» профиля и в соответствие папок). Пароли, защищённые мастер-паролем FileZilla, импортировать нельзя - введите вручную (будет предупреждение). Также принимается CSV. Пароли шифруются Windows DPAPI и привязаны к вашей учётной записи Windows. После импорта удалите файл с открытыми паролями. |
-| Выложить файл | «Выложить текущий файл на сервер (с проверкой)» для любого файла из соответствия папок. |
-| Диагностика | «О плагине / диагностика» показывает, к какому профилю и пути на сервере относится текущий файл. |
+| Warning on save | Before writing the file, compares the server with what you loaded. If the server changed, a window with the differences: **auto-merge**, **take the server version** (your text goes to a new tab and to backups), **overwrite the server**. Closing the window is the safe choice. |
+| Background check | When a file is opened, when you switch tabs, when you return to the Notepad++ window, and on a timer (60 s by default). Shows a "file changed on the server" window with the differences. |
+| Three versions of a file | Keeps the "base" (what you loaded), so it knows who changed what and can do a three-way merge (diff3). |
+| Backups mirroring the server path | Every version the plugin has seen (server, yours on save, before overwrite, before upload) is copied to `…\FtpSync\Backups\<profile>\<server path>\<file>\<date_reason>.<extension>`. The tree in the panel follows the site structure. Identical content is not duplicated. |
+| Panel | Plugins → FTP Sync → "Show panel": the "Files status" and "Backups" tabs (tree, filter, "current file"). Per version: open the copy, compare with the server / the editor, restore into the editor, upload to the server, show in Explorer, delete. |
+| Import from NppFTP | Optional: profiles, cache paths and folder mappings are read from `NppFTP.xml`. The password is decrypted (NppFTP encrypts it with DES and the default key `NppFTP00`); if that fails, enter it manually. Passwords are stored with Windows DPAPI. |
+| Import from FileZilla | Menu "Import profiles from FileZilla (XML/CSV)…" (or the button in the settings). It suggests `%APPDATA%\FileZilla\sitemanager.xml` by default (or a file from FileZilla's "File → Export"). From XML everything is carried over: Site Manager folders (as groups in the tree), host, port, protocol (FTP, FTPES, SFTP; HTTP/HTTPS are skipped), user, password (base64), SFTP key file, passive/active mode, comment, local and remote folder, bookmarks (into the profile's "Bookmarks" menu and the folder mapping). Passwords protected by a FileZilla master password cannot be imported - enter them manually (a warning is shown). CSV is also accepted. Passwords are encrypted with Windows DPAPI and tied to your Windows account. Delete the file with plain-text passwords after the import. |
+| Upload a file | "Upload the current file to the server (with check)" for any file covered by a folder mapping. |
+| Diagnostics | "About / diagnostics" shows which profile and server path the current file belongs to. |
 
-Протоколы: FTP, FTPES (явный TLS), SFTP (пароль или ключ; SFTP-соединение держится открытым, быстрее FTP). Неявный FTPS (порт 990) не поддерживается.
+Protocols: FTP, FTPES (explicit TLS), SFTP (password or key; the SFTP connection is kept open, faster than FTP). Implicit FTPS (port 990) is not supported.
 
-## Как плагин определяет, к какому серверу относится файл
+## How the plugin decides which server a file belongs to
 
-* Файлы, открытые из дерева, лежат в локальном кэше профиля, и плагин знает их путь на сервере.
-* Для файлов вне кэша (например, ваша папка с сайтом) добавьте соответствие «локальная папка - папка на сервере» в «Профили и настройки». Если в диагностике файл «не относится ни к одному профилю», добавьте такое соответствие.
-* Сравнение игнорирует различия в переводах строк и BOM.
-* Если на компьютере установлен NppFTP, отключите в его профиле выкладку при сохранении или в профиле FTP Sync «Выкладывать на сервер при сохранении»: иначе файл выложат оба плагина.
+* Files opened from the tree live in the profile's local cache, and the plugin knows their server path.
+* For files outside the cache (for example your own site folder), add a "local folder - server folder" mapping in "Profiles and settings". If diagnostics says the file "does not belong to any profile", add such a mapping.
+* The comparison ignores differences in line endings and BOM.
+* If NppFTP is also installed, turn off upload-on-save in its profile, or turn off "Upload to the server on save" in the FTP Sync profile: otherwise both plugins will upload the file.
 
-## Сборка
+## Building
 
-Linux: `mono-mcs`, `mono-devel`, `mingw-w64`, `g++-mingw-w64-i686`, `zip`. Запуск `./build.sh` прогоняет тесты ядра (diff/merge, импорт NppFTP/FileZilla XML/CSV, языковые файлы, бекапы, логика проверки), собирает управляемую часть и два нативных шима (x64/x86) и кладёт архивы (с папкой `lang`) в `dist/`.
+Linux: `mono-mcs`, `mono-devel`, `mingw-w64`, `g++-mingw-w64-i686`, `zip`. `./build.sh` runs the core tests (diff/merge, NppFTP / FileZilla XML / CSV import, language files, backups, check logic), builds the managed part and two native shims (x64/x86) and puts the archives (with the `lang` folder) into `dist/`.
 
-Устройство: маленькая нативная DLL (`native/FtpSync.cpp`) экспортирует функции Notepad++ и поднимает .NET Framework 4, а вся логика и интерфейс (WinForms) в `FtpSync.Managed.dll`.
+Design: a small native DLL (`native/FtpSync.cpp`) exports the Notepad++ functions and hosts .NET Framework 4; all logic and the interface (WinForms) live in `FtpSync.Managed.dll`.
 
-## Статус
+## Status
 
-Ядро (сравнение, слияние, бекапы, импорт, разбор списков FTP, очередь передач) покрыто автотестами; сами клиенты FTP/SFTP с живым сервером не проверялись. Интеграция с Notepad++ (окна, докинг, сообщения) собрана по документации API, но на живом Notepad++ ещё не запускалась. Если что-то ведёт себя странно, смотрите `…\plugins\Config\FtpSync\log.txt` и пришлите его.
+The core (comparison, merge, backups, import, FTP listing parsing, transfer queue) is covered by automated tests; the FTP/SFTP clients have not been tested against a live server. The Notepad++ integration (windows, docking, messages) is built from the API documentation but has not yet been run in a live Notepad++. If something behaves strangely, look at `…\plugins\Config\FtpSync\log.txt` and send it in.
 
-## Автор
+## Author
 
-Paradise Web Design Studio (@pwds), https://github.com/boardsea. Репозиторий: https://github.com/boardsea/FtpSync
+Paradise Web Design Studio (@pwds), https://github.com/boardsea. Repository: https://github.com/boardsea/FtpSync
 
-Лицензии: SSH.NET (MIT), см. `SSH.NET-LICENSE.txt`.
+The project is licensed under MIT (see `LICENSE`). SSH.NET license (MIT): see `SSH.NET-LICENSE.txt`.
