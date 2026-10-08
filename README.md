@@ -1,8 +1,8 @@
 # FTP Sync for Notepad++
 
-**English** | [Русский](README.ru.md)
+**English** | [Русский](README.ru.md) | [Українська](README.uk.md) | [Deutsch](README.de.md) | [Español](README.es.md) | [Français](README.fr.md) | [中文](README.zh.md)
 
-FTP Sync is a standalone FTP / FTPES / SFTP client for Notepad++: a server tree, opening and saving files directly on the server, a journal, a transfer queue, and protection against overwriting someone else's changes. Before saving, and in the background, the plugin compares the open file with the copy on the server; if the file changed there, it shows the differences and offers a merge. Nothing is overwritten silently, and every version of a file is kept in backups. No other plugins are required.
+FTP Sync is an FTP / FTPES / SFTP client for Notepad++: a server tree, opening and saving files directly on the server, a journal, a transfer queue, and protection against overwriting someone else's changes. Before saving, and in the background, the plugin compares the open file with the copy on the server; if the file changed there, it shows the differences and offers a merge. Nothing is overwritten silently, and every version of a file is kept in backups. No other plugins are required.
 
 ## Installation
 
@@ -47,7 +47,7 @@ Bottom panel, "Journal" tab: record colours: **green** - done, **orange** - uplo
 | Background check | When a file is opened, when you switch tabs, when you return to the Notepad++ window, and on a timer (60 s by default). Shows a "file changed on the server" window with the differences. |
 | Three versions of a file | Keeps the "base" (what you loaded), so it knows who changed what and can do a three-way merge (diff3). |
 | Backups mirroring the server path | Every version the plugin has seen (server, yours on save, before overwrite, before upload) is copied to `…\FtpSync\Backups\<profile>\<server path>\<file>\<date_reason>.<extension>`. The tree in the panel follows the site structure. Identical content is not duplicated. |
-| Panel | Plugins → FTP Sync → "Show panel": the "Files status" and "Backups" tabs (tree, filter, "current file"). Per version: open the copy, compare with the server / the editor, restore into the editor, upload to the server, show in Explorer, delete. |
+| Panel | Plugins → FTP Sync → "Show panel": the "Files status" and "Backups" tabs (tree, filter, "current file"). The "Clear backups…" button deletes all backups, those older than 30 days, or everything except the 3 latest versions of each file; "Backups folder" opens the folder in Explorer; the right-click menu of a folder in the tree has "Open folder" and "Clear this folder…". Per version: open the copy, compare with the server / the editor, restore into the editor, upload to the server, show in Explorer, delete. |
 | Import from NppFTP | Optional: profiles, cache paths and folder mappings are read from `NppFTP.xml`. The password is decrypted (NppFTP encrypts it with DES and the default key `NppFTP00`); if that fails, enter it manually. Passwords are stored with Windows DPAPI. |
 | Import from FileZilla | Menu "Import profiles from FileZilla (XML/CSV)…" (or the button in the settings). It suggests `%APPDATA%\FileZilla\sitemanager.xml` by default (or a file from FileZilla's "File → Export"). From XML everything is carried over: Site Manager folders (as groups in the tree), host, port, protocol (FTP, FTPES, SFTP; HTTP/HTTPS are skipped), user, password (base64), SFTP key file, passive/active mode, comment, local and remote folder, bookmarks (into the profile's "Bookmarks" menu and the folder mapping). Passwords protected by a FileZilla master password cannot be imported - enter them manually (a warning is shown). CSV is also accepted. Passwords are encrypted with Windows DPAPI and tied to your Windows account. Delete the file with plain-text passwords after the import. |
 | Upload a file | "Upload the current file to the server (with check)" for any file covered by a folder mapping. |

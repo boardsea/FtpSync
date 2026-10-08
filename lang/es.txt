@@ -254,3 +254,11 @@ CSV пустой.	El CSV está vacío.
 В {0} не найдено ни одного профиля <Profile>.	No se encontró ningún perfil <Profile> en {0}.
 В {0} не найдено ни одного сервера.	No se encontró ningún servidor en {0}.
 {0}: пароль защищён мастер-паролем FileZilla и не может быть импортирован, введите его вручную.	{0}: la contraseña está protegida por la contraseña maestra de FileZilla y no se puede importar; introdúzcala manualmente.
+Очистить бекапы…	Limpiar copias…
+Все бекапы	Todas las copias
+Старше 30 дней	Más antiguas de 30 días
+Оставить по 3 последние версии каждого файла	Conservar las 3 últimas versiones de cada archivo
+Открыть папку	Abrir carpeta
+Очистить эту папку…	Limpiar esta carpeta…
+Очистить бекапы: {0}?\nПапка: {1}\n\nЭто действие нельзя отменить.	¿Limpiar copias: {0}?\nCarpeta: {1}\n\nEsta acción no se puede deshacer.
+Бекапы очищены: файлов {0}, освобождено {1}	Copias limpiadas: archivos {0}, liberado {1}

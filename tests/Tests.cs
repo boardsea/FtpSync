@@ -207,6 +207,22 @@ static class T2
 				}
 			}
 
+		// --- clearing backups ---
+		string cdir = System.IO.Path.Combine(System.IO.Path.GetTempPath(), "nppc_" + Guid.NewGuid().ToString("N"));
+		var cst = new BackupStore(cdir);
+		bool cr;
+		string fdir = cst.FileDir("p", "/a/b.txt");
+		System.IO.Directory.CreateDirectory(fdir);
+		for (int k = 0; k < 5; k++) System.IO.File.WriteAllText(System.IO.Path.Combine(fdir, "2024010" + (k + 1) + "-100000_saved.txt"), "v" + k);
+		int cf; long cb;
+		cst.Clear(cdir, 0, 3, out cf, out cb);
+		eq(cf, 2, "clear keeps newest 3"); eq(BackupStore.VersionsIn(fdir).Count, 3, "3 versions remain");
+		cst.Clear(cdir, 36500, 0, out cf, out cb);
+		eq(cf, 0, "clear older-than keeps recent");
+		cst.Clear(cdir, 0, 0, out cf, out cb);
+		eq(cf, 3, "clear all"); eq(System.IO.Directory.Exists(fdir), false, "empty folders removed");
+		System.IO.Directory.Delete(cdir, true);
+
 		var names = new System.Collections.Generic.List<string> { "10. b", "2. b", "1. Локалка", "a", "1. МОЙ", "B" };
 		names.Sort(NaturalComparer.Instance);
 		eq(string.Join("|", names.ToArray()), "1. Локалка|1. МОЙ|2. b|10. b|a|B", "natural sort");

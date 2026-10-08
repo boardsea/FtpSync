@@ -15,7 +15,7 @@ namespace FtpSync
 	/// <summary>Entry point called from the native shim; wires Notepad++ events to the guard logic.</summary>
 	public static class Plugin
 	{
-		public const string Version = "0.5.5";
+		public const string Version = "0.5.6";
 		[UnmanagedFunctionPointer(CallingConvention.StdCall)] delegate void CmdDel(int i);
 		[UnmanagedFunctionPointer(CallingConvention.StdCall)] delegate void NotifyDel(IntPtr scn);
 		static CmdDel cmdDel; static NotifyDel notifyDel;
@@ -610,6 +610,20 @@ namespace FtpSync
 		{
 			Directory.CreateDirectory(settings.BackupRoot);
 			Process.Start("explorer.exe", "\"" + settings.BackupRoot + "\"");
+		}
+
+		public static void OpenFolder(string path) { if (Directory.Exists(path)) Process.Start("explorer.exe", "\"" + path + "\""); }
+
+		/// <summary>Clears backups under dir after a confirmation. olderThanDays 0 = any age; keepLast = newest versions of each file to keep.</summary>
+		public static bool ClearBackups(string dir, string what, int olderThanDays, int keepLast)
+		{
+			if (MessageBox.Show(new NppWindow(), L.F("Очистить бекапы: {0}?\nПапка: {1}\n\nЭто действие нельзя отменить.", what, dir),
+				"FTP Sync", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) != DialogResult.Yes) return false;
+			int n; long bytes;
+			Backups.Clear(dir, olderThanDays, keepLast, out n, out bytes);
+			EventLog.Info(L.T("Бекапы"), L.F("Бекапы очищены: файлов {0}, освобождено {1}", n, TextUtil.FormatSize(bytes)));
+			MessageBox.Show(new NppWindow(), L.F("Бекапы очищены: файлов {0}, освобождено {1}", n, TextUtil.FormatSize(bytes)), "FTP Sync");
+			return true;
 		}
 
 		public static void Reveal(string path) { Process.Start("explorer.exe", "/select,\"" + path + "\""); }

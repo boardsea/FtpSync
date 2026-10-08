@@ -45,9 +45,15 @@ namespace FtpSync
 			Button bRef = new Button { Text = L.T("Обновить"), Width = 80 }; bRef.Click += delegate { RebuildTree(); };
 			Button bCur = new Button { Text = L.T("Текущий файл"), Width = 100 }; bCur.Click += delegate { SelectCurrentFile(); };
 			Button bFolder = new Button { Text = L.T("Папка бекапов"), Width = 100 }; bFolder.Click += delegate { Plugin.OpenBackupFolder(); };
+			Button bClear = new Button { Text = L.T("Очистить бекапы…"), Width = 120 };
+			ContextMenuStrip cm = new ContextMenuStrip();
+			cm.Items.Add(L.T("Все бекапы"), null, delegate { if (Plugin.ClearBackups(Plugin.Backups.Root, L.T("Все бекапы"), 0, 0)) RebuildTree(); });
+			cm.Items.Add(L.T("Старше 30 дней"), null, delegate { if (Plugin.ClearBackups(Plugin.Backups.Root, L.T("Старше 30 дней"), 30, 0)) RebuildTree(); });
+			cm.Items.Add(L.T("Оставить по 3 последние версии каждого файла"), null, delegate { if (Plugin.ClearBackups(Plugin.Backups.Root, L.T("Оставить по 3 последние версии каждого файла"), 0, 3)) RebuildTree(); });
+			bClear.Click += delegate { cm.Show(bClear, new Point(0, bClear.Height)); };
 			Label fl = new Label { Text = L.T("Фильтр:"), AutoSize = true, Padding = new Padding(8, 6, 0, 0) };
 			filter.TextChanged += delegate { RebuildTree(); };
-			bar.Controls.AddRange(new Control[] { bRef, bCur, bFolder, fl, filter });
+			bar.Controls.AddRange(new Control[] { bRef, bCur, bFolder, bClear, fl, filter });
 			tree.BeforeExpand += OnBeforeExpand;
 			tree.AfterSelect += delegate { ShowInfo(); };
 			tree.NodeMouseClick += delegate (object s, TreeNodeMouseClickEventArgs e) { tree.SelectedNode = e.Node; };
@@ -74,7 +80,11 @@ namespace FtpSync
 			m.Opening += delegate (object s, System.ComponentModel.CancelEventArgs e)
 			{
 				NodeInfo n = tree.SelectedNode == null ? null : tree.SelectedNode.Tag as NodeInfo;
-				foreach (ToolStripItem it in m.Items) it.Enabled = n != null && (n.Kind == "version" || it.Tag as string == "any");
+				foreach (ToolStripItem it in m.Items)
+				{
+					string k = it.Tag as string;
+					it.Enabled = n != null && (k == "any" || (k == "ver" && n.Kind == "version") || (k == "node" && n.Kind != "version"));
+				}
 			};
 			Action<string, string, Action<NodeInfo>> add = delegate (string text, string kind, Action<NodeInfo> act)
 			{
@@ -87,6 +97,8 @@ namespace FtpSync
 			add(L.T("Восстановить в редактор (заменить текст)"), "ver", n => Plugin.RestoreToEditor(n));
 			add(L.T("Выложить эту версию на сервер…"), "ver", n => Plugin.UploadVersion(n));
 			add(L.T("Показать в проводнике"), "any", n => Plugin.Reveal(n.Path));
+			add(L.T("Открыть папку"), "node", n => Plugin.OpenFolder(n.Path));
+			add(L.T("Очистить эту папку…"), "node", n => { if (Plugin.ClearBackups(n.Path, n.Remote ?? n.Path, 0, 0)) RebuildTree(); });
 			add(L.T("Удалить версию"), "ver", n => { if (MessageBox.Show(L.T("Удалить эту копию?"), "FTP Sync", MessageBoxButtons.YesNo) == DialogResult.Yes) { try { File.Delete(n.Path); } catch (IOException) { } RebuildTree(); } });
 			return m;
 		}

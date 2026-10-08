@@ -27,7 +27,7 @@ for arch in x64:x86_64 x86:i686; do
   cp $OUT/FtpSync-$name.dll $pkg/FtpSync.dll
   cp $OUT/FtpSync.Managed.dll $OUT/Renci.SshNet.dll $pkg/
   cp -r lang $pkg/lang
-  cp README.md README.ru.md LICENSE $pkg/; cp lib/SSH.NET-LICENSE.txt $pkg/ 2>/dev/null || true
+  cp README*.md LICENSE $pkg/; cp lib/SSH.NET-LICENSE.txt $pkg/ 2>/dev/null || true
   (cd $OUT/pkg-$name && zip -qr ../../dist/FtpSync-$VER-$name.zip FtpSync)
 done
 ls -la dist/FtpSync-*

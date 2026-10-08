@@ -101,6 +101,35 @@ namespace FtpSync
 			return path;
 		}
 
+		/// <summary>
+		/// Deletes versions under dir (a profile, a folder or one file's folder): everything but the newest keepLast of each file,
+		/// and, when olderThanDays > 0, only those older than that. Empty folders are removed.
+		/// </summary>
+		public void Clear(string dir, int olderThanDays, int keepLast, out int files, out long bytes)
+		{
+			files = 0; bytes = 0;
+			if (!Directory.Exists(dir)) return;
+			DateTime limit = DateTime.Now.AddDays(-olderThanDays);
+			ClearDir(dir, olderThanDays, limit, keepLast, ref files, ref bytes);
+		}
+
+		void ClearDir(string dir, int olderThanDays, DateTime limit, int keepLast, ref int files, ref long bytes)
+		{
+			string[] subs;
+			try { subs = Directory.GetDirectories(dir); } catch (IOException) { return; }
+			foreach (string sd in subs)
+			{
+				ClearDir(sd, olderThanDays, limit, keepLast, ref files, ref bytes);
+				try { if (Directory.GetFileSystemEntries(sd).Length == 0) Directory.Delete(sd); } catch (IOException) { }
+			}
+			List<BackupVersion> vs = VersionsIn(dir);
+			for (int i = keepLast; i < vs.Count; i++)
+			{
+				if (olderThanDays > 0 && vs[i].Time >= limit) continue;
+				try { File.Delete(vs[i].Path); files++; bytes += vs[i].Size; } catch (IOException) { }
+			}
+		}
+
 		public void Prune(string dir)
 		{
 			List<BackupVersion> vs = VersionsIn(dir);
