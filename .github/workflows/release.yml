@@ -1,0 +1,24 @@
+name: Release
+on:
+  push:
+    tags: ['v*']
+permissions:
+  contents: write
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install toolchain
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y mono-complete mingw-w64 g++-mingw-w64-i686 zip
+      - name: Build and test
+        run: ./build.sh
+      - name: Publish release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create "${GITHUB_REF_NAME}" dist/FtpSync-*.zip \
+            --title "FTP Sync ${GITHUB_REF_NAME#v}" \
+            --notes "Notepad++ plugin. Unzip FtpSync into plugins\\ (x64 or x86 archive), restart Notepad++. See README.md."
