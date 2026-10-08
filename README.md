@@ -11,7 +11,7 @@ FTP Sync is a standalone FTP / FTPES / SFTP client for Notepad++: a server tree,
 3. If Windows marked the files as downloaded: right-click each file → Properties → "Unblock" (or run `Get-ChildItem -Recurse | Unblock-File`).
 4. Restart Notepad++. Menu **Plugins → FTP Sync**.
 
-On first start the plugin offers to import profiles from `NppFTP.xml` if it exists on the computer. Profiles can also be imported from FileZilla.
+Profiles can be imported from FileZilla (XML/CSV) or NppFTP in the settings.
 
 Upgrading from earlier versions (folders `NppFtpGuard` and `NppFtpSync`): delete the old folder from `plugins`; settings, passwords and backups from `plugins\Config` are moved to `FtpSync` automatically.
 

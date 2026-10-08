@@ -15,7 +15,7 @@ namespace FtpSync
 	/// <summary>Entry point called from the native shim; wires Notepad++ events to the guard logic.</summary>
 	public static class Plugin
 	{
-		public const string Version = "0.5.3";
+		public const string Version = "0.5.4";
 		[UnmanagedFunctionPointer(CallingConvention.StdCall)] delegate void CmdDel(int i);
 		[UnmanagedFunctionPointer(CallingConvention.StdCall)] delegate void NotifyDel(IntPtr scn);
 		static CmdDel cmdDel; static NotifyDel notifyDel;
@@ -139,14 +139,7 @@ namespace FtpSync
 
 		static void FirstRun()
 		{
-			try
-			{
-				string f = NppFtpImporter.DefaultFile(Npp.ConfigDir());
-				if (File.Exists(f) && MessageBox.Show(new NppWindow(), L.T("Найден конфиг NppFTP:\n") + f + L.T("\n\nИмпортировать профили в FTP Sync?"),
-					"FTP Sync", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
-					DoImport(f);
-				SettingsStore.Save(settings);
-			}
+			try { SettingsStore.Save(settings); }
 			catch (Exception ex) { Log(ex); }
 		}
 

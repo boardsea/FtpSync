@@ -40,8 +40,6 @@
 О плагине / диагностика	À propos du plugin / diagnostic
 Плагин	Plugin
 FTP Sync {0} запущен, профилей: {1}	FTP Sync {0} démarré, profils : {1}
-Найден конфиг NppFTP:\n	Configuration NppFTP trouvée :\n
-\n\nИмпортировать профили в FTP Sync?	\n\nImporter les profils dans FTP Sync ?
 FTP Sync - статус и бекапы	FTP Sync - état et sauvegardes
 FTP Sync - подключения	FTP Sync - connexions
 Бекапов этого файла пока нет.	Ce fichier n’a pas encore de sauvegardes.
