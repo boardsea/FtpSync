@@ -2,6 +2,8 @@
 
 [English](README.md) | [Русский](README.ru.md) | **Українська** | [Deutsch](README.de.md) | [Español](README.es.md) | [Français](README.fr.md) | [中文](README.zh.md)
 
+[![CloudTips](https://img.shields.io/badge/CloudTips-%D0%9F%D1%96%D0%B4%D1%82%D1%80%D0%B8%D0%BC%D0%B0%D1%82%D0%B8%20%D0%B0%D0%B2%D1%82%D0%BE%D1%80%D0%B0-00C2A8)](https://pay.cloudtips.ru/p/a4b187cc) [![YooMoney](https://img.shields.io/badge/YooMoney-%D0%9F%D1%96%D0%B4%D1%82%D1%80%D0%B8%D0%BC%D0%B0%D1%82%D0%B8%20%D0%B0%D0%B2%D1%82%D0%BE%D1%80%D0%B0-8B3FFD)](https://yoomoney.ru/to/410015317755090)
+
 FTP Sync - FTP / FTPES / SFTP-клієнт для Notepad++: дерево серверів, відкриття та збереження файлів просто на сервері, журнал, черга передач і захист від перезапису чужих правок. Перед збереженням і у фоні плагін звіряє відкритий файл із копією на сервері; якщо файл на сервері змінили, показує відмінності й пропонує злиття. Нічого не перезаписується мовчки, а всі версії файлів зберігаються в бекапах. Інші плагіни для роботи не потрібні.
 
 ## Встановлення

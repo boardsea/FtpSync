@@ -2,6 +2,8 @@
 
 [English](README.md) | [Русский](README.ru.md) | [Українська](README.uk.md) | [Deutsch](README.de.md) | **Español** | [Français](README.fr.md) | [中文](README.zh.md)
 
+[![CloudTips](https://img.shields.io/badge/CloudTips-Apoyar%20al%20autor-00C2A8)](https://pay.cloudtips.ru/p/a4b187cc) [![YooMoney](https://img.shields.io/badge/YooMoney-Apoyar%20al%20autor-8B3FFD)](https://yoomoney.ru/to/410015317755090)
+
 FTP Sync es un cliente FTP / FTPES / SFTP para Notepad++: árbol de servidores, abrir y guardar archivos directamente en el servidor, registro, cola de transferencias y protección contra la sobrescritura de cambios ajenos. Antes de guardar y en segundo plano, el plugin compara el archivo abierto con la copia del servidor; si el archivo cambió allí, muestra las diferencias y ofrece fusionarlas. Nada se sobrescribe en silencio, y todas las versiones de los archivos se guardan en copias de seguridad. No se necesitan otros plugins.
 
 ## Instalación

@@ -2,6 +2,8 @@
 
 [English](README.md) | [Русский](README.ru.md) | [Українська](README.uk.md) | [Deutsch](README.de.md) | [Español](README.es.md) | [Français](README.fr.md) | **中文**
 
+[![CloudTips](https://img.shields.io/badge/CloudTips-%E6%94%AF%E6%8C%81%E4%BD%9C%E8%80%85-00C2A8)](https://pay.cloudtips.ru/p/a4b187cc) [![YooMoney](https://img.shields.io/badge/YooMoney-%E6%94%AF%E6%8C%81%E4%BD%9C%E8%80%85-8B3FFD)](https://yoomoney.ru/to/410015317755090)
+
 FTP Sync 是 Notepad++ 的 FTP / FTPES / SFTP 客户端：服务器树、直接在服务器上打开和保存文件、日志、传输队列，以及防止覆盖他人修改的保护。在保存之前以及后台，插件会将打开的文件与服务器上的副本比较；如果服务器上的文件已更改，会显示差异并提供合并。任何内容都不会被悄悄覆盖，文件的所有版本都保存在备份中。无需其他插件。
 
 ## 安装
