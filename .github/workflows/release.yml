@@ -1,5 +1,6 @@
 name: Release
 on:
+  workflow_dispatch:
   push:
     tags: ['v*']
 permissions:
@@ -19,6 +20,7 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          gh release create "${GITHUB_REF_NAME}" dist/FtpSync-*.zip \
-            --title "FTP Sync ${GITHUB_REF_NAME#v}" \
+          VER=$(grep -o 'Version = "[0-9.]*"' managed/Plugin.cs | grep -o '[0-9.]*')
+          gh release create "v$VER" dist/FtpSync-*.zip --target "${GITHUB_SHA}" \
+            --title "FTP Sync $VER" \
             --notes "Notepad++ plugin. Unzip FtpSync into plugins\\ (x64 or x86 archive), restart Notepad++. See README.md."
