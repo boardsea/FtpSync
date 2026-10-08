@@ -13,7 +13,6 @@ FTP Sync - самостоятельный FTP/FTPES/SFTP-клиент для Not
 
 Профили можно перенести из FileZilla (XML/CSV) или NppFTP в настройках.
 
-Обновление с прежних версий (папки `NppFtpGuard` и `NppFtpSync`): удалите старую папку из `plugins`; настройки, пароли и бекапы из `plugins\Config` переносятся в `FtpSync` автоматически.
 
 ## Языки
 

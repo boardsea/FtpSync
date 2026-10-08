@@ -13,7 +13,6 @@ FTP Sync is a standalone FTP / FTPES / SFTP client for Notepad++: a server tree,
 
 Profiles can be imported from FileZilla (XML/CSV) or NppFTP in the settings.
 
-Upgrading from earlier versions (folders `NppFtpGuard` and `NppFtpSync`): delete the old folder from `plugins`; settings, passwords and backups from `plugins\Config` are moved to `FtpSync` automatically.
 
 ## Languages
 

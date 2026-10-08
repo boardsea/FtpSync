@@ -15,7 +15,7 @@ namespace FtpSync
 	/// <summary>Entry point called from the native shim; wires Notepad++ events to the guard logic.</summary>
 	public static class Plugin
 	{
-		public const string Version = "0.5.4";
+		public const string Version = "0.5.5";
 		[UnmanagedFunctionPointer(CallingConvention.StdCall)] delegate void CmdDel(int i);
 		[UnmanagedFunctionPointer(CallingConvention.StdCall)] delegate void NotifyDel(IntPtr scn);
 		static CmdDel cmdDel; static NotifyDel notifyDel;
@@ -79,7 +79,6 @@ namespace FtpSync
 				ui = new Control(); IntPtr h = ui.Handle;
 
 				dir = Path.Combine(Npp.ConfigDir(), "FtpSync");
-				MigrateOldConfig(dir);
 				EventLog.FilePath = Path.Combine(dir, "log.txt");
 				SettingsStore.Dir = dir;
 				bool first = !File.Exists(SettingsStore.FilePath);
@@ -108,20 +107,6 @@ namespace FtpSync
 				return 1;
 			}
 			catch (Exception ex) { Log(ex); return 0; }
-		}
-
-		/// <summary>Older names of the config folder (NppFtpSync, FTP Guard = NppFtpGuard): carry settings, state and backups over.</summary>
-		static void MigrateOldConfig(string newDir)
-		{
-			try
-			{
-				foreach (string name in new[] { "NppFtpSync", "NppFtpGuard" })
-				{
-					string old = Path.Combine(Path.GetDirectoryName(newDir), name);
-					if (!Directory.Exists(newDir) && Directory.Exists(old)) Directory.Move(old, newDir);
-				}
-			}
-			catch (Exception) { }
 		}
 
 		static Assembly ResolveFromPluginDir(object s, ResolveEventArgs e)
