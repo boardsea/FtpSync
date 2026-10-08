@@ -1,6 +1,6 @@
 # FTP Sync für Notepad++
 
-[English](README.md) | [Русский](README.ru.md) | [Українська](README.uk.md) | **Deutsch** | [Español](README.es.md) | [Français](README.fr.md) | [中文](README.zh.md)
+[English](README.md) | [Русский](README.ru.md) | **Deutsch** | [Español](README.es.md) | [Français](README.fr.md) | [中文](README.zh.md)
 
 [![CloudTips](https://img.shields.io/badge/CloudTips-Autor%20unterst%C3%BCtzen-00C2A8)](https://pay.cloudtips.ru/p/a4b187cc) [![YooMoney](https://img.shields.io/badge/YooMoney-Autor%20unterst%C3%BCtzen-8B3FFD)](https://yoomoney.ru/to/410015317755090)
 
@@ -17,7 +17,7 @@ Profile lassen sich in den Einstellungen aus FileZilla (XML/CSV) oder NppFTP imp
 
 ## Sprachen
 
-Die Oberfläche ist mehrsprachig: Russisch (eingebaut), English, Українська, Deutsch, Español, Français, 中文. Die Sprache folgt standardmäßig Windows oder wird unter „Profile und Einstellungen“ → „Oberflächensprache“ gewählt (danach Notepad++ neu starten).
+Die Oberfläche ist mehrsprachig: Russisch (eingebaut), English, Deutsch, Español, Français, 中文. Die Sprache folgt standardmäßig Windows oder wird unter „Profile und Einstellungen“ → „Oberflächensprache“ gewählt (danach Notepad++ neu starten).
 
 Eigene Sprache hinzufügen: Kopieren Sie `lang\_template.txt` nach `lang\xx.txt` (xx = Sprachcode, z. B. `it`), schreiben Sie `#name: Italiano` in die erste Zeile und übersetzen Sie die rechte Spalte (Format `Schlüssel<TAB>Übersetzung`, `\n` ist ein Zeilenumbruch, `{0}` `{1}` beibehalten). Unübersetztes erscheint auf Russisch. Die Sprache erscheint automatisch in der Liste.
 
