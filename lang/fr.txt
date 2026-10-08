@@ -1,0 +1,264 @@
+#name: Français
+Обозреватель	Explorateur
+Пароль для 	Mot de passe pour 
+Подключение	Connexion
+Подключение к 	Connexion à 
+не удалось открыть стартовую папку	impossible d’ouvrir le dossier de départ
+Подключено: 	Connecté : 
+Не удалось подключиться к 	Impossible de se connecter à 
+Отключено: 	Déconnecté : 
+Список папки	Liste du dossier
+Скачивание	Téléchargement
+Файл не найден на сервере: 	Fichier introuvable sur le serveur : 
+Открытие файла	Ouverture du fichier
+Локальная копия отличается от серверной и не была выложена:\n	La copie locale diffère de celle du serveur et n’a jamais été envoyée :\n
+\n\nДа: заменить серверной версией (локальная уйдёт в бекап)\nНет: оставить локальную и открыть её\nОтмена: ничего не делать	\n\nOui : remplacer par la version du serveur (la locale ira dans les sauvegardes)\nNon : garder la copie locale et l’ouvrir\nAnnuler : ne rien faire
+Скачивание папки	Télécharger le dossier
+Папка скачана в кэш, файлов: {0}	Dossier téléchargé dans le cache, fichiers : {0}
+Выкладка	Envoi
+Выложено: 	Envoyé : 
+Не удалось выложить {0}:\n{1}\n\nФайл сохранён локально, на сервере прежняя версия.	Impossible d’envoyer {0} :\n{1}\n\nLe fichier est enregistré localement, le serveur a toujours la version précédente.
+Выкладка папки	Envoyer le dossier
+папку со всем содержимым	le dossier avec tout son contenu
+файл	le fichier
+Удалить на сервере {0}?\n{1}  {2}\n\nКопии удаляемых файлов сохраняются в бекапы.	Supprimer sur le serveur {0} ?\n{1}  {2}\n\nLes copies des fichiers supprimés sont conservées dans les sauvegardes.
+Удаление	Suppression
+Удалено: {0}	Supprimé : {0}
+ (копий в бекапе: {0})	 (copies en sauvegarde : {0})
+Переименование	Renommer
+Новая папка	Nouveau dossier
+Новый файл	Nouveau fichier
+Показать дерево подключений (FTP)	Afficher l’arborescence des connexions (FTP)
+Показать панель статуса и бекапов	Afficher le panneau d’état et des sauvegardes
+Проверить текущий файл с сервером	Comparer le fichier actuel avec le serveur
+Показать различия с сервером	Afficher les différences avec le serveur
+Бекапы текущего файла	Sauvegardes du fichier actuel
+Выложить текущий файл на сервер (с проверкой)	Envoyer le fichier actuel sur le serveur (avec vérification)
+Профили и настройки…	Profils et paramètres…
+Импорт профилей из NppFTP…	Importer les profils de NppFTP…
+Импорт профилей из FileZilla (XML/CSV)…	Importer les profils de FileZilla (XML/CSV)…
+О плагине / диагностика	À propos du plugin / diagnostic
+Плагин	Plugin
+FTP Sync {0} запущен, профилей: {1}	FTP Sync {0} démarré, profils : {1}
+FTP Sync - статус и бекапы	FTP Sync - état et sauvegardes
+FTP Sync - подключения	FTP Sync - connexions
+Бекапов этого файла пока нет.	Ce fichier n’a pas encore de sauvegardes.
+Настройки	Paramètres
+Настройки сохранены, профилей: 	Paramètres enregistrés, profils : 
+NppFTP.xml|*.xml|Все файлы|*.*	NppFTP.xml|*.xml|Tous les fichiers|*.*
+Импорт	Importation
+NppFTP: импортировано профилей 	NppFTP : profils importés : 
+, предупреждений: 	, avertissements : 
+Импортировано профилей: 	Profils importés : 
+\n\nОткройте «Профили и настройки», чтобы проверить протокол, порт, пароль и папки.	\n\nOuvrez « Profils et paramètres » pour vérifier le protocole, le port, le mot de passe et les dossiers.
+FileZilla (XML, CSV)|*.xml;*.csv|Все файлы|*.*	FileZilla (XML, CSV)|*.xml;*.csv|Tous les fichiers|*.*
+Файл со списком сайтов FileZilla (sitemanager.xml или экспорт)	Fichier de la liste des sites FileZilla (sitemanager.xml ou export)
+FileZilla: импортировано профилей {0}, предупреждений: {1}	FileZilla : profils importés {0}, avertissements : {1}
+Импортировано профилей: {0}	Profils importés : {0}
+\n\nПароли сохранены в зашифрованном виде (Windows DPAPI, только для вашей учётной записи). Файл с открытыми паролями теперь лучше удалить.	\n\nLes mots de passe sont enregistrés chiffrés (Windows DPAPI, uniquement pour votre compte Windows). Il vaut mieux supprimer maintenant le fichier contenant les mots de passe en clair.
+Настройки: 	Paramètres : 
+Бекапы: 	Sauvegardes : 
+Профилей: 	Profils : 
+  (выключен)	  (désactivé)
+Текущий файл: 	Fichier actuel : 
+  не относится ни к одному профилю (добавьте соответствие папок)	  n’appartient à aucun profil (ajoutez une correspondance de dossiers)
+  профиль {0}, на сервере {1}	  profil {0}, sur le serveur {1}
+Сохранение	Enregistrement
+Изменение файла обнаружено без уведомления: {0} - выкладываю	Modification du fichier détectée sans notification : {0} - envoi en cours
+Файл не относится ни к одному профилю.\nДобавьте соответствие папок в «Профили и настройки» (см. «О плагине / диагностика»).	Le fichier n’appartient à aucun profil.\nAjoutez une correspondance de dossiers dans « Profils et paramètres » (voir « À propos du plugin / diagnostic »).
+Проверка	Vérification
+{0}: не удалось проверить сервер: {1}	{0} : impossible de vérifier le serveur : {1}
+Не удалось проверить сервер:\n	Impossible de vérifier le serveur :\n
+Файл совпадает с серверным.	Le fichier est identique à celui du serveur.
+На сервере файл не менялся. Ваши правки ещё не выложены.	Le fichier n’a pas changé sur le serveur. Vos modifications ne sont pas encore envoyées.
+Такого файла на сервере нет:\n	Ce fichier n’existe pas sur le serveur :\n
+конфликт (изменён на сервере и у вас)	conflit (modifié sur le serveur et par vous)
+изменён на сервере	modifié sur le serveur
+отличается от сервера, база неизвестна	diffère du serveur, base inconnue
+ (игнорируется)	 (ignoré)
+ВАШЕ	VOTRE VERSION
+СЕРВЕР	SERVEUR
+Есть конфликты ({0}). Результат слияния с маркерами открыт в новой вкладке, исходный файл не тронут.	Il y a des conflits ({0}). Le résultat de la fusion avec marqueurs est ouvert dans un nouvel onglet, le fichier d’origine n’a pas été modifié.
+Сохранён {0} - не относится ни к одному профилю, не выкладываю (проверьте соответствие папок в настройках)	{0} enregistré - n’appartient à aucun profil, pas d’envoi (vérifiez la correspondance des dossiers dans les paramètres)
+Сохранён {0} - выкладываю на сервер	{0} enregistré - envoi sur le serveur
+Сохранён {0} - автовыкладка в профиле выключена	{0} enregistré - l’envoi automatique est désactivé dans le profil
+Нет серверной версии.	Pas de version serveur.
+FTP Sync - различия	FTP Sync - différences
+- только на сервере, + только у вас\n	- seulement sur le serveur, + seulement chez vous\n
+Файл не относится ни к одному профилю.	Le fichier n’appartient à aucun profil.
+Сначала сохраните файл (Ctrl+S).	Enregistrez d’abord le fichier (Ctrl+S).
+Файл уже совпадает с серверным.	Le fichier est déjà identique à celui du serveur.
+На сервере версия отличается от вашей базы. Перезаписать её?\n(серверная версия будет сохранена в бекапы)	La version du serveur diffère de votre base. L’écraser ?\n(la version du serveur sera conservée dans les sauvegardes)
+Профиль не найден в настройках.	Profil introuvable dans les paramètres.
+На сервере файла нет.	Le fichier n’existe pas sur le serveur.
+FTP Sync - бекап и сервер	FTP Sync - sauvegarde et serveur
+- только в бекапе, + только на сервере\n	- seulement dans la sauvegarde, + seulement sur le serveur\n
+FTP Sync - бекап и редактор	FTP Sync - sauvegarde et éditeur
+- только в бекапе, + только в открытом файле\n	- seulement dans la sauvegarde, + seulement dans le fichier ouvert\n
+Не нашёл локальный файл для этой версии. Откройте нужный файл в редакторе и используйте «Открыть копию» / «Сравнить».	Le fichier local de cette version est introuvable. Ouvrez le fichier dans l’éditeur et utilisez « Ouvrir la copie » / « Comparer ».
+Заменить текст в редакторе версией из бекапа?\n{0}\n(текущий текст будет сохранён в бекапы, действие отменяется Ctrl+Z)	Remplacer le texte de l’éditeur par la version de la sauvegarde ?\n{0}\n(le texte actuel sera conservé dans les sauvegardes, Ctrl+Z annule)
+Выложить эту версию на сервер?\n{0}  {1}\n\nТекущая серверная версия сначала попадёт в бекапы.	Envoyer cette version sur le serveur ?\n{0}  {1}\n\nLa version actuelle du serveur ira d’abord dans les sauvegardes.
+Выложено.	Envoyé.
+Текущий файл не относится ни к одному профилю.	Le fichier actuel n’appartient à aucun profil.
+Файл изменён на сервере, и у вас есть свои правки.	Le fichier a été modifié sur le serveur et vous avez vos propres modifications.
+Файл на сервере изменился с момента, как вы его загрузили.	Le fichier sur le serveur a changé depuis que vous l’avez chargé.
+Версия на сервере отличается от открытой, а исходная (база) неизвестна.	La version du serveur diffère de celle ouverte et la version d’origine (base) est inconnue.
+\nСохранение ещё не произошло. Закрытие окна = безопасный вариант (загрузится серверная версия, ваш текст уйдёт в новую вкладку).	\nL’enregistrement n’a pas encore eu lieu. Fermer la fenêtre est le choix sûr (la version du serveur est chargée, votre texte va dans un nouvel onglet).
+Что изменилось на сервере (база → сервер)	Ce qui a changé sur le serveur (base → serveur)
+Ваши правки (база → вы)	Vos modifications (base → vous)
+Сервер и ваша версия (сервер → вы)	Serveur et votre version (serveur → vous)
+Перезаписать сервер моей версией	Écraser le serveur avec ma version
+Оставить моё, игнорировать	Garder la mienne, ignorer
+Взять серверную (моя → в новую вкладку)	Prendre celle du serveur (la mienne → nouvel onglet)
+Заменить серверной версией	Remplacer par la version du serveur
+Обновить с сервера	Mettre à jour depuis le serveur
+Авто-слияние	Fusion automatique
+Игнорировать эту версию	Ignorer cette version
+(различий нет)	(aucune différence)
+Статус файлов	État des fichiers
+Бекапы	Sauvegardes
+Файл на сервере	Fichier sur le serveur
+Профиль	Profil
+Состояние	État
+Проверен	Vérifié
+Проверить сейчас	Vérifier maintenant
+Показать различия	Afficher les différences
+Открыть в редакторе	Ouvrir dans l’éditeur
+Обновить	Actualiser
+Текущий файл	Fichier actuel
+Папка бекапов	Dossier des sauvegardes
+Фильтр:	Filtre :
+Журнал	Journal
+Расширенный журнал	Journal détaillé
+Открыть копию в редакторе	Ouvrir la copie dans l’éditeur
+Сравнить с серверной версией	Comparer avec la version du serveur
+Сравнить с открытым в редакторе	Comparer avec celui ouvert dans l’éditeur
+Восстановить в редактор (заменить текст)	Restaurer dans l’éditeur (remplacer le texte)
+Выложить эту версию на сервер…	Envoyer cette version sur le serveur…
+Показать в проводнике	Afficher dans l’Explorateur
+Удалить версию	Supprimer la version
+Удалить эту копию?	Supprimer cette copie ?
+совпадает с сервером	identique au serveur
+ваши правки ещё не на сервере	vos modifications ne sont pas encore sur le serveur
+ИЗМЕНЁН НА СЕРВЕРЕ	MODIFIÉ SUR LE SERVEUR
+КОНФЛИКТ (сервер и вы)	CONFLIT (serveur et vous)
+отличается, база неизвестна	diffère, base inconnue
+нет на сервере	absent du serveur
+ошибка: 	erreur : 
+Отмена	Annuler
+Подключиться (стрелка: выбрать профиль)	Se connecter (flèche : choisir un profil)
+Отключиться	Se déconnecter
+Выложить текущий файл	Envoyer le fichier actuel
+Остановить очередь	Arrêter la file
+Профили и настройки	Profils et paramètres
+Панель статуса и бекапов	Panneau d’état et des sauvegardes
+Полный журнал (вкладка «Журнал» внизу)	Journal complet (onglet « Journal » en bas)
+Дерево	Arborescence
+ - готово	 - terminé
+■ остановлено	■ arrêté
+✖ Ошибка ({0}): {1} - {2}	✖ Erreur ({0}) : {1} - {2}
+✖ Ошибка подключения: 	✖ Erreur de connexion : 
+✔ Подключено	✔ Connecté
+подключено	connecté
+не подключено (двойной щелчок)	non connecté (double-clic)
+загрузка…	chargement…
+Выложить на сервер ({0} {1}): {2} шт.?	Envoyer sur le serveur ({0} {1}) : {2} éléments ?
+Переименовать	Renommer
+Новое имя для 	Nouveau nom pour 
+Подключиться	Se connecter
+Открыть	Ouvrir
+Выложить сюда файлы…	Envoyer ici des fichiers…
+Что выложить в 	Que faut-il envoyer dans 
+Скачать папку в кэш	Télécharger le dossier dans le cache
+Новая папка…	Nouveau dossier…
+Имя папки в 	Nom du dossier dans 
+Новый файл…	Nouveau fichier…
+Имя файла в 	Nom du fichier dans 
+Переименовать\tF2	Renommer\tF2
+Удалить\tDel	Supprimer\tSuppr
+Копировать путь на сервере	Copier le chemin sur le serveur
+Копировать локальный путь (кэш)	Copier le chemin local (cache)
+Бекапы этого файла	Sauvegardes de ce fichier
+Закладки	Signets
+Автопрокрутка	Défilement automatique
+Время	Heure
+Источник	Source
+Событие	Événement
+Все события	Tous les événements
+Готово (зелёные)	Terminé (vert)
+Выкладка (оранжевые)	Envoi (orange)
+Предупреждения и ошибки	Avertissements et erreurs
+Только ошибки	Erreurs seulement
+Раскрыть ▾	Développer ▾
+Копировать	Copier
+Очистить	Effacer
+Файл журнала	Fichier journal
+Поиск:	Recherche :
+Копировать запись (с подробностями)	Copier l’entrée (avec les détails)
+Свернуть ▴	Réduire ▴
+Выберите запись в списке.	Sélectionnez une entrée dans la liste.
+(подробностей нет)	(pas de détails)
+Профиль включён	Profil activé
+Выкладывать на сервер при сохранении	Envoyer sur le serveur à l’enregistrement
+Пассивный режим FTP	Mode passif FTP
+Запоминать последнюю папку (для этого аккаунта)	Mémoriser le dernier dossier (pour ce compte)
+Показывать скрытые файлы (.name)	Afficher les fichiers cachés (.nom)
+Показывать дерево подключений при запуске	Afficher l’arborescence des connexions au démarrage
+Проверять перед сохранением	Vérifier avant d’enregistrer
+Проверять при переключении на вкладку	Vérifier au changement d’onglet
+Проверять по таймеру (активный файл)	Vérifier par minuterie (fichier actif)
+FTP Sync - настройки	FTP Sync - paramètres
+FTPES (явный TLS)	FTPES (TLS explicite)
+FTPS (неявный, не поддерживается)	FTPS (implicite, non pris en charge)
+Добавить	Ajouter
+Удалить	Supprimer
+Импорт из NppFTP…	Importer depuis NppFTP…
+Импорт из FileZilla (XML/CSV)…	Importer depuis FileZilla (XML/CSV)…
+Общие	Général
+Название	Nom
+Хост	Hôte
+Порт	Port
+Протокол	Protocole
+Пользователь	Utilisateur
+Пароль	Mot de passe
+Ключ SFTP (файл)	Clé SFTP (fichier)
+Стартовая папка	Dossier de départ
+Группа (папка в дереве)	Groupe (dossier dans l’arborescence)
+Комментарий	Commentaire
+Соответствие локальных папок (кэш NppFTP) и папок на сервере:	Correspondance entre dossiers locaux (cache NppFTP) et dossiers du serveur :
+Локальная папка	Dossier local
+Папка на сервере	Dossier sur le serveur
+Период проверки, сек	Période de vérification, s
+Версий на файл (макс.)	Versions par fichier (max.)
+Хранить дней (0 = вечно)	Conserver (jours, 0 = toujours)
+Автоматически (язык системы)	Automatique (langue du système)
+Язык интерфейса (после смены перезапустите Notepad++)	Langue de l’interface (redémarrez Notepad++ après modification)
+Сохранить	Enregistrer
+\n\nНажмите «Сохранить». Пароли хранятся зашифрованно (DPAPI); файл с открытыми паролями лучше удалить.	\n\nCliquez sur « Enregistrer ». Les mots de passe sont chiffrés (DPAPI) ; il vaut mieux supprimer le fichier contenant les mots de passe en clair.
+Ошибка импорта	Erreur d’importation
+\n\nПроверьте протокол, порт и пароль, затем нажмите «Сохранить».	\n\nVérifiez le protocole, le port et le mot de passe, puis cliquez sur « Enregistrer ».
+в очереди	en attente
+готово	terminé
+отменено	annulé
+ошибка	erreur
+Очередь	File d’attente
+: отправка	 : envoi
+: отменено	 : annulé
+: готово	 : terminé
+Неявный FTPS (порт 990) не поддерживается: используйте явный FTPS (FTPES) или SFTP.	Le FTPS implicite (port 990) n’est pas pris en charge : utilisez le FTPS explicite (FTPES) ou SFTP.
+Файла нет на сервере.	Le fichier n’existe pas sur le serveur.
+CSV пустой.	Le CSV est vide.
+{0}: сайт HTTP/HTTPS пропущен.	{0} : site HTTP/HTTPS ignoré.
+В CSV не найдено ни одного сайта.	Aucun site trouvé dans le CSV.
+{0}: пароль не удалось расшифровать, введите его вручную.	{0} : impossible de déchiffrer le mot de passe, saisissez-le manuellement.
+В {0} не найдено ни одного профиля <Profile>.	Aucun élément <Profile> trouvé dans {0}.
+В {0} не найдено ни одного сервера.	Aucun serveur trouvé dans {0}.
+{0}: пароль защищён мастер-паролем FileZilla и не может быть импортирован, введите его вручную.	{0} : le mot de passe est protégé par le mot de passe principal de FileZilla et ne peut pas être importé, saisissez-le manuellement.
+Очистить бекапы…	Vider les sauvegardes…
+Все бекапы	Toutes les sauvegardes
+Старше 30 дней	Plus de 30 jours
+Оставить по 3 последние версии каждого файла	Garder les 3 dernières versions de chaque fichier
+Открыть папку	Ouvrir le dossier
+Очистить эту папку…	Vider ce dossier…
+Очистить бекапы: {0}?\nПапка: {1}\n\nЭто действие нельзя отменить.	Vider les sauvegardes : {0} ?\nDossier : {1}\n\nCette action est irréversible.
+Бекапы очищены: файлов {0}, освобождено {1}	Sauvegardes vidées : fichiers {0}, libéré {1}

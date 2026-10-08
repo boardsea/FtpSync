@@ -1,0 +1,264 @@
+#name: English
+Обозреватель	Explorer
+Пароль для 	Password for 
+Подключение	Connection
+Подключение к 	Connecting to 
+не удалось открыть стартовую папку	could not open the start folder
+Подключено: 	Connected: 
+Не удалось подключиться к 	Could not connect to 
+Отключено: 	Disconnected: 
+Список папки	Folder listing
+Скачивание	Download
+Файл не найден на сервере: 	File not found on the server: 
+Открытие файла	Opening file
+Локальная копия отличается от серверной и не была выложена:\n	The local copy differs from the server copy and was never uploaded:\n
+\n\nДа: заменить серверной версией (локальная уйдёт в бекап)\nНет: оставить локальную и открыть её\nОтмена: ничего не делать	\n\nYes: replace with the server version (the local one goes to backups)\nNo: keep the local copy and open it\nCancel: do nothing
+Скачивание папки	Download folder
+Папка скачана в кэш, файлов: {0}	Folder downloaded to the cache, files: {0}
+Выкладка	Upload
+Выложено: 	Uploaded: 
+Не удалось выложить {0}:\n{1}\n\nФайл сохранён локально, на сервере прежняя версия.	Could not upload {0}:\n{1}\n\nThe file is saved locally, the server still has the previous version.
+Выкладка папки	Upload folder
+папку со всем содержимым	the folder with all its contents
+файл	the file
+Удалить на сервере {0}?\n{1}  {2}\n\nКопии удаляемых файлов сохраняются в бекапы.	Delete on the server {0}?\n{1}  {2}\n\nCopies of the deleted files are kept in backups.
+Удаление	Delete
+Удалено: {0}	Deleted: {0}
+ (копий в бекапе: {0})	 (copies in backup: {0})
+Переименование	Rename
+Новая папка	New folder
+Новый файл	New file
+Показать дерево подключений (FTP)	Show connection tree (FTP)
+Показать панель статуса и бекапов	Show status and backups panel
+Проверить текущий файл с сервером	Check the current file against the server
+Показать различия с сервером	Show differences with the server
+Бекапы текущего файла	Backups of the current file
+Выложить текущий файл на сервер (с проверкой)	Upload the current file to the server (with check)
+Профили и настройки…	Profiles and settings…
+Импорт профилей из NppFTP…	Import profiles from NppFTP…
+Импорт профилей из FileZilla (XML/CSV)…	Import profiles from FileZilla (XML/CSV)…
+О плагине / диагностика	About / diagnostics
+Плагин	Plugin
+FTP Sync {0} запущен, профилей: {1}	FTP Sync {0} started, profiles: {1}
+FTP Sync - статус и бекапы	FTP Sync - status and backups
+FTP Sync - подключения	FTP Sync - connections
+Бекапов этого файла пока нет.	There are no backups of this file yet.
+Настройки	Settings
+Настройки сохранены, профилей: 	Settings saved, profiles: 
+NppFTP.xml|*.xml|Все файлы|*.*	NppFTP.xml|*.xml|All files|*.*
+Импорт	Import
+NppFTP: импортировано профилей 	NppFTP: profiles imported: 
+, предупреждений: 	, warnings: 
+Импортировано профилей: 	Profiles imported: 
+\n\nОткройте «Профили и настройки», чтобы проверить протокол, порт, пароль и папки.	\n\nOpen "Profiles and settings" to check the protocol, port, password and folders.
+FileZilla (XML, CSV)|*.xml;*.csv|Все файлы|*.*	FileZilla (XML, CSV)|*.xml;*.csv|All files|*.*
+Файл со списком сайтов FileZilla (sitemanager.xml или экспорт)	FileZilla site list file (sitemanager.xml or an export)
+FileZilla: импортировано профилей {0}, предупреждений: {1}	FileZilla: profiles imported {0}, warnings: {1}
+Импортировано профилей: {0}	Profiles imported: {0}
+\n\nПароли сохранены в зашифрованном виде (Windows DPAPI, только для вашей учётной записи). Файл с открытыми паролями теперь лучше удалить.	\n\nPasswords are stored encrypted (Windows DPAPI, for your Windows account only). It is better to delete the file with plain-text passwords now.
+Настройки: 	Settings: 
+Бекапы: 	Backups: 
+Профилей: 	Profiles: 
+  (выключен)	  (disabled)
+Текущий файл: 	Current file: 
+  не относится ни к одному профилю (добавьте соответствие папок)	  does not belong to any profile (add a folder mapping)
+  профиль {0}, на сервере {1}	  profile {0}, on the server {1}
+Сохранение	Save
+Изменение файла обнаружено без уведомления: {0} - выкладываю	Change of the file detected without a notification: {0} - uploading
+Файл не относится ни к одному профилю.\nДобавьте соответствие папок в «Профили и настройки» (см. «О плагине / диагностика»).	The file does not belong to any profile.\nAdd a folder mapping in "Profiles and settings" (see "About / diagnostics").
+Проверка	Check
+{0}: не удалось проверить сервер: {1}	{0}: could not check the server: {1}
+Не удалось проверить сервер:\n	Could not check the server:\n
+Файл совпадает с серверным.	The file is identical to the server copy.
+На сервере файл не менялся. Ваши правки ещё не выложены.	The file was not changed on the server. Your edits are not uploaded yet.
+Такого файла на сервере нет:\n	There is no such file on the server:\n
+конфликт (изменён на сервере и у вас)	conflict (changed on the server and by you)
+изменён на сервере	changed on the server
+отличается от сервера, база неизвестна	differs from the server, base unknown
+ (игнорируется)	 (ignored)
+ВАШЕ	MINE
+СЕРВЕР	SERVER
+Есть конфликты ({0}). Результат слияния с маркерами открыт в новой вкладке, исходный файл не тронут.	There are conflicts ({0}). The merge result with markers is open in a new tab, the original file is untouched.
+Сохранён {0} - не относится ни к одному профилю, не выкладываю (проверьте соответствие папок в настройках)	Saved {0} - does not belong to any profile, not uploading (check the folder mapping in the settings)
+Сохранён {0} - выкладываю на сервер	Saved {0} - uploading to the server
+Сохранён {0} - автовыкладка в профиле выключена	Saved {0} - auto upload is off in the profile
+Нет серверной версии.	There is no server version.
+FTP Sync - различия	FTP Sync - differences
+- только на сервере, + только у вас\n	- only on the server, + only yours\n
+Файл не относится ни к одному профилю.	The file does not belong to any profile.
+Сначала сохраните файл (Ctrl+S).	Save the file first (Ctrl+S).
+Файл уже совпадает с серверным.	The file is already identical to the server copy.
+На сервере версия отличается от вашей базы. Перезаписать её?\n(серверная версия будет сохранена в бекапы)	The server version differs from your base. Overwrite it?\n(the server version will be saved to backups)
+Профиль не найден в настройках.	Profile not found in the settings.
+На сервере файла нет.	The file does not exist on the server.
+FTP Sync - бекап и сервер	FTP Sync - backup and server
+- только в бекапе, + только на сервере\n	- only in the backup, + only on the server\n
+FTP Sync - бекап и редактор	FTP Sync - backup and editor
+- только в бекапе, + только в открытом файле\n	- only in the backup, + only in the open file\n
+Не нашёл локальный файл для этой версии. Откройте нужный файл в редакторе и используйте «Открыть копию» / «Сравнить».	Could not find the local file for this version. Open the file in the editor and use "Open copy" / "Compare".
+Заменить текст в редакторе версией из бекапа?\n{0}\n(текущий текст будет сохранён в бекапы, действие отменяется Ctrl+Z)	Replace the text in the editor with the backup version?\n{0}\n(the current text will be saved to backups, Ctrl+Z undoes it)
+Выложить эту версию на сервер?\n{0}  {1}\n\nТекущая серверная версия сначала попадёт в бекапы.	Upload this version to the server?\n{0}  {1}\n\nThe current server version goes to backups first.
+Выложено.	Uploaded.
+Текущий файл не относится ни к одному профилю.	The current file does not belong to any profile.
+Файл изменён на сервере, и у вас есть свои правки.	The file was changed on the server and you have your own edits.
+Файл на сервере изменился с момента, как вы его загрузили.	The file on the server changed since you loaded it.
+Версия на сервере отличается от открытой, а исходная (база) неизвестна.	The server version differs from the open one and the base version is unknown.
+\nСохранение ещё не произошло. Закрытие окна = безопасный вариант (загрузится серверная версия, ваш текст уйдёт в новую вкладку).	\nThe save has not happened yet. Closing the window is the safe choice (the server version is loaded, your text goes to a new tab).
+Что изменилось на сервере (база → сервер)	What changed on the server (base → server)
+Ваши правки (база → вы)	Your edits (base → you)
+Сервер и ваша версия (сервер → вы)	Server and your version (server → you)
+Перезаписать сервер моей версией	Overwrite the server with my version
+Оставить моё, игнорировать	Keep mine, ignore
+Взять серверную (моя → в новую вкладку)	Use the server version (mine → new tab)
+Заменить серверной версией	Replace with the server version
+Обновить с сервера	Update from the server
+Авто-слияние	Auto-merge
+Игнорировать эту версию	Ignore this version
+(различий нет)	(no differences)
+Статус файлов	Files status
+Бекапы	Backups
+Файл на сервере	File on the server
+Профиль	Profile
+Состояние	State
+Проверен	Checked
+Проверить сейчас	Check now
+Показать различия	Show differences
+Открыть в редакторе	Open in editor
+Обновить	Refresh
+Текущий файл	Current file
+Папка бекапов	Backups folder
+Фильтр:	Filter:
+Журнал	Journal
+Расширенный журнал	Extended journal
+Открыть копию в редакторе	Open the copy in the editor
+Сравнить с серверной версией	Compare with the server version
+Сравнить с открытым в редакторе	Compare with the one open in the editor
+Восстановить в редактор (заменить текст)	Restore into the editor (replace the text)
+Выложить эту версию на сервер…	Upload this version to the server…
+Показать в проводнике	Show in Explorer
+Удалить версию	Delete the version
+Удалить эту копию?	Delete this copy?
+совпадает с сервером	identical to the server
+ваши правки ещё не на сервере	your edits are not on the server yet
+ИЗМЕНЁН НА СЕРВЕРЕ	CHANGED ON THE SERVER
+КОНФЛИКТ (сервер и вы)	CONFLICT (server and you)
+отличается, база неизвестна	differs, base unknown
+нет на сервере	not on the server
+ошибка: 	error: 
+Отмена	Cancel
+Подключиться (стрелка: выбрать профиль)	Connect (arrow: choose a profile)
+Отключиться	Disconnect
+Выложить текущий файл	Upload the current file
+Остановить очередь	Stop the queue
+Профили и настройки	Profiles and settings
+Панель статуса и бекапов	Status and backups panel
+Полный журнал (вкладка «Журнал» внизу)	Full journal (the "Journal" tab at the bottom)
+Дерево	Tree
+ - готово	 - done
+■ остановлено	■ stopped
+✖ Ошибка ({0}): {1} - {2}	✖ Error ({0}): {1} - {2}
+✖ Ошибка подключения: 	✖ Connection error: 
+✔ Подключено	✔ Connected
+подключено	connected
+не подключено (двойной щелчок)	not connected (double-click)
+загрузка…	loading…
+Выложить на сервер ({0} {1}): {2} шт.?	Upload to the server ({0} {1}): {2} items?
+Переименовать	Rename
+Новое имя для 	New name for 
+Подключиться	Connect
+Открыть	Open
+Выложить сюда файлы…	Upload files here…
+Что выложить в 	What to upload to 
+Скачать папку в кэш	Download folder to the cache
+Новая папка…	New folder…
+Имя папки в 	Folder name in 
+Новый файл…	New file…
+Имя файла в 	File name in 
+Переименовать\tF2	Rename\tF2
+Удалить\tDel	Delete\tDel
+Копировать путь на сервере	Copy the server path
+Копировать локальный путь (кэш)	Copy the local path (cache)
+Бекапы этого файла	Backups of this file
+Закладки	Bookmarks
+Автопрокрутка	Auto-scroll
+Время	Time
+Источник	Source
+Событие	Event
+Все события	All events
+Готово (зелёные)	Done (green)
+Выкладка (оранжевые)	Upload (orange)
+Предупреждения и ошибки	Warnings and errors
+Только ошибки	Errors only
+Раскрыть ▾	Expand ▾
+Копировать	Copy
+Очистить	Clear
+Файл журнала	Journal file
+Поиск:	Search:
+Копировать запись (с подробностями)	Copy the record (with details)
+Свернуть ▴	Collapse ▴
+Выберите запись в списке.	Select a record in the list.
+(подробностей нет)	(no details)
+Профиль включён	Profile enabled
+Выкладывать на сервер при сохранении	Upload to the server on save
+Пассивный режим FTP	FTP passive mode
+Запоминать последнюю папку (для этого аккаунта)	Remember the last folder (for this account)
+Показывать скрытые файлы (.name)	Show hidden files (.name)
+Показывать дерево подключений при запуске	Show the connection tree at startup
+Проверять перед сохранением	Check before saving
+Проверять при переключении на вкладку	Check when switching tabs
+Проверять по таймеру (активный файл)	Check on a timer (active file)
+FTP Sync - настройки	FTP Sync - settings
+FTPES (явный TLS)	FTPES (explicit TLS)
+FTPS (неявный, не поддерживается)	FTPS (implicit, not supported)
+Добавить	Add
+Удалить	Remove
+Импорт из NppFTP…	Import from NppFTP…
+Импорт из FileZilla (XML/CSV)…	Import from FileZilla (XML/CSV)…
+Общие	General
+Название	Name
+Хост	Host
+Порт	Port
+Протокол	Protocol
+Пользователь	User
+Пароль	Password
+Ключ SFTP (файл)	SFTP key (file)
+Стартовая папка	Start folder
+Группа (папка в дереве)	Group (folder in the tree)
+Комментарий	Comment
+Соответствие локальных папок (кэш NppFTP) и папок на сервере:	Mapping of local folders (NppFTP cache) to server folders:
+Локальная папка	Local folder
+Папка на сервере	Server folder
+Период проверки, сек	Check period, sec
+Версий на файл (макс.)	Versions per file (max)
+Хранить дней (0 = вечно)	Keep days (0 = forever)
+Автоматически (язык системы)	Automatic (system language)
+Язык интерфейса (после смены перезапустите Notepad++)	Interface language (restart Notepad++ after changing)
+Сохранить	Save
+\n\nНажмите «Сохранить». Пароли хранятся зашифрованно (DPAPI); файл с открытыми паролями лучше удалить.	\n\nPress "Save". Passwords are stored encrypted (DPAPI); it is better to delete the file with plain-text passwords.
+Ошибка импорта	Import error
+\n\nПроверьте протокол, порт и пароль, затем нажмите «Сохранить».	\n\nCheck the protocol, port and password, then press "Save".
+в очереди	queued
+готово	done
+отменено	cancelled
+ошибка	error
+Очередь	Queue
+: отправка	: sending
+: отменено	: cancelled
+: готово	: done
+Неявный FTPS (порт 990) не поддерживается: используйте явный FTPS (FTPES) или SFTP.	Implicit FTPS (port 990) is not supported: use explicit FTPS (FTPES) or SFTP.
+Файла нет на сервере.	The file does not exist on the server.
+CSV пустой.	The CSV is empty.
+{0}: сайт HTTP/HTTPS пропущен.	{0}: HTTP/HTTPS site skipped.
+В CSV не найдено ни одного сайта.	No sites found in the CSV.
+{0}: пароль не удалось расшифровать, введите его вручную.	{0}: the password could not be decrypted, enter it manually.
+В {0} не найдено ни одного профиля <Profile>.	No <Profile> elements found in {0}.
+В {0} не найдено ни одного сервера.	No servers found in {0}.
+{0}: пароль защищён мастер-паролем FileZilla и не может быть импортирован, введите его вручную.	{0}: the password is protected by a FileZilla master password and cannot be imported, enter it manually.
+Очистить бекапы…	Clear backups…
+Все бекапы	All backups
+Старше 30 дней	Older than 30 days
+Оставить по 3 последние версии каждого файла	Keep the 3 latest versions of each file
+Открыть папку	Open folder
+Очистить эту папку…	Clear this folder…
+Очистить бекапы: {0}?\nПапка: {1}\n\nЭто действие нельзя отменить.	Clear backups: {0}?\nFolder: {1}\n\nThis cannot be undone.
+Бекапы очищены: файлов {0}, освобождено {1}	Backups cleared: files {0}, freed {1}
