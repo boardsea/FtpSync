@@ -21,6 +21,6 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           VER=$(grep -o 'Version = "[0-9.]*"' managed/Plugin.cs | grep -o '[0-9.]*')
-          gh release create "v$VER" dist/FtpSync-*.zip --target "${GITHUB_SHA}" \
+          gh release create "v$VER" dist/FtpSync-*.zip dist/FtpSync_v*.zip --target "${GITHUB_SHA}" \
             --title "FTP Sync $VER" \
             --notes "Notepad++ plugin. Unzip FtpSync into plugins\\ (x64 or x86 archive), restart Notepad++. See README.md."

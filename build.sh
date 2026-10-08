@@ -22,12 +22,17 @@ mcs -nostdlib -noconfig -lib:/usr/lib/mono/4.8-api \
 for arch in x64:x86_64 x86:i686; do
   name=${arch%%:*}; tc=${arch##*:}
   echo "== native $name"
-  ${tc}-w64-mingw32-g++ -shared -O2 -static -static-libgcc -static-libstdc++ -o $OUT/FtpSync-$name.dll native/FtpSync.cpp
+  DOT=$VER.0; COMMA=$(echo $DOT | tr . ,)
+  sed "s/@DOT@/$DOT/g; s/@COMMA@/$COMMA/g" native/FtpSync.rc.in > $OUT/FtpSync.rc
+  ${tc}-w64-mingw32-windres $OUT/FtpSync.rc -O coff -o $OUT/FtpSync-$name.res
+  ${tc}-w64-mingw32-g++ -shared -O2 -static -static-libgcc -static-libstdc++ -o $OUT/FtpSync-$name.dll native/FtpSync.cpp $OUT/FtpSync-$name.res
   pkg=$OUT/pkg-$name/FtpSync; mkdir -p $pkg
   cp $OUT/FtpSync-$name.dll $pkg/FtpSync.dll
   cp $OUT/FtpSync.Managed.dll $OUT/Renci.SshNet.dll $pkg/
   cp -r lang $pkg/lang
   cp README*.md LICENSE $pkg/; cp lib/SSH.NET-LICENSE.txt $pkg/ 2>/dev/null || true
   (cd $OUT/pkg-$name && zip -qr ../../dist/FtpSync-$VER-$name.zip FtpSync)
+  # Plugins Admin layout: files at the root of the zip, extracted into plugins\FtpSync\
+  (cd $pkg && zip -qr ../../../dist/FtpSync_v${VER}_$name.zip .)
 done
 ls -la dist/FtpSync-*
