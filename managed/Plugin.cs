@@ -15,7 +15,7 @@ namespace FtpSync
 	/// <summary>Entry point called from the native shim; wires Notepad++ events to the guard logic.</summary>
 	public static class Plugin
 	{
-		public const string Version = "0.5.9";
+		public const string Version = "0.5.10";
 		[UnmanagedFunctionPointer(CallingConvention.StdCall)] delegate void CmdDel(int i);
 		[UnmanagedFunctionPointer(CallingConvention.StdCall)] delegate void NotifyDel(IntPtr scn);
 		static CmdDel cmdDel; static NotifyDel notifyDel;
@@ -141,7 +141,7 @@ namespace FtpSync
 					case 3: ShowDiffFor(Npp.CurrentPath()); break;
 					case 4: ShowPanel(1); SelectBackupsForCurrent(panel); break;
 					case 5: UploadCurrent(); break;
-					case 6: OpenSettings(); break;
+					case 6: OpenSettings(null); break;
 					case 7: DoImport(null); break;
 					case 8: DoImportFileZilla(); break;
 					case 9: About(); break;
@@ -178,7 +178,8 @@ namespace FtpSync
 		}
 
 		public static void ShowGuardPanel(int tab) { ShowPanel(tab); }
-		public static void OpenSettingsCommand() { OpenSettings(); }
+		public static void OpenSettingsCommand() { OpenSettings(null); }
+		public static void OpenSettingsFor(string profileName) { OpenSettings(profileName); }
 		public static void UploadCurrentCommand() { UploadCurrent(); }
 
 		public static void ShowBackupsFor(Profile p, string remote)
@@ -194,10 +195,13 @@ namespace FtpSync
 			if (panel != null && panelRegistered) panel.SetStatus(localPath, c);
 		}
 
-		static void OpenSettings()
+		static void OpenSettings(string profileName)
 		{
 			using (SettingsForm f = new SettingsForm(settings, Npp.ConfigDir()))
+			{
+				if (profileName != null) f.SelectProfile(profileName);
 				if (f.ShowDialog(new NppWindow()) == DialogResult.OK) ApplySettings(f.Data);
+			}
 		}
 
 		static void ApplySettings(AppSettings s)

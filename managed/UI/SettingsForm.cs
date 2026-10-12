@@ -100,6 +100,12 @@ namespace FtpSync
 			if (lst.Items.Count > 0) lst.SelectedIndex = 0;
 		}
 
+		public void SelectProfile(string profileName)
+		{
+			for (int i = 0; i < lst.Items.Count; i++)
+				if (((Profile)lst.Items[i]).Name == profileName) { lst.SelectedIndex = i; return; }
+		}
+
 		static decimal Clamp(NumericUpDown n, int v) { return Math.Max(n.Minimum, Math.Min(n.Maximum, v)); }
 
 		static void Row(TableLayoutPanel t, string label, Control c)

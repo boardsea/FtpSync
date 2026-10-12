@@ -513,6 +513,7 @@ namespace FtpSync
 				m.Items.Add(it); return it;
 			};
 			ToolStripMenuItem iConnect = add(L.T("Подключиться"), n => ConnectProfile(n.Profile));
+			ToolStripMenuItem iCfg = add(L.T("Настроить…"), n => Plugin.OpenSettingsFor(n.Profile.Name));
 			ToolStripMenuItem iDisc = add(L.T("Отключиться"), n => DisconnectSelected());
 			ToolStripMenuItem iOpen = add(L.T("Открыть"), n => Explorer.OpenFile(n.Profile, n.Remote));
 			ToolStripMenuItem iRef = add(L.T("Обновить"), n => RefreshSelected());
@@ -532,8 +533,8 @@ namespace FtpSync
 				string name = PromptForm.Ask(this, L.T("Новый файл"), L.T("Имя файла в ") + n.Remote, "", false);
 				if (!string.IsNullOrEmpty(name)) Explorer.NewFile(n.Profile, n.Remote, name, delegate { RefreshDir(n.Profile, n.Remote); });
 			});
-			ToolStripMenuItem iRen = add(L.T("Переименовать\tF2"), DoRename);
-			ToolStripMenuItem iDel = add(L.T("Удалить\tDel"), DoDelete);
+			ToolStripMenuItem iRen = add(L.T("Переименовать"), DoRename);
+			ToolStripMenuItem iDel = add(L.T("Удалить (на сервере)"), DoDelete);
 			ToolStripMenuItem iCopy = add(L.T("Копировать путь на сервере"), n => Clipboard.SetText(n.Remote));
 			ToolStripMenuItem iLocal = add(L.T("Копировать локальный путь (кэш)"), n => Clipboard.SetText(Plugin.LocalPathFor(n.Profile, n.Remote)));
 			ToolStripMenuItem iBk = add(L.T("Бекапы этого файла"), n => Plugin.ShowBackupsFor(n.Profile, n.Remote));
@@ -555,7 +556,7 @@ namespace FtpSync
 				bool on = Explorer.Connected.Contains(n.Profile.Name);
 				bool file = n.Entry != null && !n.Entry.IsDir;
 				bool dir = n.IsDir && (!n.IsRoot || on);
-				iConnect.Visible = n.IsRoot && !on; iDisc.Visible = n.IsRoot && on;
+				iCfg.Visible = n.IsRoot; iConnect.Visible = n.IsRoot && !on; iDisc.Visible = n.IsRoot && on;
 				iOpen.Visible = file; iRef.Visible = dir; iUp.Visible = dir || file; iDown.Visible = dir && !n.IsRoot || n.IsRoot && on;
 				iNewF.Visible = dir; iNewFile.Visible = dir; iRen.Visible = n.Entry != null && !n.Chain; iDel.Visible = n.Entry != null && !n.Chain;
 				iCopy.Visible = !n.IsRoot || on; iLocal.Visible = !n.IsRoot; iBk.Visible = file;
