@@ -58,6 +58,7 @@ namespace FtpSync
 
 			Controls.Add(rtb); Controls.Add(view); Controls.Add(lbl); Controls.Add(btns);
 			view.SelectedIndex = 0;
+			Shown += delegate { Activate(); };
 			FormClosing += delegate { if (Result == Choice.None) Result = beforeSave ? Choice.UseServer : Choice.Ignore; };
 		}
 

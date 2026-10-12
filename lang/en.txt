@@ -174,8 +174,8 @@ FTP Sync - бекап и редактор	FTP Sync - backup and editor
 Имя папки в 	Folder name in 
 Новый файл…	New file…
 Имя файла в 	File name in 
-Переименовать\tF2	Rename\tF2
-Удалить\tDel	Delete\tDel
+Удалить (на сервере)	Delete (on server)
+Настроить…	Configure…
 Копировать путь на сервере	Copy the server path
 Копировать локальный путь (кэш)	Copy the local path (cache)
 Бекапы этого файла	Backups of this file
