@@ -1,6 +1,6 @@
 # FTP Sync для Notepad++
 
-[English](README.md) | **Русский** | [Українська](README.uk.md) | [Deutsch](README.de.md) | [Español](README.es.md) | [Français](README.fr.md) | [中文](README.zh.md)
+[English](README.md) | **Русский** | [Deutsch](README.de.md) | [Español](README.es.md) | [Français](README.fr.md) | [中文](README.zh.md)
 
 [![CloudTips](https://img.shields.io/badge/CloudTips-%D0%9F%D0%BE%D0%B4%D0%B4%D0%B5%D1%80%D0%B6%D0%B0%D1%82%D1%8C%20%D0%B0%D0%B2%D1%82%D0%BE%D1%80%D0%B0-00C2A8)](https://pay.cloudtips.ru/p/a4b187cc) [![YooMoney](https://img.shields.io/badge/YooMoney-%D0%9F%D0%BE%D0%B4%D0%B4%D0%B5%D1%80%D0%B6%D0%B0%D1%82%D1%8C%20%D0%B0%D0%B2%D1%82%D0%BE%D1%80%D0%B0-8B3FFD)](https://yoomoney.ru/to/410015317755090)
 
@@ -18,7 +18,7 @@ FTP Sync - FTP/FTPES/SFTP-клиент для Notepad++: дерево серве
 
 ## Языки
 
-Интерфейс мультиязычный: русский (встроен), English, Українська, Deutsch, Español, Français, 中文. Язык выбирается автоматически по языку Windows, либо вручную: «Профили и настройки» → «Язык интерфейса» (после смены перезапустите Notepad++).
+Интерфейс мультиязычный: русский (встроен), English, Deutsch, Español, Français, 中文. Язык выбирается автоматически по языку Windows, либо вручную: «Профили и настройки» → «Язык интерфейса» (после смены перезапустите Notepad++).
 
 Добавить свой язык: скопируйте `lang\_template.txt` в `lang\xx.txt` (xx - код языка, например `it`), первой строкой напишите `#name: Italiano` и переведите правую колонку (формат `ключ<TAB>перевод`, `\n` - перенос строки, `{0}` `{1}` сохраняйте). Непереведённое показывается по-русски. Язык появится в списке сам.
 

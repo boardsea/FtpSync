@@ -1,6 +1,6 @@
 # 适用于 Notepad++ 的 FTP Sync
 
-[English](README.md) | [Русский](README.ru.md) | [Українська](README.uk.md) | [Deutsch](README.de.md) | [Español](README.es.md) | [Français](README.fr.md) | **中文**
+[English](README.md) | [Русский](README.ru.md) | [Deutsch](README.de.md) | [Español](README.es.md) | [Français](README.fr.md) | **中文**
 
 [![CloudTips](https://img.shields.io/badge/CloudTips-%E6%94%AF%E6%8C%81%E4%BD%9C%E8%80%85-00C2A8)](https://pay.cloudtips.ru/p/a4b187cc) [![YooMoney](https://img.shields.io/badge/YooMoney-%E6%94%AF%E6%8C%81%E4%BD%9C%E8%80%85-8B3FFD)](https://yoomoney.ru/to/410015317755090)
 
@@ -17,7 +17,7 @@ FTP Sync 是 Notepad++ 的 FTP / FTPES / SFTP 客户端：服务器树、直接�
 
 ## 语言
 
-界面支持多语言：俄语（内置）、English、Українська、Deutsch、Español、Français、中文。默认跟随 Windows 语言，也可在“配置文件和设置”→“界面语言”中手动选择（更改后重启 Notepad++）。
+界面支持多语言：俄语（内置）、English、Deutsch、Español、Français、中文。默认跟随 Windows 语言，也可在“配置文件和设置”→“界面语言”中手动选择（更改后重启 Notepad++）。
 
 添加自己的语言：将 `lang\_template.txt` 复制为 `lang\xx.txt`（xx 为语言代码，例如 `it`），在第一行写 `#name: Italiano`，并翻译右侧一列（格式 `键<TAB>译文`，`\n` 表示换行，保留 `{0}` `{1}`）。未翻译的内容以俄语显示。该语言会自动出现在列表中。
 
