@@ -15,7 +15,7 @@ namespace FtpSync
 	/// <summary>Entry point called from the native shim; wires Notepad++ events to the guard logic.</summary>
 	public static class Plugin
 	{
-		public const string Version = "0.5.11";
+		public const string Version = "0.5.12";
 		[UnmanagedFunctionPointer(CallingConvention.StdCall)] delegate void CmdDel(int i);
 		[UnmanagedFunctionPointer(CallingConvention.StdCall)] delegate void NotifyDel(IntPtr scn);
 		static CmdDel cmdDel; static NotifyDel notifyDel;
@@ -460,6 +460,7 @@ namespace FtpSync
 					guard.BackupLocal(r, Encoding.UTF8.GetBytes(localText), "discarded");
 					Npp.SetText(remoteText);
 					guard.AcceptRemote(r, res.Remote);
+					if (!string.IsNullOrEmpty(Npp.CurrentPath()) && File.Exists(path)) { skipUpload.Add(path); Npp.SaveCurrent(); }
 					break;
 				case Choice.Merge:
 					if (res.BaseText == null) return;
@@ -528,9 +529,12 @@ namespace FtpSync
 			}
 		}
 
+		static readonly HashSet<string> skipUpload = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+
 		static void OnSaved(IntPtr bufferId)
 		{
 			string path = Npp.PathFromBufferId(bufferId);
+			if (skipUpload.Remove(path)) { NoteWrite(path); Explorer.Log(L.F("Сохранён {0} - серверная версия, на сервер не выкладываю", path)); return; }
 			if (afterSave.Count > 0)
 			{
 				List<Action> a = new List<Action>(afterSave); afterSave.Clear();
