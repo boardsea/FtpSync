@@ -263,3 +263,4 @@ CSV пустой.	El CSV está vacío.
 Очистить бекапы: {0}?\nПапка: {1}\n\nЭто действие нельзя отменить.	¿Limpiar copias: {0}?\nCarpeta: {1}\n\nEsta acción no se puede deshacer.
 Бекапы очищены: файлов {0}, освобождено {1}	Copias limpiadas: archivos {0}, liberado {1}
 Сохранён {0} - серверная версия, на сервер не выкладываю	Guardado {0} - versión del servidor, no se sube
+Показать пароль	Mostrar contraseña

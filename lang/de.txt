@@ -263,3 +263,4 @@ CSV пустой.	Die CSV ist leer.
 Очистить бекапы: {0}?\nПапка: {1}\n\nЭто действие нельзя отменить.	Backups leeren: {0}?\nOrdner: {1}\n\nDies kann nicht rückgängig gemacht werden.
 Бекапы очищены: файлов {0}, освобождено {1}	Backups geleert: Dateien {0}, freigegeben {1}
 Сохранён {0} - серверная версия, на сервер не выкладываю	Gespeichert {0} - Serverversion, kein Upload
+Показать пароль	Passwort anzeigen

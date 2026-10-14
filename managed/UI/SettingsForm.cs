@@ -27,6 +27,7 @@ namespace FtpSync
 		readonly CheckBox onSave = new CheckBox { Text = L.T("Проверять перед сохранением"), AutoSize = true },
 			onAct = new CheckBox { Text = L.T("Проверять при переключении на вкладку"), AutoSize = true },
 			onTimer = new CheckBox { Text = L.T("Проверять по таймеру (активный файл)"), AutoSize = true };
+		readonly CheckBox showPass = new CheckBox { Text = L.T("Показать пароль"), AutoSize = true };
 		Profile cur;
 		readonly string configDir;
 
@@ -59,10 +60,10 @@ namespace FtpSync
 
 			TabControl tc = new TabControl { Dock = DockStyle.Fill };
 			TabPage tp = new TabPage(L.T("Профиль")), tg = new TabPage(L.T("Общие"));
-			TableLayoutPanel f = new TableLayoutPanel { Dock = DockStyle.Fill, ColumnCount = 2, Padding = new Padding(8) };
+			TableLayoutPanel f = new TableLayoutPanel { Dock = DockStyle.Fill, ColumnCount = 2, Padding = new Padding(8), AutoScroll = true };
 			f.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 150)); f.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100));
 			Row(f, L.T("Название"), name); Row(f, L.T("Хост"), host); Row(f, L.T("Порт"), port); Row(f, L.T("Протокол"), proto);
-			Row(f, L.T("Пользователь"), user); Row(f, L.T("Пароль"), pass); Row(f, L.T("Ключ SFTP (файл)"), key); Row(f, L.T("Стартовая папка"), initDir); Row(f, L.T("Группа (папка в дереве)"), group); Row(f, L.T("Комментарий"), comment); Row(f, "", passive); Row(f, "", enabled); Row(f, "", autoUp); Row(f, "", remember); Row(f, "", hidden);
+			Row(f, L.T("Пользователь"), user); Row(f, L.T("Пароль"), pass); Row(f, "", showPass); Row(f, L.T("Ключ SFTP (файл)"), key); Row(f, L.T("Стартовая папка"), initDir); Row(f, L.T("Группа (папка в дереве)"), group); Row(f, L.T("Комментарий"), comment); Row(f, "", passive); Row(f, "", enabled); Row(f, "", autoUp); Row(f, "", remember); Row(f, "", hidden);
 			foreach (Control c in new Control[] { name, host, user, pass, key, proto, initDir, group, comment }) c.Dock = DockStyle.Fill;
 			Label ml = new Label { Text = L.T("Соответствие локальных папок (кэш NppFTP) и папок на сервере:"), Dock = DockStyle.Top, Height = 22 };
 			maps.Columns.Add("local", L.T("Локальная папка")); maps.Columns.Add("remote", L.T("Папка на сервере"));
@@ -96,6 +97,7 @@ namespace FtpSync
 
 			backupRoot.Text = Data.BackupRoot; poll.Value = Clamp(poll, Data.PollSeconds); maxV.Value = Clamp(maxV, Data.MaxVersions); days.Value = Clamp(days, Data.KeepDays);
 			onSave.Checked = Data.CheckOnSave; onAct.Checked = Data.CheckOnActivate; onTimer.Checked = Data.CheckOnTimer; showStart.Checked = Data.ShowExplorerOnStart;
+			showPass.CheckedChanged += delegate { pass.UseSystemPasswordChar = !showPass.Checked; };
 			Reload(null);
 			if (lst.Items.Count > 0) lst.SelectedIndex = 0;
 		}

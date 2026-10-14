@@ -263,3 +263,4 @@ CSV пустой.	The CSV is empty.
 Очистить бекапы: {0}?\nПапка: {1}\n\nЭто действие нельзя отменить.	Clear backups: {0}?\nFolder: {1}\n\nThis cannot be undone.
 Бекапы очищены: файлов {0}, освобождено {1}	Backups cleared: files {0}, freed {1}
 Сохранён {0} - серверная версия, на сервер не выкладываю	Saved {0} - server version, not uploading
+Показать пароль	Show password

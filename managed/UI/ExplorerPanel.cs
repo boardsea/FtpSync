@@ -19,6 +19,16 @@ namespace FtpSync
 		{
 			// WM_HSCROLL, WM_VSCROLL, WM_MOUSEWHEEL, WM_KEYDOWN = the user is scrolling
 			if (quiet == 0 && (m.Msg == 0x114 || m.Msg == 0x115 || m.Msg == 0x20A || m.Msg == 0x100)) Stamp++;
+			if (m.Msg == 0x20A && IsHandleCreated)
+			{
+				// scroll by the wheel ourselves: inside the docked panel the default handling does not always reach the tree
+				int delta = (short)(((long)m.WParam >> 16) & 0xFFFF);
+				int lines = Math.Max(1, SystemInformation.MouseWheelScrollLines);
+				int steps = Math.Max(1, Math.Abs(delta) / 120) * lines;
+				for (int i = 0; i < steps; i++) SendMessage(Handle, 0x115, (IntPtr)(delta > 0 ? 0 : 1), IntPtr.Zero); // WM_VSCROLL, SB_LINEUP / SB_LINEDOWN
+				SendMessage(Handle, 0x115, (IntPtr)8, IntPtr.Zero);
+				return;
+			}
 			base.WndProc(ref m);
 		}
 
@@ -67,7 +77,7 @@ namespace FtpSync
 		readonly ToolStrip bar = new ToolStrip { GripStyle = ToolStripGripStyle.Hidden, RenderMode = ToolStripRenderMode.System };
 		readonly ToolStripSplitButton bConnect = new ToolStripSplitButton();
 		readonly TextBox path = new TextBox { Dock = DockStyle.Top };
-		readonly ScrollTree tree = new ScrollTree { Dock = DockStyle.Fill, HideSelection = false, ShowNodeToolTips = false, AllowDrop = true, ItemHeight = 22 };
+		readonly ScrollTree tree = new ScrollTree { Dock = DockStyle.Fill, HideSelection = false, ShowNodeToolTips = false, AllowDrop = true, ItemHeight = 20, Font = new Font("Segoe UI", 8.5f) };
 		readonly Label lastAction = new Label { Dock = DockStyle.Bottom, Height = 36, Padding = new Padding(3, 3, 3, 0), Cursor = Cursors.Hand, Font = new Font("Segoe UI Symbol", 9f) };
 		readonly ProgressBar bar2 = new ProgressBar { Dock = DockStyle.Bottom, Height = 5, Minimum = 0, Maximum = 100 };
 		readonly Label status = new Label { Dock = DockStyle.Bottom, Height = 20, Padding = new Padding(3, 3, 0, 0), AutoEllipsis = true };
@@ -352,7 +362,15 @@ namespace FtpSync
 		{
 			ExNode n = (ExNode)node.Tag;
 			Dictionary<string, TreeNode> keep = new Dictionary<string, TreeNode>();
-			foreach (TreeNode old in node.Nodes) { ExNode on = old.Tag as ExNode; if (on != null && on.Chain) keep[on.Remote] = old; }
+			Dictionary<string, TreeNode> opened = new Dictionary<string, TreeNode>();
+			List<TreeNode> reload = new List<TreeNode>();
+			foreach (TreeNode old in node.Nodes)
+			{
+				ExNode on = old.Tag as ExNode;
+				if (on == null) continue;
+				if (on.Chain) keep[on.Remote] = old;
+				else if (on.Entry != null && on.Entry.IsDir && old.IsExpanded) opened[on.Remote] = old;
+			}
 			node.Nodes.Clear();
 			n.Chain = false;
 			list.Sort(delegate (RemoteEntry a, RemoteEntry b)
@@ -365,6 +383,11 @@ namespace FtpSync
 				if (!n.Profile.ShowHidden && e.Name.StartsWith(".")) continue;
 				TreeNode reuse;
 				if (keep.TryGetValue(e.Path, out reuse)) { node.Nodes.Add(reuse); keep.Remove(e.Path); continue; }
+				if (e.IsDir && opened.TryGetValue(e.Path, out reuse))
+				{
+					((ExNode)reuse.Tag).Entry = e;
+					node.Nodes.Add(reuse); reload.Add(reuse); opened.Remove(e.Path); continue;
+				}
 				TreeNode c = new TreeNode(e.Name);
 				c.Tag = new ExNode { Profile = n.Profile, Entry = e, Remote = e.Path };
 				c.ImageKey = c.SelectedImageKey = FileIcons.KeyFor(e.Name, e.IsDir, e.IsLink);
@@ -374,6 +397,7 @@ namespace FtpSync
 			}
 			foreach (TreeNode orphan in keep.Values) node.Nodes.Add(orphan); // chain child that the listing did not show
 			Explorer.Remember(n.Profile, n.Remote);
+			foreach (TreeNode r in reload) { TreeNode rn = r; LoadDir(rn, delegate { rn.Expand(); }); } // expanded subfolders refresh too
 			if (done != null) done();
 		}
 
