@@ -13,7 +13,8 @@ namespace FtpSync
 		readonly Profile profile;
 		readonly Action<SshConsole> closeMe;
 		readonly TerminalControl term = new TerminalControl();
-		readonly SplitContainer split = new SplitContainer { Dock = DockStyle.Fill, FixedPanel = FixedPanel.Panel2 };
+		readonly Panel helpPanel = new Panel { Dock = DockStyle.Right, Width = 380 };
+		readonly Splitter splitter = new Splitter { Dock = DockStyle.Right, Width = 5, MinSize = 220, MinExtra = 240 };
 		readonly ToolStrip bar = new ToolStrip { GripStyle = ToolStripGripStyle.Hidden, RenderMode = ToolStripRenderMode.System };
 		readonly ToolStripLabel state = new ToolStripLabel { Alignment = ToolStripItemAlignment.Right };
 		readonly ToolStripButton bHelp, bHl;
@@ -40,7 +41,7 @@ namespace FtpSync
 			Dock = DockStyle.Fill;
 			bar.Font = new Font("Segoe UI", 9f);
 			bHelp = new ToolStripButton(L.T("Команды")) { Checked = true, CheckOnClick = true, ToolTipText = L.T("Справочник команд: поиск, избранное, недавние") };
-			bHelp.CheckedChanged += delegate { split.Panel2Collapsed = !bHelp.Checked; };
+			bHelp.CheckedChanged += delegate { helpPanel.Visible = bHelp.Checked; splitter.Visible = bHelp.Checked; };
 			bHl = new ToolStripButton(L.T("Подсветка")) { Checked = true, CheckOnClick = true, ToolTipText = L.T("Подсветка синтаксиса команд, ошибок, адресов") };
 			bHl.CheckedChanged += delegate { term.Highlight = bHl.Checked; term.Invalidate(); };
 			ToolStripButton bClear = new ToolStripButton(L.T("Очистить")) { ToolTipText = L.T("Очистить историю прокрутки") };
@@ -54,16 +55,15 @@ namespace FtpSync
 			bClose.Click += delegate { if (CloseRequested != null) CloseRequested(); else closeMe(this); };
 			bar.Items.AddRange(new ToolStripItem[] { bHelp, bHl, bClear, bPop, bRe, bClose, state });
 
-			split.Panel1.Controls.Add(term); term.Dock = DockStyle.Fill;
+			term.Dock = DockStyle.Fill;
 			BuildHelp();
-			Controls.Add(split); Controls.Add(bar);
+			Controls.Add(term); Controls.Add(splitter); Controls.Add(helpPanel); Controls.Add(bar);
 
 			term.UserInput += delegate (byte[] b) { SshSession s = session; if (s != null) s.Write(b); };
 			term.GridResized += delegate (int c, int r) { SshSession s = session; if (s != null) s.Resize(c, r); ShowState(); };
 			term.EnterPressed += OnEnter;
 			term.AddFavorite += delegate (string t) { AddFav(t); };
 			term.Screen.Reply += delegate (string r) { SshSession s = session; if (s != null) s.Write(r); };
-			HandleCreated += delegate { split.SplitterDistance = Math.Max(200, split.Width - 380); };
 			StartOnHandle();
 		}
 
@@ -192,7 +192,7 @@ namespace FtpSync
 			};
 			list.ContextMenuStrip = m;
 			// docking order: the control added last sits outermost
-			split.Panel2.Controls.Add(list); split.Panel2.Controls.Add(detail); split.Panel2.Controls.Add(search); split.Panel2.Controls.Add(hint); split.Panel2.Controls.Add(modes);
+			helpPanel.Controls.Add(list); helpPanel.Controls.Add(detail); helpPanel.Controls.Add(search); helpPanel.Controls.Add(hint); helpPanel.Controls.Add(modes);
 			SetMode(0);
 		}
 
