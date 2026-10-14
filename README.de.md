@@ -79,3 +79,5 @@ Der Kern (Vergleich, Zusammenführung, Backups, Import, Auswertung von FTP-Liste
 Paradise Web Design Studio (@pwds), https://github.com/boardsea. Repository: https://github.com/boardsea/FtpSync
 
 Das Projekt steht unter der MIT-Lizenz (siehe `LICENSE`). SSH.NET-Lizenz (MIT): siehe `SSH.NET-LICENSE.txt`.
+
+> **Hinweis:** Die SSH-Konsole ist nur ein Hilfsmittel für schnelle Befehle, Logs und Rechteprüfungen. Sie ist kein vollwertiger SSH-Client; für ernsthafte Arbeit nutzen Sie spezialisierte Programme wie PuTTY, Termius oder Windows Terminal.

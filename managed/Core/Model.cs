@@ -68,6 +68,7 @@ namespace FtpSync
 		public bool CheckOnTimer = true;
 		public bool ShowExplorerOnStart = true;
 		public List<Profile> Profiles = new List<Profile>();
+		public bool ConsoleNoticeSeen;
 		public List<string> FavoriteCommands = new List<string>();
 		public List<string> RecentCommands = new List<string>();
 	}

@@ -79,3 +79,5 @@ El núcleo (comparación, fusión, copias, importación, análisis de listados F
 Paradise Web Design Studio (@pwds), https://github.com/boardsea. Repositorio: https://github.com/boardsea/FtpSync
 
 El proyecto tiene licencia MIT (véase `LICENSE`). Licencia de SSH.NET (MIT): véase `SSH.NET-LICENSE.txt`.
+
+> **Nota:** la consola SSH es solo una ayuda para comandos rápidos, registros y comprobación de permisos. No es un cliente SSH completo; para trabajo serio use programas especializados como PuTTY, Termius o Windows Terminal.

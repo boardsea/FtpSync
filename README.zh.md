@@ -79,3 +79,5 @@ Linux：`mono-mcs`、`mono-devel`、`mingw-w64`、`g++-mingw-w64-i686`、`zip`�
 Paradise Web Design Studio (@pwds)，https://github.com/boardsea 。仓库：https://github.com/boardsea/FtpSync
 
 项目采用 MIT 许可证（见 `LICENSE`）。SSH.NET 许可证 (MIT)：见 `SSH.NET-LICENSE.txt`。
+
+> **注意：** SSH 控制台只是用于快速命令、查看日志和检查权限的辅助工具，不是完整的 SSH 客户端；正式工作请使用 PuTTY、Termius 或 Windows Terminal 等专业程序。

@@ -78,6 +78,7 @@ namespace FtpSync
 			}
 			dead = false;
 			SetState(L.T("подключение…"), Color.DarkOrange);
+			WriteNote(L.T("Консоль — вспомогательный инструмент. Для полноценной работы по SSH используйте PuTTY, Termius и подобные программы."));
 			WriteNote(L.T("Подключение к ") + profile.User + "@" + profile.Host + ":" + profile.Port + " …");
 			int cols = term.Cols, rows = term.Rows;
 			SshSession s = new SshSession(profile);

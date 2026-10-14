@@ -79,3 +79,5 @@ Le noyau (comparaison, fusion, sauvegardes, import, analyse des listes FTP, file
 Paradise Web Design Studio (@pwds), https://github.com/boardsea. Dépôt : https://github.com/boardsea/FtpSync
 
 Le projet est sous licence MIT (voir `LICENSE`). Licence de SSH.NET (MIT) : voir `SSH.NET-LICENSE.txt`.
+
+> **Remarque :** la console SSH n’est qu’un outil d’appoint pour des commandes rapides, les journaux et la vérification des droits. Ce n’est pas un client SSH complet ; pour un vrai travail, utilisez des programmes spécialisés comme PuTTY, Termius ou Windows Terminal.

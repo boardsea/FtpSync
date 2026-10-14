@@ -15,7 +15,7 @@ namespace FtpSync
 	/// <summary>Entry point called from the native shim; wires Notepad++ events to the guard logic.</summary>
 	public static class Plugin
 	{
-		public const string Version = "0.6.0";
+		public const string Version = "0.6.1";
 		[UnmanagedFunctionPointer(CallingConvention.StdCall)] delegate void CmdDel(int i);
 		[UnmanagedFunctionPointer(CallingConvention.StdCall)] delegate void NotifyDel(IntPtr scn);
 		static CmdDel cmdDel; static NotifyDel notifyDel;
@@ -166,6 +166,11 @@ namespace FtpSync
 
 		public static void OpenConsole(Profile p)
 		{
+			if (!settings.ConsoleNoticeSeen)
+			{
+				MessageBox.Show(new NppWindow(), L.T("Консоль SSH — лишь вспомогательный инструмент: быстро выполнить команду, посмотреть журнал, проверить права.\nЭто не полноценный SSH-клиент: возможны ограничения в сложных программах, сочетаниях клавиш, туннелях, передаче файлов и управлении сеансами.\nДля серьёзной работы по SSH используйте специализированные программы, например PuTTY, Termius или Windows Terminal."), "FTP Sync", MessageBoxButtons.OK, MessageBoxIcon.Information);
+				settings.ConsoleNoticeSeen = true; SaveSettings();
+			}
 			ShowPanel(0);
 			panel.AddConsole(p);
 		}

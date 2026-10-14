@@ -80,3 +80,5 @@ The core (comparison, merge, backups, import, FTP listing parsing, transfer queu
 Paradise Web Design Studio (@pwds), https://github.com/boardsea. Repository: https://github.com/boardsea/FtpSync
 
 The project is licensed under MIT (see `LICENSE`). SSH.NET license (MIT): see `SSH.NET-LICENSE.txt`.
+
+> **Note:** the SSH console is only a helper for quick commands, logs and permission checks. It is not a full SSH client; for serious work use dedicated programs such as PuTTY, Termius or Windows Terminal.

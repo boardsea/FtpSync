@@ -30,7 +30,8 @@ namespace FtpSync
 		int cw = 8, ch = 16, scrollOff;
 		bool cursorOn = true, dragging, haveSel, ignoreScroll;
 		int selA, selAc, selB, selBc;          // absolute row / column of the anchor and the caret
-		int pending;
+		int pending, dirty;
+		readonly System.Windows.Forms.Timer repaint = new System.Windows.Forms.Timer { Interval = 25 };
 		char highSurrogate;
 		static readonly Encoding Utf8 = new UTF8Encoding(false);
 
@@ -46,6 +47,8 @@ namespace FtpSync
 			sb.Scroll += delegate { if (ignoreScroll) return; SetScrollOffFromBar(); Invalidate(); };
 			blink.Tick += delegate { cursorOn = !cursorOn; if (Focused) Invalidate(CursorRect()); };
 			blink.Start();
+			repaint.Tick += delegate { if (Interlocked.CompareExchange(ref dirty, 0, 1) == 1) UiRefresh(); };
+			repaint.Start();
 			ContextMenuStrip = BuildMenu();
 			Screen = new TermScreen(80, 24);
 			Attach();
@@ -57,21 +60,26 @@ namespace FtpSync
 
 		void Attach()
 		{
-			Screen.Changed += delegate { if (Interlocked.Exchange(ref pending, 1) == 0 && IsHandleCreated) { try { BeginInvoke(new Action(UiRefresh)); } catch (InvalidOperationException) { } } };
+			Screen.Changed += delegate
+			{
+				dirty = 1;
+				if (Interlocked.Exchange(ref pending, 1) == 0 && IsHandleCreated) { try { BeginInvoke(new Action(UiRefresh)); } catch (InvalidOperationException) { } }
+			};
 		}
 
 		void UiRefresh()
 		{
 			Interlocked.Exchange(ref pending, 0);
 			if (IsDisposed) return;
+			Interlocked.Exchange(ref dirty, 0);
 			if (scrollOff > 0 && Screen.ScrollbackCount == 0) scrollOff = 0;
 			SyncScrollBar();
-			Invalidate();
+			Invalidate(); Update();
 		}
 
 		protected override void Dispose(bool disposing)
 		{
-			if (disposing) { blink.Stop(); blink.Dispose(); foreach (Font f in fonts.Values) f.Dispose(); }
+			if (disposing) { blink.Stop(); blink.Dispose(); repaint.Stop(); repaint.Dispose(); foreach (Font f in fonts.Values) f.Dispose(); }
 			base.Dispose(disposing);
 		}
 
@@ -267,10 +275,17 @@ namespace FtpSync
 		}
 
 		// ------------------------------------------------------------------ keyboard
+		protected override void WndProc(ref Message m)
+		{
+			// Notepad++ routes keys of registered panels through IsDialogMessage: ask for every key (Enter, Esc, Tab, arrows) ourselves
+			if (m.Msg == 0x87) { m.Result = (IntPtr)(0x1 | 0x2 | 0x4 | 0x80); return; } // WM_GETDLGCODE: WANTARROWS | WANTTAB | WANTALLKEYS | WANTCHARS
+			base.WndProc(ref m);
+		}
+
 		protected override bool IsInputKey(Keys keyData) { return true; }
 		protected override bool IsInputChar(char charCode) { return true; }
 
-		void Send(byte[] b) { Action<byte[]> a = UserInput; if (a != null) a(b); }
+		void Send(byte[] b) { Action<byte[]> a = UserInput; if (a != null) a(b); dirty = 1; }
 		void Send(string s) { Send(Utf8.GetBytes(s)); }
 
 		/// <summary>Text typed into the terminal as if with the keyboard (no Enter).</summary>

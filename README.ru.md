@@ -80,3 +80,5 @@ Linux: `mono-mcs`, `mono-devel`, `mingw-w64`, `g++-mingw-w64-i686`, `zip`. За�
 Paradise Web Design Studio (@pwds), https://github.com/boardsea. Репозиторий: https://github.com/boardsea/FtpSync
 
 Лицензия проекта: MIT (см. `LICENSE`). Лицензия SSH.NET (MIT), см. `SSH.NET-LICENSE.txt`.
+
+> **Важно:** консоль SSH — лишь вспомогательный инструмент для быстрых команд, просмотра журналов и проверки прав. Это не полноценный SSH-клиент; для серьёзной работы используйте специализированные программы, например PuTTY, Termius или Windows Terminal.
