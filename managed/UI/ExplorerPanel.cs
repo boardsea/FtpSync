@@ -484,6 +484,14 @@ namespace FtpSync
 			if (n == null || e.Button != MouseButtons.Left) return;
 			if (n.IsRoot) { if (!Explorer.Connected.Contains(n.Profile.Name)) ConnectProfile(n.Profile); return; }
 			if (!n.IsDir) { CenterNode(e.Node); Explorer.OpenFile(n.Profile, n.Remote); }
+			else
+			{
+				TreeNode node = e.Node; // after the built-in expand/collapse: a folder that is open gets a fresh listing
+				BeginInvoke(new Action(delegate
+				{
+					if (node.TreeView != null && node.IsExpanded && Explorer.Connected.Contains(n.Profile.Name)) LoadDir(node, delegate { node.Expand(); });
+				}));
+			}
 		}
 
 		void OnKey(object s, KeyEventArgs e)
