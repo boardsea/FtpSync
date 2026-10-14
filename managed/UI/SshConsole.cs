@@ -22,6 +22,11 @@ namespace FtpSync
 		readonly Label detail = new Label { Dock = DockStyle.Bottom, Height = 64, Padding = new Padding(4, 4, 4, 0) };
 		readonly ToolStripButton mAll = new ToolStripButton { CheckOnClick = false }, mFav = new ToolStripButton { CheckOnClick = false }, mRec = new ToolStripButton { CheckOnClick = false };
 		readonly List<HelpCommand> all = CommandHelp.All();
+		public Action<SshConsole> PopOut;
+		public Action CloseRequested;
+		ToolStripButton bPopBtn;
+		public void PoppedOut(bool on) { bPopBtn.Text = on ? L.T("В панель") : L.T("Отдельное окно"); }
+		string stateText = ""; Color stateColor = Color.Gray;
 		SshSession session;
 		int mode; // 0 all, 1 favourites, 2 recent
 		bool dead;
@@ -40,11 +45,14 @@ namespace FtpSync
 			bHl.CheckedChanged += delegate { term.Highlight = bHl.Checked; term.Invalidate(); };
 			ToolStripButton bClear = new ToolStripButton(L.T("Очистить")) { ToolTipText = L.T("Очистить историю прокрутки") };
 			bClear.Click += delegate { term.Screen.ClearScrollback(); term.Invalidate(); term.Focus(); };
+			ToolStripButton bPop = new ToolStripButton(L.T("Отдельное окно")) { ToolTipText = L.T("Открыть консоль в отдельном большом окне (для ncdu, htop, mc и других программ, которым нужен большой экран)") };
+			bPopBtn = bPop;
+			bPop.Click += delegate { if (PopOut != null) PopOut(this); };
 			ToolStripButton bRe = new ToolStripButton(L.T("Переподключить"));
 			bRe.Click += delegate { Reconnect(); };
 			ToolStripButton bClose = new ToolStripButton(L.T("Закрыть"));
-			bClose.Click += delegate { closeMe(this); };
-			bar.Items.AddRange(new ToolStripItem[] { bHelp, bHl, bClear, bRe, bClose, state });
+			bClose.Click += delegate { if (CloseRequested != null) CloseRequested(); else closeMe(this); };
+			bar.Items.AddRange(new ToolStripItem[] { bHelp, bHl, bClear, bPop, bRe, bClose, state });
 
 			split.Panel1.Controls.Add(term); term.Dock = DockStyle.Fill;
 			BuildHelp();
@@ -52,7 +60,7 @@ namespace FtpSync
 			Controls.Add(split); Controls.Add(bar);
 
 			term.UserInput += delegate (byte[] b) { SshSession s = session; if (s != null) s.Write(b); };
-			term.GridResized += delegate (int c, int r) { SshSession s = session; if (s != null) s.Resize(c, r); };
+			term.GridResized += delegate (int c, int r) { SshSession s = session; if (s != null) s.Resize(c, r); ShowState(); };
 			term.EnterPressed += OnEnter;
 			term.AddFavorite += delegate (string t) { AddFav(t); };
 			term.Screen.Reply += delegate (string r) { SshSession s = session; if (s != null) s.Write(r); };
@@ -66,7 +74,8 @@ namespace FtpSync
 		}
 
 		// ------------------------------------------------------------------ session
-		void SetState(string text, Color c) { state.Text = text; state.ForeColor = c; }
+		void SetState(string text, Color c) { stateText = text; stateColor = c; ShowState(); }
+		void ShowState() { state.Text = stateText + "   " + term.Cols + "×" + term.Rows; state.ForeColor = stateColor; }
 
 		void Connect()
 		{

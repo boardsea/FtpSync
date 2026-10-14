@@ -153,11 +153,43 @@ namespace FtpSync
 		{
 			SshConsole c = null;
 			c = new SshConsole(p, delegate (SshConsole x) { CloseConsole(x); });
+			c.PopOut = delegate (SshConsole x) { PopOutConsole(x); };
 			TabPage page = new TabPage(c.TabTitle) { Tag = c, Padding = new Padding(0) };
 			page.Controls.Add(c);
 			tabs.TabPages.Add(page);
 			tabs.SelectedTab = page;
 			if (!modeless) { Npp.Modeless(Handle, true); modeless = true; }
+		}
+
+		/// <summary>Moves the console into its own big window (programs such as ncdu / htop / mc need at least 80x24).</summary>
+		void PopOutConsole(SshConsole c)
+		{
+			TabPage page = null;
+			foreach (TabPage pg in tabs.TabPages) if (pg.Tag == c) page = pg;
+			if (page == null) return;
+			tabs.TabPages.Remove(page);
+			page.Controls.Remove(c);
+			Form f = new Form { Text = "FTP Sync - " + c.TabTitle, Width = 1100, Height = 700, StartPosition = FormStartPosition.CenterScreen, ShowInTaskbar = true };
+			f.Controls.Add(c);
+			bool closing = false;
+			f.FormClosed += delegate
+			{
+				if (closing) return;
+				f.Controls.Remove(c);
+				page.Controls.Add(c);
+				tabs.TabPages.Add(page); tabs.SelectedTab = page;
+			};
+			c.PopOut = delegate (SshConsole x) { f.Close(); }; // the same button brings it back
+			c.PoppedOut(true);
+			f.FormClosed += delegate { c.PopOut = delegate (SshConsole x) { PopOutConsole(x); }; c.CloseRequested = null; c.PoppedOut(false); };
+			c.CloseRequested = delegate { closing = true; f.Close(); c.Dispose(); page.Dispose(); modelessCheck(); };
+			f.Show(new NppWindow());
+		}
+
+		void modelessCheck()
+		{
+			bool any = false; foreach (TabPage q in tabs.TabPages) if (q.Tag is SshConsole) any = true;
+			if (!any && modeless) { Npp.Modeless(Handle, false); modeless = false; }
 		}
 
 		void CloseConsole(SshConsole c)

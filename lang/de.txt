@@ -433,3 +433,6 @@ DNS-записи домена	DNS-Einträge einer Domain
 Выделенное в избранные команды	Auswahl zu Favoriten
 Консоль SSH — лишь вспомогательный инструмент: быстро выполнить команду, посмотреть журнал, проверить права.\nЭто не полноценный SSH-клиент: возможны ограничения в сложных программах, сочетаниях клавиш, туннелях, передаче файлов и управлении сеансами.\nДля серьёзной работы по SSH используйте специализированные программы, например PuTTY, Termius или Windows Terminal.	Die SSH-Konsole ist nur ein Hilfsmittel: schnell einen Befehl ausführen, ein Log ansehen, Rechte prüfen.\nSie ist kein vollwertiger SSH-Client: Es gibt Einschränkungen bei komplexen Programmen, Tastenkombinationen, Tunneln, Dateiübertragung und Sitzungsverwaltung.\nFür ernsthafte SSH-Arbeit nutzen Sie spezialisierte Programme wie PuTTY, Termius oder Windows Terminal.
 Консоль — вспомогательный инструмент. Для полноценной работы по SSH используйте PuTTY, Termius и подобные программы.	Die Konsole ist ein Hilfswerkzeug. Für vollwertige SSH-Arbeit nutzen Sie PuTTY, Termius oder ähnliche Programme.
+Отдельное окно	Eigenes Fenster
+В панель	Zurück ins Panel
+Открыть консоль в отдельном большом окне (для ncdu, htop, mc и других программ, которым нужен большой экран)	Konsole in einem eigenen großen Fenster öffnen (für ncdu, htop, mc und andere Programme, die viel Platz brauchen)
