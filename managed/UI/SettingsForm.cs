@@ -47,14 +47,17 @@ namespace FtpSync
 			root.RowStyles.Add(new RowStyle(SizeType.Percent, 100)); root.RowStyles.Add(new RowStyle(SizeType.Absolute, 44));
 
 			Panel left = new Panel { Dock = DockStyle.Fill };
-			FlowLayoutPanel lb = new FlowLayoutPanel { Dock = DockStyle.Bottom, Height = 96, FlowDirection = FlowDirection.LeftToRight };
+			FlowLayoutPanel lb = new FlowLayoutPanel { Dock = DockStyle.Bottom, Height = 160, FlowDirection = FlowDirection.LeftToRight };
 			Button bAdd = new Button { Text = L.T("Добавить"), Width = 90 }, bDel = new Button { Text = L.T("Удалить"), Width = 90 };
 			Button bImp = new Button { Text = L.T("Импорт из NppFTP…"), Width = 190 }, bFz = new Button { Text = L.T("Импорт из FileZilla (XML/CSV)…"), Width = 190 };
 			bAdd.Click += delegate { Commit(); Profile p = new Profile { Name = "profile" + (Data.Profiles.Count + 1), Port = 21 }; p.Maps.Add(new PathMap("", "/")); Data.Profiles.Add(p); Reload(p); };
 			bDel.Click += delegate { if (cur != null) { Data.Profiles.Remove(cur); cur = null; Reload(null); } };
+			Button bExp = new Button { Text = L.T("Экспорт настроек…"), Width = 190 }, bImpS = new Button { Text = L.T("Импорт настроек…"), Width = 190 };
+			bExp.Click += delegate { ExportSettings(); };
+			bImpS.Click += delegate { ImportSettings(); };
 			bImp.Click += delegate { Import(); };
 			bFz.Click += delegate { ImportFz(); };
-			lb.Controls.AddRange(new Control[] { bAdd, bDel, bImp, bFz });
+			lb.Controls.AddRange(new Control[] { bAdd, bDel, bImp, bFz, bExp, bImpS });
 			left.Controls.Add(lst); left.Controls.Add(lb);
 			lst.SelectedIndexChanged += delegate { Commit(); Show((Profile)lst.SelectedItem); };
 
@@ -95,8 +98,7 @@ namespace FtpSync
 			Controls.Add(root);
 			AcceptButton = bOk; CancelButton = bCancel;
 
-			backupRoot.Text = Data.BackupRoot; poll.Value = Clamp(poll, Data.PollSeconds); maxV.Value = Clamp(maxV, Data.MaxVersions); days.Value = Clamp(days, Data.KeepDays);
-			onSave.Checked = Data.CheckOnSave; onAct.Checked = Data.CheckOnActivate; onTimer.Checked = Data.CheckOnTimer; showStart.Checked = Data.ShowExplorerOnStart;
+			LoadGeneral();
 			showPass.CheckedChanged += delegate { pass.UseSystemPasswordChar = !showPass.Checked; };
 			Reload(null);
 			if (lst.Items.Count > 0) lst.SelectedIndex = 0;
@@ -106,6 +108,52 @@ namespace FtpSync
 		{
 			for (int i = 0; i < lst.Items.Count; i++)
 				if (((Profile)lst.Items[i]).Name == profileName) { lst.SelectedIndex = i; return; }
+		}
+
+		void LoadGeneral()
+		{
+			backupRoot.Text = Data.BackupRoot; poll.Value = Clamp(poll, Data.PollSeconds); maxV.Value = Clamp(maxV, Data.MaxVersions); days.Value = Clamp(days, Data.KeepDays);
+			onSave.Checked = Data.CheckOnSave; onAct.Checked = Data.CheckOnActivate; onTimer.Checked = Data.CheckOnTimer; showStart.Checked = Data.ShowExplorerOnStart;
+			lang.SelectedIndex = Math.Max(0, langCodes.IndexOf(Data.Language ?? "auto"));
+		}
+
+		void ExportSettings()
+		{
+			SaveFileDialog d = new SaveFileDialog { Title = L.T("Экспорт настроек…"), Filter = L.T("XML (все настройки)|*.xml|CSV (только профили)|*.csv"), FileName = "FtpSync-settings" };
+			if (d.ShowDialog(this) != DialogResult.OK) return;
+			try
+			{
+				Commit(); Apply();
+				bool pw = MessageBox.Show(this, L.T("Включить пароли в файл (в открытом виде)?\nБез них профили придётся доснабдить паролями вручную."), "FTP Sync", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes;
+				if (d.FileName.EndsWith(".csv", StringComparison.OrdinalIgnoreCase)) SettingsExchange.ExportCsv(Data, d.FileName, pw);
+				else SettingsExchange.ExportXml(Data, d.FileName, pw);
+				MessageBox.Show(this, L.F("Экспортировано профилей: {0}", Data.Profiles.Count) + "\n" + d.FileName, "FTP Sync");
+			}
+			catch (Exception ex) { MessageBox.Show(this, ex.Message, L.T("Ошибка экспорта")); }
+		}
+
+		void ImportSettings()
+		{
+			OpenFileDialog d = new OpenFileDialog { Title = L.T("Импорт настроек…"), Filter = L.T("XML, CSV|*.xml;*.csv|Все файлы|*.*") };
+			if (d.ShowDialog(this) != DialogResult.OK) return;
+			try
+			{
+				Commit();
+				List<Profile> got;
+				if (d.FileName.EndsWith(".csv", StringComparison.OrdinalIgnoreCase)) got = SettingsExchange.ReadCsv(d.FileName);
+				else
+				{
+					AppSettings a = SettingsExchange.ReadXml(d.FileName);
+					got = a.Profiles;
+					Data.PollSeconds = a.PollSeconds; Data.MaxVersions = a.MaxVersions; Data.KeepDays = a.KeepDays; Data.CheckOnSave = a.CheckOnSave;
+					Data.CheckOnActivate = a.CheckOnActivate; Data.CheckOnTimer = a.CheckOnTimer; Data.ShowExplorerOnStart = a.ShowExplorerOnStart; Data.Language = a.Language;
+					LoadGeneral();
+				}
+				int n = SettingsExchange.Merge(Data, got);
+				Reload(got.Count > 0 ? got[0] : null);
+				MessageBox.Show(this, L.F("Импортировано профилей: {0}", n) + L.T("\n\nНажмите «Сохранить»."), "FTP Sync");
+			}
+			catch (Exception ex) { MessageBox.Show(this, ex.Message, L.T("Ошибка импорта")); }
 		}
 
 		static decimal Clamp(NumericUpDown n, int v) { return Math.Max(n.Minimum, Math.Min(n.Maximum, v)); }

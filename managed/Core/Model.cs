@@ -86,6 +86,12 @@ namespace FtpSync
 			}
 		}
 
+		/// <summary>Portable form for export files (not bound to the Windows account).</summary>
+		public static string PlainToken(string s)
+		{
+			return string.IsNullOrEmpty(s) ? "" : "plain:" + Convert.ToBase64String(Encoding.UTF8.GetBytes(s));
+		}
+
 		public static string Unprotect(string s)
 		{
 			if (string.IsNullOrEmpty(s)) return "";

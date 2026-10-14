@@ -264,3 +264,11 @@ CSV пустой.	Die CSV ist leer.
 Бекапы очищены: файлов {0}, освобождено {1}	Backups geleert: Dateien {0}, freigegeben {1}
 Сохранён {0} - серверная версия, на сервер не выкладываю	Gespeichert {0} - Serverversion, kein Upload
 Показать пароль	Passwort anzeigen
+Экспорт настроек…	Einstellungen exportieren…
+Импорт настроек…	Einstellungen importieren…
+XML (все настройки)|*.xml|CSV (только профили)|*.csv	XML (alle Einstellungen)|*.xml|CSV (nur Profile)|*.csv
+Включить пароли в файл (в открытом виде)?\nБез них профили придётся доснабдить паролями вручную.	Passwörter in die Datei aufnehmen (im Klartext)?\nOhne sie müssen die Passwörter neu eingegeben werden.
+Экспортировано профилей: {0}	Profile exportiert: {0}
+XML, CSV|*.xml;*.csv|Все файлы|*.*	XML, CSV|*.xml;*.csv|Alle Dateien|*.*
+Ошибка экспорта	Exportfehler
+\n\nНажмите «Сохранить».	\n\nKlicken Sie auf „Speichern“.

@@ -179,6 +179,21 @@ static class T2
 		eq(FileZillaXmlImporter.ServerPath("1 0 4 html 3 www"), "/html/www", "serverpath"); eq(FileZillaXmlImporter.ServerPath("/a/b"), "/a/b", "serverpath plain");
 		eq(FileZillaXmlImporter.ServerPath("1 2 C: 3 usr"), "/usr", "serverpath prefix"); eq(FileZillaXmlImporter.ServerPath(""), "/", "serverpath empty");
 
+		// --- settings export / import ---
+		{
+			var st = new AppSettings { PollSeconds = 30 };
+			var pr = new Profile { Group = "g", Name = "s,1", Host = "h", Port = 22, Protocol = Protocol.Sftp, User = "u", Comment = "a\"b\nc" }; pr.Password = "p@ss"; pr.Maps.Add(new PathMap("C:\\x", "/y"));
+			st.Profiles.Add(pr);
+			string ex = System.IO.Path.Combine(System.IO.Path.GetTempPath(), "ftpsync-ex");
+			SettingsExchange.ExportCsv(st, ex + ".csv", true); var c1 = SettingsExchange.ReadCsv(ex + ".csv");
+			eq(c1.Count, 1, "csv count"); eq(c1[0].Name, "s,1", "csv name"); eq(c1[0].Password, "p@ss", "csv pass"); eq(c1[0].Protocol.ToString(), "Sftp", "csv proto"); eq(c1[0].Comment, "a\"b\nc", "csv comment"); eq(c1[0].Maps[0].Remote, "/y", "csv map");
+			SettingsExchange.ExportCsv(st, ex + "2.csv", false); eq(SettingsExchange.ReadCsv(ex + "2.csv")[0].Password, "", "csv no pass");
+			SettingsExchange.ExportXml(st, ex + ".xml", true); var x1 = SettingsExchange.ReadXml(ex + ".xml");
+			eq(x1.PollSeconds, 30, "xml poll"); eq(x1.Profiles[0].Password, "p@ss", "xml pass"); eq(x1.Profiles[0].Host, "h", "xml host");
+			var t2 = new AppSettings(); t2.Profiles.Add(new Profile { Group = "g", Name = "S,1" });
+			eq(SettingsExchange.Merge(t2, x1.Profiles), 1, "merge n"); eq(t2.Profiles.Count, 1, "merge replaces same name");
+		}
+
 		// --- languages ---
 		string ld = System.IO.Path.Combine(System.IO.Path.GetTempPath(), "nppl_" + Guid.NewGuid().ToString("N"));
 		System.IO.Directory.CreateDirectory(System.IO.Path.Combine(ld, "lang"));

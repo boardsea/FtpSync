@@ -61,6 +61,33 @@ namespace FtpSync
 		}
 	}
 
+	/// <summary>Drop-down list of servers: scrolls with the wheel, compact font.</summary>
+	public class WheelMenu : ToolStripDropDownMenu
+	{
+		protected override void WndProc(ref Message m)
+		{
+			if (m.Msg == 0x20A)
+			{
+				int delta = (short)(((long)m.WParam >> 16) & 0xFFFF);
+				bool up = delta > 0;
+				try
+				{
+					foreach (System.Reflection.MethodInfo mi in typeof(ToolStripDropDownMenu).GetMethods(System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Public))
+					{
+						if (mi.Name != "ScrollInternal") continue;
+						System.Reflection.ParameterInfo[] pi = mi.GetParameters();
+						if (pi.Length != 1) continue;
+						for (int i = 0; i < 3; i++) mi.Invoke(this, new object[] { pi[0].ParameterType == typeof(bool) ? (object)up : (object)(up ? -1 : 1) });
+						break;
+					}
+				}
+				catch (Exception) { }
+				return;
+			}
+			base.WndProc(ref m);
+		}
+	}
+
 	public class ExNode
 	{
 		public Profile Profile;
@@ -88,6 +115,7 @@ namespace FtpSync
 			Text = L.T("FTP Sync - подключения"); FormBorderStyle = FormBorderStyle.None; ShowInTaskbar = false;
 			BuildIcons(); tree.ImageList = icons;
 
+			bConnect.DropDown = new WheelMenu { Font = new Font("Segoe UI", 9f) };
 			bConnect.Text = "⚡"; bConnect.ToolTipText = L.T("Подключиться (стрелка: выбрать профиль)"); bConnect.ButtonClick += delegate { ConnectSelected(); };
 			ToolStripButton bDisc = Btn("⏏", L.T("Отключиться"), delegate { DisconnectSelected(); });
 			ToolStripButton bUp = Btn("⬆", L.T("Выложить текущий файл"), delegate { Plugin.UploadCurrentCommand(); });
@@ -382,7 +410,7 @@ namespace FtpSync
 			{
 				if (!n.Profile.ShowHidden && e.Name.StartsWith(".")) continue;
 				TreeNode reuse;
-				if (keep.TryGetValue(e.Path, out reuse)) { node.Nodes.Add(reuse); keep.Remove(e.Path); continue; }
+				if (keep.TryGetValue(e.Path, out reuse)) { node.Nodes.Add(reuse); keep.Remove(e.Path); if (reuse.IsExpanded) reload.Add(reuse); continue; }
 				if (e.IsDir && opened.TryGetValue(e.Path, out reuse))
 				{
 					((ExNode)reuse.Tag).Entry = e;
@@ -395,7 +423,7 @@ namespace FtpSync
 				if (e.IsDir) c.Nodes.Add(new TreeNode("…"));
 				node.Nodes.Add(c);
 			}
-			foreach (TreeNode orphan in keep.Values) node.Nodes.Add(orphan); // chain child that the listing did not show
+			foreach (TreeNode orphan in keep.Values) { node.Nodes.Add(orphan); if (orphan.IsExpanded) reload.Add(orphan); } // chain child that the listing did not show
 			Explorer.Remember(n.Profile, n.Remote);
 			foreach (TreeNode r in reload) { TreeNode rn = r; LoadDir(rn, delegate { rn.Expand(); }); } // expanded subfolders refresh too
 			if (done != null) done();
@@ -432,7 +460,12 @@ namespace FtpSync
 			if (!n.IsDir) { t = t.Parent; if (t == null) return; }
 			ExNode dn = t.Tag as ExNode;
 			if (dn == null) return;
-			if (dn.IsRoot) { if (!Explorer.Connected.Contains(dn.Profile.Name)) ConnectProfile(dn.Profile); return; }
+			if (dn.IsRoot)
+			{
+				if (!Explorer.Connected.Contains(dn.Profile.Name)) { ConnectProfile(dn.Profile); return; }
+				if (t.Nodes.Count == 0 || !(t.Nodes[0].Tag is ExNode)) return;
+				t = t.Nodes[0]; // the "/" folder: refreshing the server refreshes everything below it
+			}
 			LoadDir(t, delegate { t.Expand(); });
 		}
 
