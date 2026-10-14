@@ -56,7 +56,6 @@ namespace FtpSync
 
 			split.Panel1.Controls.Add(term); term.Dock = DockStyle.Fill;
 			BuildHelp();
-			split.Panel2.Controls.Add(list); split.Panel2.Controls.Add(detail); split.Panel2.Controls.Add(search);
 			Controls.Add(split); Controls.Add(bar);
 
 			term.UserInput += delegate (byte[] b) { SshSession s = session; if (s != null) s.Write(b); };
@@ -165,12 +164,10 @@ namespace FtpSync
 			mAll.Text = L.T("Все"); mFav.Text = L.T("Избранное"); mRec.Text = L.T("Недавние");
 			mAll.Click += delegate { SetMode(0); }; mFav.Click += delegate { SetMode(1); }; mRec.Click += delegate { SetMode(2); };
 			modes.Items.AddRange(new ToolStripItem[] { mAll, mFav, mRec });
-			split.Panel2.Controls.Add(modes);
 			search.Font = new Font("Segoe UI", 9f);
 			search.TextChanged += delegate { Fill(); };
 			search.KeyDown += delegate (object s, KeyEventArgs e) { if (e.KeyCode == Keys.Down && list.Items.Count > 0) { list.Focus(); list.Items[0].Selected = true; e.Handled = true; } };
 			Label hint = new Label { Text = L.T("Поиск по командам и описаниям:"), Dock = DockStyle.Top, Height = 20, Padding = new Padding(4, 4, 0, 0), Font = new Font("Segoe UI", 8.5f) };
-			split.Panel2.Controls.Add(hint);
 			list.Font = new Font("Segoe UI", 9f);
 			list.Columns.Add("cmd", 170); list.Columns.Add("desc", 200);
 			list.SelectedIndexChanged += delegate { ShowDetail(); };
@@ -194,6 +191,8 @@ namespace FtpSync
 				iIns.Enabled = iRun.Enabled = iCopy.Enabled = has; iFav.Visible = has && !fav; iUnfav.Visible = fav; iClr.Visible = mode == 2;
 			};
 			list.ContextMenuStrip = m;
+			// docking order: the control added last sits outermost
+			split.Panel2.Controls.Add(list); split.Panel2.Controls.Add(detail); split.Panel2.Controls.Add(search); split.Panel2.Controls.Add(hint); split.Panel2.Controls.Add(modes);
 			SetMode(0);
 		}
 

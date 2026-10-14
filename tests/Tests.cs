@@ -221,6 +221,7 @@ static class T2
 			var t9 = new TermScreen(10, 3); feed(t9, "\xe2\x82"); feed(t9, "\u00ac"); // split utf-8 does not throw
 			var t10 = new TermScreen(10, 2); var raw = new byte[] { 0xD0, 0xBF, 0xD1, 0x80 }; t10.Feed(new byte[] { 0xD0 }, 1); t10.Feed(new byte[] { 0xBF }, 1); eq(row(t10, 0), "п", "term utf8 split across chunks");
 			feed(t10, "\x1b]0;my title\x07"); eq(t10.Title, "my title", "term osc title");
+			var t11 = new TermScreen(10, 2); feed(t11, "\x1b(0lqqk\x1b(Bx"); eq(row(t11, 0), "\u250C\u2500\u2500\u2510x", "term dec line drawing"); feed(t11, "\r\x0e" + "x" + "\x0f" + "x"); eq(row(t11, 0), "xx\u2500\u2510x", "term SO/SI uses G1 only when designated");
 			// highlighting / prompt detection
 			eq(ShellHighlight.CommandAfterPrompt("root@srv:~# ls -la /var"), "ls -la /var", "prompt root");
 			eq(ShellHighlight.CommandAfterPrompt("user@host:/var/www$ tail -f x.log"), "tail -f x.log", "prompt user");

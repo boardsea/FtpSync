@@ -47,7 +47,8 @@ namespace FtpSync
 		readonly Decoder dec = new UTF8Encoding(false).GetDecoder();
 		int state; // 0 ground, 1 esc, 2 csi, 3 osc, 4 string(ignored), 5 esc-intermediate, 6 esc inside osc/string
 		readonly StringBuilder csi = new StringBuilder(), osc = new StringBuilder();
-		char lastPrinted;
+		char lastPrinted, inter;
+		char g0 = 'B', g1 = 'B'; int gl;
 
 		public TermScreen(int cols, int rows)
 		{
@@ -181,7 +182,10 @@ namespace FtpSync
 				case 4:
 					if (c == '\a') state = 0; else if (c == '\x1b') state = 6;
 					return;
-				case 5: state = 0; return; // ESC ( B and friends: skip the designator
+				case 5: // ESC ( 0 / ESC ) B ...: character set designation
+					state = 0;
+					if (inter == '(') g0 = c; else if (inter == ')') g1 = c;
+					return;
 				case 6:
 					if (c == '\\') { if (osc.Length > 0) EndOsc(); state = 0; }
 					else { state = 0; EscChar(c); }
@@ -211,12 +215,19 @@ namespace FtpSync
 					case '\t': { int x = CX + 1; while (x < Cols - 1 && !tabs[x]) x++; CX = Math.Min(x, Cols - 1); wrapPending = false; return; }
 					case '\n': case '\v': case '\f': Index(); return;
 					case '\r': CX = 0; wrapPending = false; return;
+					case '\x0e': gl = 1; return;
+					case '\x0f': gl = 0; return;
 					default: return; // BEL, SO, SI, ...
 				}
 			}
 			if (c >= 0x80 && c < 0xA0) return;
 			Put(c);
 		}
+
+		const string Dec = " \u25C6\u2592\u2409\u240C\u240D\u240A\u00B0\u00B1\u2424\u240B\u2518\u2510\u250C\u2514\u253C\u23BA\u23BB\u2500\u23BC\u23BD\u251C\u2524\u2534\u252C\u2502\u2264\u2265\u03C0\u2260\u00A3\u00B7";
+
+		/// <summary>DEC Special Graphics (line drawing) for 0x5F..0x7E.</summary>
+		static char Graphics(char c) { return Dec[c - 0x5F]; }
 
 		static int Width(char c)
 		{
@@ -230,6 +241,7 @@ namespace FtpSync
 		void Put(char c)
 		{
 			if (char.IsSurrogate(c)) c = '□';
+			if (c >= 0x5F && c <= 0x7E && (gl == 0 ? g0 : g1) == '0') c = Graphics(c);
 			int w = Width(c);
 			if (w == 0) return;
 			if (wrapPending && AutoWrap) { grid[CY].Wrapped = true; CX = 0; Index(); wrapPending = false; }
@@ -312,7 +324,7 @@ namespace FtpSync
 				case '[': csi.Length = 0; state = 2; return;
 				case ']': osc.Length = 0; state = 3; return;
 				case 'P': case 'X': case '^': case '_': osc.Length = 0; state = 4; return;
-				case '(': case ')': case '*': case '+': case '#': case '%': case ' ': state = 5; return;
+				case '(': case ')': case '*': case '+': case '#': case '%': case ' ': inter = c; state = 5; return;
 				case '7': SaveCursor(); return;
 				case '8': RestoreCursor(); return;
 				case 'M': ReverseIndex(); return;
@@ -334,6 +346,7 @@ namespace FtpSync
 
 		void FullReset()
 		{
+			g0 = g1 = 'B'; gl = 0;
 			pFg = -1; pBg = -1; pAttr = 0; CursorVisible = true; AppCursorKeys = false; BracketedPaste = false; AutoWrap = true; originMode = false; insertMode = false;
 			if (Alt) SwitchAlt(false, false);
 			top = 0; bottom = Rows - 1; CX = 0; CY = 0; wrapPending = false; tabs = NewTabs();
