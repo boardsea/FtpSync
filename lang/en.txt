@@ -436,3 +436,37 @@ DNS-записи домена	DNS records of a domain
 Отдельное окно	Separate window
 В панель	Back to panel
 Открыть консоль в отдельном большом окне (для ncdu, htop, mc и других программ, которым нужен большой экран)	Open the console in a separate large window (for ncdu, htop, mc and other programs that need a big screen)
+Интерактивный анализ диска: что занимает место (q — выход, нужен экран от 80×24)	Interactive disk usage browser: what takes space (q to quit, needs a screen of 80×24 or more)
+Свободные inode на дисках	Free inodes on disks
+Список дисков и разделов	List disks and partitions
+Что смонтировано и куда	What is mounted where
+Подробности о файле: размер, права, даты	File details: size, permissions, dates
+Определить тип файла	Detect a file's type
+Контрольная сумма файла (MD5)	File checksum (MD5)
+Контрольная сумма файла (SHA-256)	File checksum (SHA-256)
+Сколько файлов в папке и подпапках	How many files in a folder and subfolders
+Удалить логи старше 30 дней	Delete logs older than 30 days
+Заменить текст во всём файле	Replace text throughout a file
+Повторять команду каждые 2 секунды	Repeat a command every 2 seconds
+Листать вывод команды постранично	Page through command output
+Файловый менеджер в консоли (F10 — выход, нужен большой экран)	Console file manager (F10 to quit, needs a big screen)
+Какой процесс занял порт 80	Which process uses port 80
+Список PHP-файлов, где встречается текст	List PHP files containing a text
+Службы, которые не запустились	Services that failed to start
+Следить за памятью в реальном времени	Watch memory live
+Показать переменные окружения	Show environment variables
+Состояние брандмауэра ufw	ufw firewall status
+Правила брандмауэра iptables	iptables firewall rules
+Код ответа сайта (200, 301, 404…)	A site's response code (200, 301, 404…)
+Проверить SSL-сертификат сайта	Check a site's SSL certificate
+Ошибки системы с последней загрузки	System errors since the last boot
+Перечитать конфигурацию nginx без остановки	Reload the nginx configuration without stopping
+Кто сейчас вошёл (кратко)	Who is logged in (short)
+Запущенные контейнеры Docker	Running Docker containers
+Журнал контейнера в реальном времени	Container log live
+Запустить контейнеры из compose-файла	Start containers from a compose file
+Версия WordPress (WP-CLI)	WordPress version (WP-CLI)
+Список пользователей WordPress (WP-CLI)	List WordPress users (WP-CLI)
+Проверить PHP-файл на синтаксические ошибки	Check a PHP file for syntax errors
+Применить изменения в ~/.bashrc	Apply changes in ~/.bashrc
+Задать переменную окружения	Set an environment variable

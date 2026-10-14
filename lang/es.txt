@@ -436,3 +436,37 @@ DNS-записи домена	Registros DNS de un dominio
 Отдельное окно	Ventana aparte
 В панель	Volver al panel
 Открыть консоль в отдельном большом окне (для ncdu, htop, mc и других программ, которым нужен большой экран)	Abrir la consola en una ventana grande aparte (para ncdu, htop, mc y otros programas que necesitan pantalla grande)
+Интерактивный анализ диска: что занимает место (q — выход, нужен экран от 80×24)	Analizador interactivo de disco: qué ocupa espacio (q para salir, requiere pantalla de 80×24 o más)
+Свободные inode на дисках	Inodos libres en los discos
+Список дисков и разделов	Listar discos y particiones
+Что смонтировано и куда	Qué está montado y dónde
+Подробности о файле: размер, права, даты	Detalles de un archivo: tamaño, permisos, fechas
+Определить тип файла	Detectar el tipo de un archivo
+Контрольная сумма файла (MD5)	Suma de verificación de un archivo (MD5)
+Контрольная сумма файла (SHA-256)	Suma de verificación de un archivo (SHA-256)
+Сколько файлов в папке и подпапках	Cuántos archivos hay en una carpeta y subcarpetas
+Удалить логи старше 30 дней	Eliminar registros de más de 30 días
+Заменить текст во всём файле	Reemplazar texto en todo el archivo
+Повторять команду каждые 2 секунды	Repetir un comando cada 2 segundos
+Листать вывод команды постранично	Paginar la salida de un comando
+Файловый менеджер в консоли (F10 — выход, нужен большой экран)	Gestor de archivos en consola (F10 para salir, requiere pantalla grande)
+Какой процесс занял порт 80	Qué proceso usa el puerto 80
+Список PHP-файлов, где встречается текст	Listar archivos PHP que contienen un texto
+Службы, которые не запустились	Servicios que fallaron al iniciar
+Следить за памятью в реальном времени	Vigilar la memoria en tiempo real
+Показать переменные окружения	Mostrar variables de entorno
+Состояние брандмауэра ufw	Estado del cortafuegos ufw
+Правила брандмауэра iptables	Reglas del cortafuegos iptables
+Код ответа сайта (200, 301, 404…)	Código de respuesta de un sitio (200, 301, 404…)
+Проверить SSL-сертификат сайта	Comprobar el certificado SSL de un sitio
+Ошибки системы с последней загрузки	Errores del sistema desde el último arranque
+Перечитать конфигурацию nginx без остановки	Recargar la configuración de nginx sin detenerlo
+Кто сейчас вошёл (кратко)	Quién ha iniciado sesión (breve)
+Запущенные контейнеры Docker	Contenedores Docker en ejecución
+Журнал контейнера в реальном времени	Registro del contenedor en tiempo real
+Запустить контейнеры из compose-файла	Iniciar contenedores desde un archivo compose
+Версия WordPress (WP-CLI)	Versión de WordPress (WP-CLI)
+Список пользователей WordPress (WP-CLI)	Listar usuarios de WordPress (WP-CLI)
+Проверить PHP-файл на синтаксические ошибки	Comprobar errores de sintaxis en un archivo PHP
+Применить изменения в ~/.bashrc	Aplicar los cambios de ~/.bashrc
+Задать переменную окружения	Definir una variable de entorno
