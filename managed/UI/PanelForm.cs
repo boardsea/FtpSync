@@ -65,6 +65,11 @@ namespace FtpSync
 			tLog.Controls.Add(new JournalView(false)); tLogX.Controls.Add(new JournalView(true));
 			tabs.TabPages.Add(tStatus); tabs.TabPages.Add(tBackups); tabs.TabPages.Add(tLog); tabs.TabPages.Add(tLogX);
 			Controls.Add(tabs);
+			tabs.MouseUp += delegate (object snd, MouseEventArgs me)
+			{
+				if (me.Button != MouseButtons.Middle) return;
+				for (int i = 0; i < tabs.TabPages.Count; i++) if (tabs.GetTabRect(i).Contains(me.Location)) { CloseConsoleAt(i); return; }
+			};
 			Shown += delegate { RebuildTree(); };
 		}
 
@@ -140,6 +145,39 @@ namespace FtpSync
 		}
 
 		public void ShowTab(int i) { tabs.SelectedIndex = i; }
+
+		bool modeless;
+
+		// ---- SSH console tabs ----
+		public void AddConsole(Profile p)
+		{
+			SshConsole c = null;
+			c = new SshConsole(p, delegate (SshConsole x) { CloseConsole(x); });
+			TabPage page = new TabPage(c.TabTitle) { Tag = c, Padding = new Padding(0) };
+			page.Controls.Add(c);
+			tabs.TabPages.Add(page);
+			tabs.SelectedTab = page;
+			if (!modeless) { Npp.Modeless(Handle, true); modeless = true; }
+		}
+
+		void CloseConsole(SshConsole c)
+		{
+			foreach (TabPage pg in tabs.TabPages)
+				if (pg.Tag == c)
+				{
+					tabs.TabPages.Remove(pg); c.Dispose(); pg.Dispose();
+					bool any = false; foreach (TabPage q in tabs.TabPages) if (q.Tag is SshConsole) any = true;
+					if (!any && modeless) { Npp.Modeless(Handle, false); modeless = false; }
+					return;
+				}
+		}
+
+		void CloseConsoleAt(int index)
+		{
+			if (index < 0 || index >= tabs.TabPages.Count) return;
+			SshConsole c = tabs.TabPages[index].Tag as SshConsole;
+			if (c != null) CloseConsole(c);
+		}
 
 		// ---- backups tab ----
 		void ShowInfo()

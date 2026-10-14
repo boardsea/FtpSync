@@ -30,6 +30,7 @@ namespace FtpSync
 				BackupRoot = s.BackupRoot, PollSeconds = s.PollSeconds, MaxVersions = s.MaxVersions, KeepDays = s.KeepDays, CheckOnSave = s.CheckOnSave,
 				CheckOnActivate = s.CheckOnActivate, CheckOnTimer = s.CheckOnTimer, Language = s.Language, ShowExplorerOnStart = s.ShowExplorerOnStart
 			};
+			c.FavoriteCommands.AddRange(s.FavoriteCommands);
 			foreach (Profile p in s.Profiles) c.Profiles.Add(Copy(p, withPasswords));
 			using (FileStream f = File.Create(file)) new XmlSerializer(typeof(AppSettings)).Serialize(f, c);
 		}

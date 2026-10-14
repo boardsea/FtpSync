@@ -272,3 +272,162 @@ XML (все настройки)|*.xml|CSV (только профили)|*.csv	XM
 XML, CSV|*.xml;*.csv|Все файлы|*.*	XML, CSV|*.xml;*.csv|Todos los archivos|*.*
 Ошибка экспорта	Error de exportación
 \n\nНажмите «Сохранить».	\n\nPulse «Guardar».
+Навигация	Navegación
+Файлы и папки	Archivos y carpetas
+Просмотр и правка	Ver y editar
+Поиск	Búsqueda
+Права и владельцы	Permisos y propietarios
+Процессы	Procesos
+Система и диск	Sistema y disco
+Сеть	Red
+Архивы	Archivos comprimidos
+Службы и логи	Servicios y registros
+Пакеты	Paquetes
+Пользователи	Usuarios
+Git	Git
+Сайт и хостинг	Sitio y hosting
+Консоль	Shell
+Показать текущую папку	Mostrar la carpeta actual
+Перейти в папку	Ir a una carpeta
+Подняться на уровень выше	Subir un nivel
+Перейти в домашнюю папку	Ir a la carpeta personal
+Вернуться в предыдущую папку	Volver a la carpeta anterior
+Список файлов: права, размеры, скрытые файлы	Lista de archivos con permisos, tamaños y ocultos
+Список файлов: новые сверху, размеры понятным числом	Lista de archivos, más nuevos primero, tamaños legibles
+Дерево папок на два уровня вниз	Árbol de carpetas, dos niveles
+Создать папку вместе со вложенными	Crear una carpeta con sus subcarpetas
+Создать пустой файл или обновить дату файла	Crear un archivo vacío o actualizar su fecha
+Копировать файл или папку	Copiar un archivo o carpeta
+Переместить или переименовать	Mover o renombrar
+Удалить файл	Eliminar un archivo
+Удалить папку со всем содержимым (осторожно, без корзины!)	Eliminar una carpeta con todo su contenido (¡cuidado, sin papelera!)
+Создать символическую ссылку	Crear un enlace simbólico
+Синхронизировать папки через SSH	Sincronizar carpetas por SSH
+Скопировать файл на другой сервер	Copiar un archivo a otro servidor
+Показать файл целиком	Mostrar el archivo completo
+Листать файл (q — выход)	Paginar un archivo (q para salir)
+Первые 20 строк файла	Primeras 20 líneas del archivo
+Последние 50 строк файла	Últimas 50 líneas del archivo
+Следить за файлом в реальном времени (логи)	Seguir un archivo en tiempo real (logs)
+Простой редактор (Ctrl+O сохранить, Ctrl+X выйти)	Editor sencillo (Ctrl+O guardar, Ctrl+X salir)
+Редактор vi (:wq сохранить и выйти, :q! выйти без сохранения)	Editor vi (:wq guardar y salir, :q! salir sin guardar)
+Посчитать строки в файле	Contar las líneas de un archivo
+Сравнить два файла	Comparar dos archivos
+Найти текст во всех файлах папки	Buscar texto en todos los archivos de una carpeta
+Найти текст без учёта регистра	Buscar texto sin distinguir mayúsculas
+Найти файлы по имени	Buscar archivos por nombre
+Файлы, изменённые за последние сутки	Archivos modificados en las últimas 24 horas
+Файлы больше 100 МБ	Archivos de más de 100 MB
+Где лежит программа	Dónde está un programa
+Найти команду в истории	Buscar un comando en el historial
+Права на файл: владелец пишет, остальные читают	Permisos de archivo: el dueño escribe, otros leen
+Права на папку или скрипт: все могут читать и входить	Permisos de carpeta o script: todos pueden leer y entrar
+Права на папку и всё внутри	Permisos para una carpeta y todo su contenido
+Сделать файл исполняемым	Hacer ejecutable un archivo
+Сменить владельца и группу	Cambiar propietario y grupo
+Сменить владельца у всей папки	Cambiar el propietario de toda una carpeta
+Список всех процессов	Listar todos los procesos
+Найти процесс по имени	Buscar un proceso por nombre
+Монитор процессов (q — выход)	Monitor de procesos (q para salir)
+Удобный монитор процессов (если установлен)	Monitor de procesos amigable (si está instalado)
+Завершить процесс по номеру	Detener un proceso por su número
+Принудительно завершить процесс	Forzar el cierre de un proceso
+Завершить процессы по имени	Detener procesos por nombre
+Запустить в фоне, не прерывать при выходе	Ejecutar en segundo plano, sobrevive al cierre de sesión
+Сеанс, который переживает отключение (вернуться: tmux attach -t work)	Sesión que sobrevive a desconexiones (volver: tmux attach -t work)
+Свободное место на дисках	Espacio libre en los discos
+Размер каждой папки и файла здесь	Tamaño de cada carpeta y archivo aquí
+Что занимает больше всего места	Qué ocupa más espacio
+Использование памяти	Uso de memoria
+Время работы и нагрузка сервера	Tiempo activo y carga del servidor
+Версия ядра и системы	Versión del kernel y del sistema
+Название и версия дистрибутива	Nombre y versión de la distribución
+Текущая дата и время сервера	Fecha y hora actuales del servidor
+Перезагрузить сервер (нужны права root)	Reiniciar el servidor (requiere root)
+Проверить доступность хоста	Comprobar que un host responde
+Заголовки ответа сайта	Cabeceras de respuesta de un sitio
+Скачать файл по ссылке (curl)	Descargar un archivo por URL (curl)
+Скачать файл по ссылке (wget)	Descargar un archivo por URL (wget)
+Открытые порты и кто их слушает	Puertos abiertos y quién escucha
+IP-адреса сервера	Direcciones IP del servidor
+Внешний IP-адрес сервера	Dirección IP externa del servidor
+DNS-записи домена	Registros DNS de un dominio
+Маршрут до хоста	Ruta hasta un host
+Подключиться к другому серверу	Conectarse a otro servidor
+Упаковать папку в tar.gz	Empaquetar una carpeta en tar.gz
+Распаковать tar.gz	Descomprimir un tar.gz
+Упаковать папку в zip	Empaquetar una carpeta en zip
+Распаковать zip	Descomprimir un zip
+Распаковать gz	Descomprimir un archivo gz
+Состояние службы	Estado de un servicio
+Перезапустить службу	Reiniciar un servicio
+Включить автозапуск службы	Activar un servicio al arrancar
+Последние 100 строк журнала службы	Últimas 100 líneas del registro de un servicio
+Системный журнал в реальном времени	Registro del sistema en tiempo real
+Задания планировщика cron	Tareas programadas de cron
+Редактировать задания cron	Editar tareas de cron
+Обновить пакеты (Debian/Ubuntu)	Actualizar paquetes (Debian/Ubuntu)
+Установить пакет (Debian/Ubuntu)	Instalar un paquete (Debian/Ubuntu)
+Установить пакет (CentOS/RHEL)	Instalar un paquete (CentOS/RHEL)
+Под каким пользователем вы вошли	Con qué usuario ha iniciado sesión
+Мой пользователь и группы	Mi usuario y grupos
+Стать root	Convertirse en root
+Переключиться на другого пользователя	Cambiar a otro usuario
+Создать пользователя	Crear un usuario
+Сменить пароль	Cambiar la contraseña
+Кто сейчас вошёл на сервер	Quién ha iniciado sesión ahora
+История входов на сервер	Historial de inicios de sesión
+Состояние репозитория	Estado del repositorio
+Забрать изменения с сервера	Traer los cambios del servidor
+Последние 10 коммитов	Últimos 10 commits
+Что изменено, но ещё не закоммичено	Qué ha cambiado y aún no está confirmado
+Откатить файл к последней версии из репозитория	Restaurar un archivo a la última versión confirmada
+Спрятать текущие изменения (вернуть: git stash pop)	Guardar cambios temporalmente (recuperar: git stash pop)
+Версия PHP	Versión de PHP
+Подключённые модули PHP	Módulos de PHP cargados
+Сделать дамп базы данных	Volcar una base de datos a un archivo
+Загрузить дамп в базу данных	Cargar un volcado en una base de datos
+Список плагинов WordPress (WP-CLI)	Listar plugins de WordPress (WP-CLI)
+Сбросить кэш WordPress (WP-CLI)	Vaciar la caché de WordPress (WP-CLI)
+Проверить конфигурацию nginx	Comprobar la configuración de nginx
+Последние ошибки веб-сервера nginx	Últimos errores del servidor web nginx
+Проверить продление SSL-сертификата	Probar la renovación del certificado SSL
+Очистить экран (Ctrl+L)	Limpiar la pantalla (Ctrl+L)
+История введённых команд	Historial de comandos
+Повторить последнюю команду	Repetir el último comando
+Показать значение переменной	Mostrar el valor de una variable
+Выйти из сеанса (Ctrl+D)	Cerrar la sesión (Ctrl+D)
+Открыть консоль SSH	Abrir consola SSH
+Команды	Comandos
+Справочник команд: поиск, избранное, недавние	Referencia de comandos: búsqueda, favoritos, recientes
+Подсветка	Resaltado
+Подсветка синтаксиса команд, ошибок, адресов	Resaltar sintaxis de comandos, errores y direcciones
+Очистить историю прокрутки	Borrar el historial de desplazamiento
+Переподключить	Reconectar
+Закрыть	Cerrar
+не подключено	no conectado
+Подключение отменено.	Conexión cancelada.
+подключение…	conectando…
+отключено	desconectado
+Соединение закрыто	Conexión cerrada
+. Нажмите «Переподключить».	. Pulse «Reconectar».
+Не удалось подключиться: 	No se pudo conectar: 
+Консоль SSH открыта: 	Consola SSH abierta: 
+Все	Todos
+Избранное	Favoritos
+Недавние	Recientes
+Поиск по командам и описаниям:	Buscar comandos y descripciones:
+Вставить в консоль	Insertar en la consola
+Вставить и выполнить	Insertar y ejecutar
+В избранное	Añadir a favoritos
+Убрать из избранного	Quitar de favoritos
+Добавить свою команду…	Añadir un comando propio…
+Избранная команда	Comando favorito
+Команда:	Comando:
+Очистить недавние	Borrar recientes
+Ничего не найдено.	No se encontró nada.
+Двойной щелчок — вставить в консоль. Enter — вставить, Ctrl+Enter — выполнить.	Doble clic inserta en la consola. Enter inserta, Ctrl+Enter ejecuta.
+Вставить несколько строк? Каждая строка будет выполнена.	¿Pegar varias líneas? Cada línea se ejecutará.
+Вставить	Pegar
+Выделить всё	Seleccionar todo
+Выделенное в избранные команды	Selección a comandos favoritos

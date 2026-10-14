@@ -15,7 +15,7 @@ namespace FtpSync
 	/// <summary>Entry point called from the native shim; wires Notepad++ events to the guard logic.</summary>
 	public static class Plugin
 	{
-		public const string Version = "0.5.15";
+		public const string Version = "0.6.0";
 		[UnmanagedFunctionPointer(CallingConvention.StdCall)] delegate void CmdDel(int i);
 		[UnmanagedFunctionPointer(CallingConvention.StdCall)] delegate void NotifyDel(IntPtr scn);
 		static CmdDel cmdDel; static NotifyDel notifyDel;
@@ -162,6 +162,12 @@ namespace FtpSync
 			Npp.ShowDock(panel.Handle);
 			panel.ShowTab(tab);
 			if (tab == 1) panel.RebuildTree();
+		}
+
+		public static void OpenConsole(Profile p)
+		{
+			ShowPanel(0);
+			panel.AddConsole(p);
 		}
 
 		static bool explorerRegistered;

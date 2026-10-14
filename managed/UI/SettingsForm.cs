@@ -147,6 +147,7 @@ namespace FtpSync
 					got = a.Profiles;
 					Data.PollSeconds = a.PollSeconds; Data.MaxVersions = a.MaxVersions; Data.KeepDays = a.KeepDays; Data.CheckOnSave = a.CheckOnSave;
 					Data.CheckOnActivate = a.CheckOnActivate; Data.CheckOnTimer = a.CheckOnTimer; Data.ShowExplorerOnStart = a.ShowExplorerOnStart; Data.Language = a.Language;
+					foreach (string fc in a.FavoriteCommands) if (!Data.FavoriteCommands.Contains(fc)) Data.FavoriteCommands.Add(fc);
 					LoadGeneral();
 				}
 				int n = SettingsExchange.Merge(Data, got);

@@ -18,6 +18,7 @@ namespace FtpSync
 		const uint NPPM_RELOADFILE = NPPMSG + 36;
 		const uint NPPM_SWITCHTOFILE = NPPMSG + 37;
 		const uint NPPM_SAVECURRENTFILE = NPPMSG + 38;
+		const uint NPPM_MODELESSDIALOG = NPPMSG + 12;
 		const uint NPPM_GETPLUGINSCONFIGDIR = NPPMSG + 46;
 		const uint NPPM_MENUCOMMAND = NPPMSG + 48;
 		const uint NPPM_GETFULLPATHFROMBUFFERID = NPPMSG + 58;
@@ -112,6 +113,9 @@ namespace FtpSync
 
 		public static void Open(string path) { SendStr(Hwnd, NPPM_DOOPEN, IntPtr.Zero, path); }
 		public static void Switch(string path) { SendStr(Hwnd, NPPM_SWITCHTOFILE, IntPtr.Zero, path); }
+		/// <summary>Keys typed into a registered window go to it directly instead of Notepad++ shortcuts (needed for a terminal: Ctrl+C, Ctrl+S ...).</summary>
+		public static void Modeless(IntPtr hwnd, bool add) { Send(Hwnd, NPPM_MODELESSDIALOG, add ? IntPtr.Zero : (IntPtr)1, hwnd); }
+
 		public static void SaveCurrent() { Send(Hwnd, NPPM_SAVECURRENTFILE, IntPtr.Zero, IntPtr.Zero); }
 
 		public static void Reload(string path) { SendStr(Hwnd, NPPM_RELOADFILE, IntPtr.Zero, path); }

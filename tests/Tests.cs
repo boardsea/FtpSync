@@ -194,6 +194,48 @@ static class T2
 			eq(SettingsExchange.Merge(t2, x1.Profiles), 1, "merge n"); eq(t2.Profiles.Count, 1, "merge replaces same name");
 		}
 
+		// --- terminal emulator ---
+		{
+			Func<TermScreen, string, string> feed = (sc, t) => { var b = System.Text.Encoding.UTF8.GetBytes(t); sc.Feed(b, b.Length); return t; };
+			Func<TermScreen, int, string> row = (sc, r) => sc.RowText(sc.RowAt(sc.ScrollbackCount + r));
+			var t1 = new TermScreen(20, 5);
+			feed(t1, "hello\r\nworld"); eq(row(t1, 0), "hello", "term row0"); eq(row(t1, 1), "world", "term row1"); eq(t1.CX, 5, "term cx"); eq(t1.CY, 1, "term cy");
+			feed(t1, "\x1b[2J\x1b[H"); eq(row(t1, 0), "", "term clear"); eq(t1.CY, 0, "term home");
+			feed(t1, "abc\x1b[2D\x1b[K"); eq(row(t1, 0), "a", "term erase to end");
+			feed(t1, "\x1b[2J\x1b[1;1H\x1b[31mred\x1b[0m"); eq(t1.RowAt(t1.ScrollbackCount).C[0].Fg, 1, "term sgr fg"); eq(t1.RowAt(t1.ScrollbackCount).C[3].Fg, -1, "term sgr reset");
+			feed(t1, "\x1b[38;2;10;20;30mX"); eq(t1.RowAt(t1.ScrollbackCount).C[3].Fg, 0x1000000 | (10 << 16) | (20 << 8) | 30, "term truecolor");
+			var t2 = new TermScreen(10, 3);
+			feed(t2, "1\r\n2\r\n3\r\n4\r\n5"); eq(t2.ScrollbackCount, 2, "term scrollback"); eq(t2.RowText(t2.RowAt(0)), "1", "term sb row"); eq(row(t2, 2), "5", "term last row");
+			var t3 = new TermScreen(5, 3);
+			feed(t3, "abcdefgh"); eq(row(t3, 0), "abcde", "term wrap 0"); eq(row(t3, 1), "fgh", "term wrap 1"); eq(t3.RowAt(0).Wrapped, true, "term wrapped flag");
+			var t4 = new TermScreen(10, 3);
+			feed(t4, "main\x1b[?1049h"); eq(t4.Alt, true, "term alt on"); eq(row(t4, 0), "", "term alt blank"); feed(t4, "vim\x1b[?1049l"); eq(t4.Alt, false, "term alt off"); eq(row(t4, 0), "main", "term main restored");
+			var t5 = new TermScreen(10, 3); string rep = null; t5.Reply += s2 => rep = s2;
+			feed(t5, "ab\x1b[6n"); eq(rep, "\x1b[1;3R", "term dsr");
+			var t6 = new TermScreen(10, 3);
+			feed(t6, "漢字x"); eq(t6.CX, 5, "term wide cx"); eq(t6.RowAt(0).C[1].Attr & TermScreen.WideTail, (int)TermScreen.WideTail, "term wide tail");
+			var t7 = new TermScreen(10, 4);
+			feed(t7, "a\r\nb\r\nc\r\nd"); t7.Resize(10, 2); eq(t7.ScrollbackCount, 2, "term shrink pushes history"); eq(t7.CY, 1, "term shrink cursor"); t7.Resize(12, 5); eq(t7.Cols, 12, "term grow");
+			var t8 = new TermScreen(10, 3);
+			feed(t8, "\x1b[1;3r\x1b[3;1H\n\x1b[1;3r"); // scroll region sanity
+			var t9 = new TermScreen(10, 3); feed(t9, "\xe2\x82"); feed(t9, "\u00ac"); // split utf-8 does not throw
+			var t10 = new TermScreen(10, 2); var raw = new byte[] { 0xD0, 0xBF, 0xD1, 0x80 }; t10.Feed(new byte[] { 0xD0 }, 1); t10.Feed(new byte[] { 0xBF }, 1); eq(row(t10, 0), "п", "term utf8 split across chunks");
+			feed(t10, "\x1b]0;my title\x07"); eq(t10.Title, "my title", "term osc title");
+			// highlighting / prompt detection
+			eq(ShellHighlight.CommandAfterPrompt("root@srv:~# ls -la /var"), "ls -la /var", "prompt root");
+			eq(ShellHighlight.CommandAfterPrompt("user@host:/var/www$ tail -f x.log"), "tail -f x.log", "prompt user");
+			eq(ShellHighlight.CommandAfterPrompt("[user@host ~]$ pwd"), "pwd", "prompt bracket");
+			eq(ShellHighlight.CommandAfterPrompt("(venv) user@h:~$ python x.py"), "python x.py", "prompt venv");
+			eq(ShellHighlight.CommandAfterPrompt("total 12"), null, "not a prompt");
+			eq(ShellHighlight.CommandAfterPrompt("[sudo] password for user: "), null, "sudo prompt is not a command");
+			var hsp = ShellHighlight.Spans("Error: connection refused to 10.0.0.1"); eq(hsp[0] != 0, true, "hl error"); eq(hsp[30] != 0, true, "hl ip");
+			var sc2 = ShellHighlight.Spans("root@srv:~# ls -la | grep x"); eq(sc2[0] != 0, true, "hl prompt"); eq(sc2[12] != 0, true, "hl command");
+			// command help
+			var helpAll = CommandHelp.All(); eq(helpAll.Count > 100, true, "help count");
+			eq(CommandHelp.Matches(helpAll.Find(h => h.Command == "tail -f file.log"), "follow log"), true, "help english search");
+			var rec = new System.Collections.Generic.List<string>(); CommandHelp.Touch(rec, "a", 3); CommandHelp.Touch(rec, "b", 3); CommandHelp.Touch(rec, "a", 3); eq(rec[0], "a", "recent order"); eq(rec.Count, 2, "recent unique");
+		}
+
 		// --- languages ---
 		string ld = System.IO.Path.Combine(System.IO.Path.GetTempPath(), "nppl_" + Guid.NewGuid().ToString("N"));
 		System.IO.Directory.CreateDirectory(System.IO.Path.Combine(ld, "lang"));

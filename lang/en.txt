@@ -272,3 +272,162 @@ XML (все настройки)|*.xml|CSV (только профили)|*.csv	XM
 XML, CSV|*.xml;*.csv|Все файлы|*.*	XML, CSV|*.xml;*.csv|All files|*.*
 Ошибка экспорта	Export error
 \n\nНажмите «Сохранить».	\n\nPress “Save”.
+Навигация	Navigation
+Файлы и папки	Files and folders
+Просмотр и правка	Viewing and editing
+Поиск	Search
+Права и владельцы	Permissions and owners
+Процессы	Processes
+Система и диск	System and disk
+Сеть	Network
+Архивы	Archives
+Службы и логи	Services and logs
+Пакеты	Packages
+Пользователи	Users
+Git	Git
+Сайт и хостинг	Website and hosting
+Консоль	Shell
+Показать текущую папку	Show the current folder
+Перейти в папку	Go to a folder
+Подняться на уровень выше	Go one level up
+Перейти в домашнюю папку	Go to the home folder
+Вернуться в предыдущую папку	Go back to the previous folder
+Список файлов: права, размеры, скрытые файлы	List files with permissions, sizes and hidden files
+Список файлов: новые сверху, размеры понятным числом	List files, newest first, readable sizes
+Дерево папок на два уровня вниз	Folder tree, two levels deep
+Создать папку вместе со вложенными	Create a folder with its parents
+Создать пустой файл или обновить дату файла	Create an empty file or update its date
+Копировать файл или папку	Copy a file or folder
+Переместить или переименовать	Move or rename
+Удалить файл	Delete a file
+Удалить папку со всем содержимым (осторожно, без корзины!)	Delete a folder with everything inside (careful, no trash!)
+Создать символическую ссылку	Create a symbolic link
+Синхронизировать папки через SSH	Sync folders over SSH
+Скопировать файл на другой сервер	Copy a file to another server
+Показать файл целиком	Show the whole file
+Листать файл (q — выход)	Page through a file (q to quit)
+Первые 20 строк файла	First 20 lines of a file
+Последние 50 строк файла	Last 50 lines of a file
+Следить за файлом в реальном времени (логи)	Follow a file live (logs)
+Простой редактор (Ctrl+O сохранить, Ctrl+X выйти)	Simple editor (Ctrl+O save, Ctrl+X exit)
+Редактор vi (:wq сохранить и выйти, :q! выйти без сохранения)	vi editor (:wq save and quit, :q! quit without saving)
+Посчитать строки в файле	Count lines in a file
+Сравнить два файла	Compare two files
+Найти текст во всех файлах папки	Find text in all files of a folder
+Найти текст без учёта регистра	Find text, ignoring case
+Найти файлы по имени	Find files by name
+Файлы, изменённые за последние сутки	Files changed in the last 24 hours
+Файлы больше 100 МБ	Files larger than 100 MB
+Где лежит программа	Where a program is located
+Найти команду в истории	Find a command in the history
+Права на файл: владелец пишет, остальные читают	File permissions: owner writes, others read
+Права на папку или скрипт: все могут читать и входить	Folder or script permissions: everyone can read and enter
+Права на папку и всё внутри	Permissions for a folder and everything inside
+Сделать файл исполняемым	Make a file executable
+Сменить владельца и группу	Change owner and group
+Сменить владельца у всей папки	Change owner of a whole folder
+Список всех процессов	List all processes
+Найти процесс по имени	Find a process by name
+Монитор процессов (q — выход)	Process monitor (q to quit)
+Удобный монитор процессов (если установлен)	Friendly process monitor (if installed)
+Завершить процесс по номеру	Stop a process by its number
+Принудительно завершить процесс	Force-kill a process
+Завершить процессы по имени	Stop processes by name
+Запустить в фоне, не прерывать при выходе	Run in background, survive logout
+Сеанс, который переживает отключение (вернуться: tmux attach -t work)	A session that survives disconnects (return: tmux attach -t work)
+Свободное место на дисках	Free space on disks
+Размер каждой папки и файла здесь	Size of every folder and file here
+Что занимает больше всего места	What takes the most space
+Использование памяти	Memory usage
+Время работы и нагрузка сервера	Server uptime and load
+Версия ядра и системы	Kernel and system version
+Название и версия дистрибутива	Distribution name and version
+Текущая дата и время сервера	Current server date and time
+Перезагрузить сервер (нужны права root)	Reboot the server (needs root)
+Проверить доступность хоста	Check that a host is reachable
+Заголовки ответа сайта	Response headers of a site
+Скачать файл по ссылке (curl)	Download a file by URL (curl)
+Скачать файл по ссылке (wget)	Download a file by URL (wget)
+Открытые порты и кто их слушает	Open ports and who listens
+IP-адреса сервера	Server IP addresses
+Внешний IP-адрес сервера	Server's external IP address
+DNS-записи домена	DNS records of a domain
+Маршрут до хоста	Route to a host
+Подключиться к другому серверу	Connect to another server
+Упаковать папку в tar.gz	Pack a folder into tar.gz
+Распаковать tar.gz	Unpack a tar.gz
+Упаковать папку в zip	Pack a folder into zip
+Распаковать zip	Unpack a zip
+Распаковать gz	Unpack a gz file
+Состояние службы	Service status
+Перезапустить службу	Restart a service
+Включить автозапуск службы	Enable a service at boot
+Последние 100 строк журнала службы	Last 100 lines of a service log
+Системный журнал в реальном времени	System log live
+Задания планировщика cron	Scheduled cron jobs
+Редактировать задания cron	Edit cron jobs
+Обновить пакеты (Debian/Ubuntu)	Update packages (Debian/Ubuntu)
+Установить пакет (Debian/Ubuntu)	Install a package (Debian/Ubuntu)
+Установить пакет (CentOS/RHEL)	Install a package (CentOS/RHEL)
+Под каким пользователем вы вошли	Which user you are logged in as
+Мой пользователь и группы	My user and groups
+Стать root	Become root
+Переключиться на другого пользователя	Switch to another user
+Создать пользователя	Create a user
+Сменить пароль	Change the password
+Кто сейчас вошёл на сервер	Who is logged in now
+История входов на сервер	Login history
+Состояние репозитория	Repository status
+Забрать изменения с сервера	Fetch and merge remote changes
+Последние 10 коммитов	Last 10 commits
+Что изменено, но ещё не закоммичено	What changed but is not committed yet
+Откатить файл к последней версии из репозитория	Restore a file to the last committed version
+Спрятать текущие изменения (вернуть: git stash pop)	Stash current changes (restore: git stash pop)
+Версия PHP	PHP version
+Подключённые модули PHP	Loaded PHP modules
+Сделать дамп базы данных	Dump a database to a file
+Загрузить дамп в базу данных	Load a dump into a database
+Список плагинов WordPress (WP-CLI)	List WordPress plugins (WP-CLI)
+Сбросить кэш WordPress (WP-CLI)	Flush the WordPress cache (WP-CLI)
+Проверить конфигурацию nginx	Test the nginx configuration
+Последние ошибки веб-сервера nginx	Latest nginx web server errors
+Проверить продление SSL-сертификата	Test SSL certificate renewal
+Очистить экран (Ctrl+L)	Clear the screen (Ctrl+L)
+История введённых команд	History of typed commands
+Повторить последнюю команду	Repeat the last command
+Показать значение переменной	Show a variable's value
+Выйти из сеанса (Ctrl+D)	End the session (Ctrl+D)
+Открыть консоль SSH	Open SSH console
+Команды	Commands
+Справочник команд: поиск, избранное, недавние	Command reference: search, favourites, recent
+Подсветка	Highlight
+Подсветка синтаксиса команд, ошибок, адресов	Highlight command syntax, errors and addresses
+Очистить историю прокрутки	Clear the scrollback
+Переподключить	Reconnect
+Закрыть	Close
+не подключено	not connected
+Подключение отменено.	Connection cancelled.
+подключение…	connecting…
+отключено	disconnected
+Соединение закрыто	Connection closed
+. Нажмите «Переподключить».	. Press “Reconnect”.
+Не удалось подключиться: 	Could not connect: 
+Консоль SSH открыта: 	SSH console opened: 
+Все	All
+Избранное	Favourites
+Недавние	Recent
+Поиск по командам и описаниям:	Search commands and descriptions:
+Вставить в консоль	Insert into the console
+Вставить и выполнить	Insert and run
+В избранное	Add to favourites
+Убрать из избранного	Remove from favourites
+Добавить свою команду…	Add your own command…
+Избранная команда	Favourite command
+Команда:	Command:
+Очистить недавние	Clear recent
+Ничего не найдено.	Nothing found.
+Двойной щелчок — вставить в консоль. Enter — вставить, Ctrl+Enter — выполнить.	Double-click inserts into the console. Enter inserts, Ctrl+Enter runs.
+Вставить несколько строк? Каждая строка будет выполнена.	Paste several lines? Each line will be executed.
+Вставить	Paste
+Выделить всё	Select all
+Выделенное в избранные команды	Selection to favourite commands

@@ -579,6 +579,7 @@ namespace FtpSync
 			};
 			ToolStripMenuItem iConnect = add(L.T("Подключиться"), n => ConnectProfile(n.Profile));
 			ToolStripMenuItem iCfg = add(L.T("Настроить…"), n => Plugin.OpenSettingsFor(n.Profile.Name));
+			ToolStripMenuItem iSsh = add(L.T("Открыть консоль SSH"), n => Plugin.OpenConsole(n.Profile));
 			ToolStripMenuItem iDisc = add(L.T("Отключиться"), n => DisconnectSelected());
 			ToolStripMenuItem iOpen = add(L.T("Открыть"), n => Explorer.OpenFile(n.Profile, n.Remote));
 			ToolStripMenuItem iRef = add(L.T("Обновить"), n => RefreshSelected());
@@ -621,7 +622,7 @@ namespace FtpSync
 				bool on = Explorer.Connected.Contains(n.Profile.Name);
 				bool file = n.Entry != null && !n.Entry.IsDir;
 				bool dir = n.IsDir && (!n.IsRoot || on);
-				iCfg.Visible = n.IsRoot; iConnect.Visible = n.IsRoot && !on; iDisc.Visible = n.IsRoot && on;
+				iCfg.Visible = n.IsRoot; iSsh.Visible = n.IsRoot && n.Profile.Protocol == Protocol.Sftp; iConnect.Visible = n.IsRoot && !on; iDisc.Visible = n.IsRoot && on;
 				iOpen.Visible = file; iRef.Visible = dir; iUp.Visible = dir || file; iDown.Visible = dir && !n.IsRoot || n.IsRoot && on;
 				iNewF.Visible = dir; iNewFile.Visible = dir; iRen.Visible = n.Entry != null && !n.Chain; iDel.Visible = n.Entry != null && !n.Chain;
 				iCopy.Visible = !n.IsRoot || on; iLocal.Visible = !n.IsRoot; iBk.Visible = file;
