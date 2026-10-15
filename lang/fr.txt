@@ -470,3 +470,5 @@ DNS-записи домена	Enregistrements DNS d'un domaine
 Проверить PHP-файл на синтаксические ошибки	Vérifier les erreurs de syntaxe d'un fichier PHP
 Применить изменения в ~/.bashrc	Appliquer les changements de ~/.bashrc
 Задать переменную окружения	Définir une variable d'environnement
+Для этого языка в Notepad++ нет сворачивания блоков, отступы определить нельзя.	Notepad++ n'a pas de repliement de code pour ce langage, les indentations ne peuvent pas être déterminées.
+Исправлено отступов: {0}	Indentations corrigées : {0}

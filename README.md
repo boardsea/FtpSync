@@ -55,6 +55,7 @@ Bottom panel, "Journal" tab: record colours: **green** - done, **orange** - uplo
 | Upload a file | "Upload the current file to the server (with check)" for any file covered by a folder mapping. |
 | Diagnostics | "About / diagnostics" shows which profile and server path the current file belongs to. |
 | SSH console | Right-click an SFTP server → "Open SSH console". A tab appears next to the log: a real terminal (colours, vim/nano/top, history, copy/paste, resizing) with syntax highlighting and a side panel of ~150 popular commands with search, favourites and recently used commands. |
+| Fix Indents | The "Indent" button above the tree re-indents the selection (or the whole file) by code folding level. Works for languages that Notepad++ can fold; one Undo reverts it. |
 
 Protocols: FTP, FTPES (explicit TLS), SFTP (password or key; the SFTP connection is kept open, faster than FTP). Implicit FTPS (port 990) is not supported.
 

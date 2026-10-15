@@ -78,6 +78,61 @@ namespace FtpSync
 			return sb.ToString();
 		}
 
+		const uint SCI_GETLINECOUNT = 2154, SCI_GETFOLDLEVEL = 2223, SCI_SETLINEINDENTATION = 2126, SCI_GETLINEINDENTATION = 2127, SCI_GETINDENT = 2123, SCI_GETTABWIDTH = 2121,
+			SCI_GETSELECTIONSTART = 2143, SCI_GETSELECTIONEND = 2145, SCI_LINEFROMPOSITION = 2166, SCI_POSITIONFROMLINE = 2167, SCI_GETLINEENDPOSITION = 2136, SCI_GETCHARAT = 2007,
+			SCI_GETUSETABS = 2125, SCI_SETUSETABS = 2124;
+
+		/// <summary>Re-indents the selected lines (or the whole file) by their fold level. Returns the number of changed lines, -1 when the language has no folding.</summary>
+		public static int FixIndents()
+		{
+			IntPtr sci = Sci();
+			int lines = (int)Send(sci, SCI_GETLINECOUNT, IntPtr.Zero, IntPtr.Zero);
+			int first = 0, last = lines - 1;
+			int ss = (int)Send(sci, SCI_GETSELECTIONSTART, IntPtr.Zero, IntPtr.Zero), se = (int)Send(sci, SCI_GETSELECTIONEND, IntPtr.Zero, IntPtr.Zero);
+			if (se > ss)
+			{
+				first = (int)Send(sci, SCI_LINEFROMPOSITION, (IntPtr)ss, IntPtr.Zero);
+				last = (int)Send(sci, SCI_LINEFROMPOSITION, (IntPtr)se, IntPtr.Zero);
+				if ((int)Send(sci, SCI_POSITIONFROMLINE, (IntPtr)last, IntPtr.Zero) == se && last > first) last--; // the selection ends at the start of a line
+			}
+			int unit = (int)Send(sci, SCI_GETINDENT, IntPtr.Zero, IntPtr.Zero);
+			if (unit <= 0) unit = (int)Send(sci, SCI_GETTABWIDTH, IntPtr.Zero, IntPtr.Zero);
+			if (unit <= 0) unit = 4;
+			bool folds = false;
+			int[] level = new int[last - first + 1];
+			for (int i = first; i <= last; i++)
+			{
+				int fl = (int)Send(sci, SCI_GETFOLDLEVEL, (IntPtr)i, IntPtr.Zero);
+				level[i - first] = (fl & 0x0FFF) - 0x400;
+				if ((fl & 0x2000) != 0 || level[i - first] > 0) folds = true;
+			}
+			if (!folds) return -1;
+			int baseLevel = int.MaxValue;
+			for (int i = 0; i < level.Length; i++) if (level[i] < baseLevel) baseLevel = level[i];
+			int changed = 0;
+			Send(sci, SCI_BEGINUNDOACTION, IntPtr.Zero, IntPtr.Zero);
+			try
+			{
+				for (int i = first; i <= last; i++)
+				{
+					int start = (int)Send(sci, SCI_POSITIONFROMLINE, (IntPtr)i, IntPtr.Zero), end = (int)Send(sci, SCI_GETLINEENDPOSITION, (IntPtr)i, IntPtr.Zero);
+					int cur = (int)Send(sci, SCI_GETLINEINDENTATION, (IntPtr)i, IntPtr.Zero);
+					// first non-blank character of the line
+					int p = start; char c = '\0';
+					while (p < end) { c = (char)(int)Send(sci, SCI_GETCHARAT, (IntPtr)p, IntPtr.Zero); if (c != ' ' && c != '\t') break; p++; }
+					if (p >= end) continue; // blank line: leave it alone
+					int lv = level[i - first] - baseLevel;
+					if (c == '}' || c == ']' || c == ')') lv--;
+					else if (c == '<' && p + 1 < end && (char)(int)Send(sci, SCI_GETCHARAT, (IntPtr)(p + 1), IntPtr.Zero) == '/') lv--;
+					if (lv < 0) lv = 0;
+					int want = lv * unit;
+					if (want != cur) { Send(sci, SCI_SETLINEINDENTATION, (IntPtr)i, (IntPtr)want); changed++; }
+				}
+			}
+			finally { Send(sci, SCI_ENDUNDOACTION, IntPtr.Zero, IntPtr.Zero); }
+			return changed;
+		}
+
 		public static bool IsModified() { return Send(Sci(), SCI_GETMODIFY, IntPtr.Zero, IntPtr.Zero) != IntPtr.Zero; }
 
 		public static bool IsUtf8() { return (int)Send(Sci(), SCI_GETCODEPAGE, IntPtr.Zero, IntPtr.Zero) == 65001; }

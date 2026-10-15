@@ -54,6 +54,7 @@ Panneau du bas, onglet « Journal » : couleurs des entrées : **vert** - termin
 | Envoyer un fichier | « Envoyer le fichier actuel sur le serveur (avec vérification) » pour tout fichier couvert par une correspondance de dossiers. |
 | Diagnostic | « À propos du plugin / diagnostic » indique à quel profil et chemin serveur appartient le fichier actuel. |
 | Console SSH | Clic droit sur un serveur SFTP → « Ouvrir la console SSH ». Un onglet apparaît à côté du journal : un vrai terminal (couleurs, vim/nano/top, historique, copier-coller, redimensionnement) avec coloration syntaxique et une référence d’environ 110 commandes courantes avec recherche, favoris et commandes récentes. |
+| Corriger l’indentation | Le bouton « Indent » au-dessus de l’arbre réindente la sélection (ou tout le fichier) selon le niveau de repliement. Fonctionne pour les langages repliables dans Notepad++ ; annulable en un seul Annuler. |
 
 Protocoles : FTP, FTPES (TLS explicite), SFTP (mot de passe ou clé ; la connexion SFTP reste ouverte et est plus rapide que FTP). Le FTPS implicite (port 990) n’est pas pris en charge.
 

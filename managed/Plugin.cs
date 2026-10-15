@@ -15,7 +15,7 @@ namespace FtpSync
 	/// <summary>Entry point called from the native shim; wires Notepad++ events to the guard logic.</summary>
 	public static class Plugin
 	{
-		public const string Version = "0.6.5";
+		public const string Version = "0.7.0";
 		[UnmanagedFunctionPointer(CallingConvention.StdCall)] delegate void CmdDel(int i);
 		[UnmanagedFunctionPointer(CallingConvention.StdCall)] delegate void NotifyDel(IntPtr scn);
 		static CmdDel cmdDel; static NotifyDel notifyDel;
@@ -162,6 +162,13 @@ namespace FtpSync
 			Npp.ShowDock(panel.Handle);
 			panel.ShowTab(tab);
 			if (tab == 1) panel.RebuildTree();
+		}
+
+		public static void FixIndentsCommand()
+		{
+			int n = Npp.FixIndents();
+			if (n < 0) MessageBox.Show(new NppWindow(), L.T("Для этого языка в Notepad++ нет сворачивания блоков, отступы определить нельзя."), "FTP Sync", MessageBoxButtons.OK, MessageBoxIcon.Information);
+			else Explorer.Log(L.F("Исправлено отступов: {0}", n));
 		}
 
 		public static void OpenConsole(Profile p)

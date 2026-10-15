@@ -54,6 +54,7 @@ Untere Leiste, Tab „Protokoll“: Farben der Einträge: **grün** - fertig, **
 | Datei hochladen | „Aktuelle Datei auf den Server hochladen (mit Prüfung)“ für jede Datei, die in einer Ordnerzuordnung liegt. |
 | Diagnose | „Über das Plugin / Diagnose“ zeigt, zu welchem Profil und Serverpfad die aktuelle Datei gehört. |
 | SSH-Konsole | Rechtsklick auf einen SFTP-Server → „SSH-Konsole öffnen“. Neben dem Protokoll erscheint ein Tab: ein echtes Terminal (Farben, vim/nano/top, Verlauf, Kopieren/Einfügen, Größenänderung) mit Syntaxhervorhebung und einer Befehlsreferenz mit ~150 gängigen Befehlen, Suche, Favoriten und zuletzt verwendeten Befehlen. |
+| Einrückungen korrigieren | Die Schaltfläche „Indent“ über dem Baum richtet die Einrückung der Auswahl (oder der ganzen Datei) nach der Code-Faltungsebene aus. Funktioniert für Sprachen mit Faltung in Notepad++; mit einmal Rückgängig umkehrbar. |
 
 Protokolle: FTP, FTPES (explizites TLS), SFTP (Passwort oder Schlüssel; die SFTP-Verbindung bleibt offen und ist schneller als FTP). Implizites FTPS (Port 990) wird nicht unterstützt.
 

@@ -470,3 +470,5 @@ DNS-записи домена	DNS records of a domain
 Проверить PHP-файл на синтаксические ошибки	Check a PHP file for syntax errors
 Применить изменения в ~/.bashrc	Apply changes in ~/.bashrc
 Задать переменную окружения	Set an environment variable
+Для этого языка в Notepad++ нет сворачивания блоков, отступы определить нельзя.	Notepad++ has no code folding for this language, so indents cannot be determined.
+Исправлено отступов: {0}	Indents fixed: {0}

@@ -124,7 +124,9 @@ namespace FtpSync
 			ToolStripButton bSet = Btn("⚙", L.T("Профили и настройки"), delegate { Plugin.OpenSettingsCommand(); });
 			ToolStripButton bGuard = Btn("◈", L.T("Панель статуса и бекапов"), delegate { Plugin.ShowGuardPanel(0); });
 			ToolStripButton bLog = Btn("≡", L.T("Полный журнал (вкладка «Журнал» внизу)"), delegate { Plugin.ShowGuardPanel(2); });
-			bar.Items.AddRange(new ToolStripItem[] { bConnect, bDisc, new ToolStripSeparator(), bUp, bRef, bStop, new ToolStripSeparator(), bSet, bGuard, bLog });
+			ToolStripButton bIndent = Btn("Indent", "Fix Indents", delegate { Plugin.FixIndentsCommand(); });
+			bIndent.Font = new Font("Segoe UI", 9f);
+			bar.Items.AddRange(new ToolStripItem[] { bConnect, bDisc, new ToolStripSeparator(), bUp, bRef, bStop, new ToolStripSeparator(), bSet, bGuard, bLog, new ToolStripSeparator(), bIndent });
 			bar.Font = new Font("Segoe UI Symbol", 11f);
 
 			path.KeyDown += delegate (object s, KeyEventArgs e) { if (e.KeyCode == Keys.Enter) { e.SuppressKeyPress = true; GoToPath(path.Text); } };

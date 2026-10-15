@@ -54,6 +54,7 @@ Panel inferior, pestaña «Registro»: colores de los registros: **verde** - lis
 | Subir un archivo | «Subir el archivo actual al servidor (con comprobación)» para cualquier archivo cubierto por una correspondencia de carpetas. |
 | Diagnóstico | «Acerca del plugin / diagnóstico» muestra a qué perfil y ruta del servidor pertenece el archivo actual. |
 | Consola SSH | Clic derecho en un servidor SFTP → «Abrir consola SSH». Junto al registro aparece una pestaña: un terminal completo (colores, vim/nano/top, historial, copiar y pegar, cambio de tamaño) con resaltado de sintaxis y una referencia de ~150 comandos populares con búsqueda, favoritos y recientes. |
+| Corregir sangrías | El botón «Indent» sobre el árbol reajusta las sangrías de la selección (o de todo el archivo) según el nivel de plegado. Funciona para lenguajes con plegado en Notepad++; se deshace con un solo Deshacer. |
 
 Protocolos: FTP, FTPES (TLS explícito), SFTP (contraseña o clave; la conexión SFTP se mantiene abierta y es más rápida que FTP). El FTPS implícito (puerto 990) no es compatible.
 
