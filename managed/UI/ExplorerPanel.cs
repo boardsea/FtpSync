@@ -124,8 +124,8 @@ namespace FtpSync
 			ToolStripButton bSet = Btn("⚙", L.T("Профили и настройки"), delegate { Plugin.OpenSettingsCommand(); });
 			ToolStripButton bGuard = Btn("◈", L.T("Панель статуса и бекапов"), delegate { Plugin.ShowGuardPanel(0); });
 			ToolStripButton bLog = Btn("≡", L.T("Полный журнал (вкладка «Журнал» внизу)"), delegate { Plugin.ShowGuardPanel(2); });
-			ToolStripButton bIndent = Btn("Indent", "Fix Indents", delegate { Plugin.FixIndentsCommand(); });
-			bIndent.Font = new Font("Segoe UI", 9f);
+			ToolStripButton bIndent = Btn("", "Fix Indents", delegate { Plugin.FixIndentsCommand(); });
+			bIndent.DisplayStyle = ToolStripItemDisplayStyle.Image; bIndent.Image = IndentIcon();
 			bar.Items.AddRange(new ToolStripItem[] { bConnect, bDisc, new ToolStripSeparator(), bUp, bRef, bStop, new ToolStripSeparator(), bSet, bGuard, bLog, new ToolStripSeparator(), bIndent });
 			bar.Font = new Font("Segoe UI Symbol", 11f);
 
@@ -146,6 +146,24 @@ namespace FtpSync
 			tree.DragDrop += OnDrop;
 			tree.ContextMenuStrip = BuildMenu();
 			RebuildRoots();
+		}
+
+		/// <summary>Small "stepped lines" icon for the Indent button.</summary>
+		static Image IndentIcon()
+		{
+			Bitmap bmp = new Bitmap(16, 16);
+			using (Graphics g = Graphics.FromImage(bmp))
+			using (Pen p = new Pen(Color.FromArgb(60, 60, 60), 2f))
+			using (Pen a = new Pen(Color.FromArgb(0, 110, 200), 2f))
+			{
+				g.Clear(Color.Transparent);
+				g.DrawLine(p, 2, 3, 13, 3);
+				g.DrawLine(p, 6, 7, 13, 7);
+				g.DrawLine(p, 6, 11, 13, 11);
+				g.DrawLine(p, 2, 14, 13, 14);
+				g.DrawLine(a, 1, 6, 4, 8); g.DrawLine(a, 4, 8, 1, 10);
+			}
+			return bmp;
 		}
 
 		ToolStripButton Btn(string text, string tip, Action a)
