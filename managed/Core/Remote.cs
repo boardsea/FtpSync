@@ -52,14 +52,7 @@ namespace FtpSync
 			return p.Password;
 		}
 		/// <summary>Error text plus what the FTP server actually answered.</summary>
-		public static string Explain(Exception ex)
-		{
-			WebException we = ex as WebException;
-			FtpWebResponse fr = we == null ? null : we.Response as FtpWebResponse;
-			if (fr == null) return ex.Message;
-			string d = (fr.StatusDescription ?? "").Trim();
-			return ex.Message + (d.Length > 0 ? "  [" + (int)fr.StatusCode + ": " + d + "]" : "");
-		}
+		public static string Explain(Exception ex) { return ex.Message; }
 
 		public static bool NeedsPassword(Profile p)
 		{
@@ -165,144 +158,59 @@ namespace FtpSync
 	public class FtpRemote : IRemoteFs
 	{
 		readonly Profile p; readonly int timeout;
-		bool? passiveOverride;
+		FtpClient c;
+		readonly object gate = new object();
 		public FtpRemote(Profile p, int timeoutMs) { this.p = p; timeout = timeoutMs; }
 
-		/// <summary>Some servers answer 502 (command not implemented) to PASV or PORT: retry once in the other transfer mode.</summary>
-		T WithFallback<T>(Func<T> f)
-		{
-			try { return f(); }
-			catch (WebException ex)
-			{
-				FtpWebResponse fr = ex.Response as FtpWebResponse;
-				if (fr == null || passiveOverride.HasValue || (fr.StatusCode != FtpStatusCode.CommandNotImplemented && fr.StatusCode != FtpStatusCode.CommandSyntaxError)) throw;
-				passiveOverride = !p.Passive;
-				try { return f(); }
-				catch (WebException) { passiveOverride = null; throw; }
-			}
-		}
-
-		Uri MakeUri(string path)
-		{
-			string[] parts = path.Split(new[] { '/' }, StringSplitOptions.RemoveEmptyEntries);
-			for (int i = 0; i < parts.Length; i++) parts[i] = Uri.EscapeDataString(parts[i]);
-			return new Uri("ftp://" + p.Host + ":" + p.Port + "/%2F" + string.Join("/", parts));
-		}
-
-		FtpWebRequest Req(string path, string method)
+		/// <summary>One connection per handle; reconnects once when the server dropped it.</summary>
+		T Do<T>(Func<FtpClient, T> f)
 		{
 			if (p.Protocol == Protocol.Ftps) throw new NotSupportedException(L.T("Неявный FTPS (порт 990) не поддерживается: используйте явный FTPS (FTPES) или SFTP."));
-			FtpWebRequest r = (FtpWebRequest)WebRequest.Create(MakeUri(path));
-			r.Method = method;
-			r.Credentials = new NetworkCredential(p.User, RemoteFactory.PasswordFor(p));
-			r.UsePassive = passiveOverride ?? p.Passive; r.UseBinary = true; r.KeepAlive = false;
-			r.EnableSsl = p.Protocol == Protocol.Ftpes;
-			r.Timeout = timeout; r.ReadWriteTimeout = timeout;
-			r.Proxy = null; // never go through the system HTTP proxy (it answers 502 Bad Gateway to FTP)
-			return r;
+			lock (gate)
+			{
+				for (int attempt = 0; ; attempt++)
+				{
+					try
+					{
+						if (c == null || !c.Connected) { c = new FtpClient(p, timeout); c.Connect(); }
+						return f(c);
+					}
+					catch (FtpException) { throw; }
+					catch (Exception ex)
+					{
+						if (c != null) { try { c.Close(); } catch (Exception) { } c = null; }
+						bool dropped = ex is IOException || ex is System.Net.Sockets.SocketException || ex is ObjectDisposedException;
+						if (attempt > 0 || !dropped || ex is TimeoutException) throw;
+					}
+				}
+			}
 		}
 
 		public byte[] Download(string remotePath) { return Download(remotePath, null); }
-
-		public byte[] Download(string remotePath, ProgressFn progress)
-		{
-			return WithFallback<byte[]>(delegate { return DownloadOnce(remotePath, progress); });
-		}
-
-		byte[] DownloadOnce(string remotePath, ProgressFn progress)
-		{
-			try
-			{
-				using (FtpWebResponse resp = (FtpWebResponse)Req(remotePath, WebRequestMethods.Ftp.DownloadFile).GetResponse())
-				using (Stream s = resp.GetResponseStream())
-				using (MemoryStream ms = new MemoryStream())
-				{
-					long total = resp.ContentLength;
-					byte[] buf = new byte[32768]; int n;
-					while ((n = s.Read(buf, 0, buf.Length)) > 0)
-					{
-						ms.Write(buf, 0, n);
-						if (progress != null) progress(ms.Length, total);
-					}
-					return ms.ToArray();
-				}
-			}
-			catch (WebException ex)
-			{
-				FtpWebResponse fr = ex.Response as FtpWebResponse;
-				if (fr != null && fr.StatusCode == FtpStatusCode.ActionNotTakenFileUnavailable) return null;
-				throw;
-			}
-		}
-
+		public byte[] Download(string remotePath, ProgressFn progress) { return Do<byte[]>(x => x.Download(remotePath, progress)); }
 		public void Upload(string remotePath, byte[] data) { Upload(remotePath, data, null); }
-
-		public void Upload(string remotePath, byte[] data, ProgressFn progress)
-		{
-			WithFallback<bool>(delegate { UploadOnce(remotePath, data, progress); return true; });
-		}
-
-		void UploadOnce(string remotePath, byte[] data, ProgressFn progress)
-		{
-			FtpWebRequest r = Req(remotePath, WebRequestMethods.Ftp.UploadFile);
-			r.ContentLength = data.Length;
-			using (Stream s = r.GetRequestStream())
-			{
-				int off = 0;
-				while (off < data.Length)
-				{
-					int n = Math.Min(32768, data.Length - off);
-					s.Write(data, off, n); off += n;
-					if (progress != null) progress(off, data.Length);
-				}
-			}
-			using (r.GetResponse()) { }
-		}
+		public void Upload(string remotePath, byte[] data, ProgressFn progress) { Do<bool>(x => { x.Upload(remotePath, data, progress); return true; }); }
 
 		public List<RemoteEntry> List(string dir)
 		{
-			string text = WithFallback<string>(delegate
-			{
-				using (FtpWebResponse resp = (FtpWebResponse)Req(dir.TrimEnd('/') + "/", WebRequestMethods.Ftp.ListDirectoryDetails).GetResponse())
-				using (StreamReader sr = new StreamReader(resp.GetResponseStream(), System.Text.Encoding.UTF8))
-					return sr.ReadToEnd();
-			});
+			string path = dir.TrimEnd('/'); if (path.Length == 0) path = "/";
+			string text = Do<string>(x => x.List(path));
 			return FtpListParser.Parse(text, dir);
 		}
 
-		public string GetHome()
-		{
-			if (p.Protocol == Protocol.Ftps) throw new NotSupportedException(L.T("Неявный FTPS (порт 990) не поддерживается: используйте явный FTPS (FTPES) или SFTP."));
-			FtpWebRequest r = (FtpWebRequest)WebRequest.Create(new Uri("ftp://" + p.Host + ":" + p.Port + "/"));
-			r.Method = WebRequestMethods.Ftp.PrintWorkingDirectory;
-			r.Credentials = new NetworkCredential(p.User, RemoteFactory.PasswordFor(p));
-			r.UsePassive = p.Passive; r.KeepAlive = false; r.EnableSsl = p.Protocol == Protocol.Ftpes;
-			r.Timeout = timeout; r.ReadWriteTimeout = timeout; r.Proxy = null;
-			using (FtpWebResponse resp = (FtpWebResponse)r.GetResponse())
-				return ParsePwd(resp.StatusDescription);
-		}
+		public string GetHome() { return Do<string>(x => x.Pwd()); }
+
+		public void MakeDir(string path) { Do<bool>(x => { x.MakeDir(path); return true; }); }
+		public void Delete(string path, bool isDir) { Do<bool>(x => { if (isDir) x.RemoveDir(path); else x.DeleteFile(path); return true; }); }
+		public void Rename(string from, string to) { Do<bool>(x => { x.Rename(from, to); return true; }); }
+
+		public void Dispose() { lock (gate) { if (c != null) { c.Close(); c = null; } } }
 
 		public static string ParsePwd(string status)
 		{
 			Match m = Regex.Match(status ?? "", "\"((?:[^\"]|\"\")*)\"");
 			return m.Success ? m.Groups[1].Value.Replace("\"\"", "\"") : "/";
 		}
-
-		public void MakeDir(string path) { using (Req(path, WebRequestMethods.Ftp.MakeDirectory).GetResponse()) { } }
-
-		public void Delete(string path, bool isDir)
-		{
-			using (Req(path, isDir ? WebRequestMethods.Ftp.RemoveDirectory : WebRequestMethods.Ftp.DeleteFile).GetResponse()) { }
-		}
-
-		public void Rename(string from, string to)
-		{
-			FtpWebRequest r = Req(from, WebRequestMethods.Ftp.Rename);
-			r.RenameTo = to;
-			using (r.GetResponse()) { }
-		}
-
-		public void Dispose() { }
 	}
 
 	/// <summary>Parses Unix "ls -l" and DOS style FTP listings.</summary>

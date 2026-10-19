@@ -12,6 +12,74 @@ class FakeRemote : IRemote
 	public void Dispose() { }
 }
 
+class MockFtp
+{
+	public System.Net.Sockets.TcpListener L = new System.Net.Sockets.TcpListener(System.Net.IPAddress.Loopback, 0);
+	public Dictionary<string, byte[]> Files = new Dictionary<string, byte[]>();
+	public List<string> Log = new List<string>();
+	public int Port { get { return ((System.Net.IPEndPoint)L.LocalEndpoint).Port; } }
+	public MockFtp()
+	{
+		L.Start();
+		var t = new System.Threading.Thread(() => { while (true) { System.Net.Sockets.TcpClient c; try { c = L.AcceptTcpClient(); } catch (Exception) { return; } var h = new System.Threading.Thread(() => Handle(c)); h.IsBackground = true; h.Start(); } });
+		t.IsBackground = true; t.Start();
+	}
+	void Handle(System.Net.Sockets.TcpClient c)
+	{
+		var st = c.GetStream();
+		var rd = new StreamReader(st, new UTF8Encoding(false));
+		Action<string> w = x => { var b = new UTF8Encoding(false).GetBytes(x + "\r\n"); st.Write(b, 0, b.Length); };
+		System.Net.Sockets.TcpListener dl = null; string rnfr = null;
+		w("220-Welcome to the mock\r\n220 Ready");
+		string line;
+		while ((line = rd.ReadLine()) != null)
+		{
+			lock (Log) Log.Add(line);
+			string cmd = line.Split(' ')[0].ToUpper(), arg = line.Length > cmd.Length ? line.Substring(cmd.Length + 1) : "";
+			switch (cmd)
+			{
+				case "USER": w("331 Password required"); break;
+				case "PASS": w("230 Logged in"); break;
+				case "OPTS": w("200 UTF8 on"); break;
+				case "TYPE": w("200 Binary"); break;
+				case "PWD": w("257 \"/home/u\" is the current directory"); break;
+				case "EPSV": w("502 Command not implemented"); break;
+				case "PASV":
+					dl = new System.Net.Sockets.TcpListener(System.Net.IPAddress.Loopback, 0); dl.Start();
+					int dp = ((System.Net.IPEndPoint)dl.LocalEndpoint).Port;
+					w("227 Entering Passive Mode (10,0,0,5," + (dp / 256) + "," + (dp % 256) + ")"); break; // private address: the client must use the control address
+				case "SIZE": { byte[] f; if (Files.TryGetValue(arg, out f)) w("213 " + f.Length); else w("550 not found"); break; }
+				case "LIST":
+					{
+						if (arg.StartsWith("-a")) { w("550 -a not supported"); if (dl != null) { dl.Stop(); dl = null; } break; }
+						w("150 Opening"); var d = dl.AcceptTcpClient(); dl.Stop(); dl = null;
+						var lb = new UTF8Encoding(false).GetBytes("drwxr-xr-x 2 u u 4096 Jan  1  2024 docs\r\n-rw-r--r-- 1 u u 5 Jan  1 12:00 a.txt\r\n");
+						d.GetStream().Write(lb, 0, lb.Length); d.Close(); w("226 Done"); break;
+					}
+				case "RETR":
+					{
+						byte[] f;
+						if (!Files.TryGetValue(arg, out f)) { w("550 No such file"); if (dl != null) { dl.Stop(); dl = null; } break; }
+						w("150 Sending"); var d = dl.AcceptTcpClient(); dl.Stop(); dl = null;
+						d.GetStream().Write(f, 0, f.Length); d.Close(); w("226 Done"); break;
+					}
+				case "STOR":
+					{
+						w("150 Receiving"); var d = dl.AcceptTcpClient(); dl.Stop(); dl = null;
+						var ms = new MemoryStream(); d.GetStream().CopyTo(ms); d.Close(); Files[arg] = ms.ToArray(); w("226 Done"); break;
+					}
+				case "MKD": w("257 created"); break;
+				case "DELE": Files.Remove(arg); w("250 deleted"); break;
+				case "RMD": w("250 removed"); break;
+				case "RNFR": rnfr = arg; w("350 ready"); break;
+				case "RNTO": { byte[] f; if (rnfr != null && Files.TryGetValue(rnfr, out f)) { Files.Remove(rnfr); Files[arg] = f; } w("250 renamed"); break; }
+				case "QUIT": w("221 Bye"); c.Close(); return;
+				default: w("500 unknown"); break;
+			}
+		}
+	}
+}
+
 static class T
 {
 	static int fails, total;
@@ -235,6 +303,25 @@ static class T2
 			var helpAll = CommandHelp.All(); eq(helpAll.Count > 100, true, "help count");
 			eq(CommandHelp.Matches(helpAll.Find(h => h.Command == "tail -f file.log"), "follow log"), true, "help english search");
 			var rec = new System.Collections.Generic.List<string>(); CommandHelp.Touch(rec, "a", 3); CommandHelp.Touch(rec, "b", 3); CommandHelp.Touch(rec, "a", 3); eq(rec[0], "a", "recent order"); eq(rec.Count, 2, "recent unique");
+		}
+
+		// --- own FTP client against a mock server ---
+		{
+			var ms = new MockFtp(); ms.Files["/home/u/a.txt"] = new UTF8Encoding(false).GetBytes("hello");
+			var pr = new Profile { Name = "mock", Host = "127.0.0.1", Port = ms.Port, User = "u", Protocol = Protocol.Ftp, Passive = true };
+			RemoteFactory.SetPassword(pr, "pw");
+			using (var fs = new FtpRemote(pr, 5000))
+			{
+				eq(fs.GetHome(), "/home/u", "ftp pwd");
+				var ls = fs.List("/home/u"); eq(ls.Count, 2, "ftp list count"); eq(ls[0].IsDir, true, "ftp list dir"); eq(ls[1].Name, "a.txt", "ftp list file");
+				eq(System.Text.Encoding.UTF8.GetString(fs.Download("/home/u/a.txt")), "hello", "ftp download");
+				eq(fs.Download("/home/u/none.txt") == null, true, "ftp download missing = null");
+				fs.Upload("/home/u/b.txt", new UTF8Encoding(false).GetBytes("data")); eq(System.Text.Encoding.UTF8.GetString(ms.Files["/home/u/b.txt"]), "data", "ftp upload");
+				fs.Rename("/home/u/b.txt", "/home/u/c.txt"); eq(ms.Files.ContainsKey("/home/u/c.txt"), true, "ftp rename");
+				fs.Delete("/home/u/c.txt", false); eq(ms.Files.ContainsKey("/home/u/c.txt"), false, "ftp delete");
+				fs.MakeDir("/home/u/new");
+			}
+			lock (ms.Log) eq(ms.Log.Exists(x => x.StartsWith("LIST -a")) && ms.Log.Exists(x => x == "LIST /home/u"), true, "ftp list falls back without -a");
 		}
 
 		// --- languages ---
