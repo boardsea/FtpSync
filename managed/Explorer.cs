@@ -56,7 +56,7 @@ namespace FtpSync
 						if (start == null) throw last ?? new Exception(L.T("не удалось открыть стартовую папку"));
 					}
 				}
-				catch (Exception ex) { err = ex.Message; EventLog.Error(L.T("Подключение"), p.Name + " (" + p.Protocol + "://" + p.Host + ":" + p.Port + "): " + ex.Message, ex); }
+				catch (Exception ex) { err = RemoteFactory.Explain(ex); EventLog.Error(L.T("Подключение"), p.Name + " (" + p.Protocol + "://" + p.Host + ":" + p.Port + "): " + err, ex); }
 				Plugin.UiInvoke(delegate
 				{
 					if (err == null) { Connected.Add(p.Name); EventLog.Ok(L.T("Подключение"), L.T("Подключено: ") + p.Name + "  " + start); }

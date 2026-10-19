@@ -51,6 +51,16 @@ namespace FtpSync
 			lock (passwords) { string s; if (passwords.TryGetValue(p.Name, out s)) return s; }
 			return p.Password;
 		}
+		/// <summary>Error text plus what the FTP server actually answered.</summary>
+		public static string Explain(Exception ex)
+		{
+			WebException we = ex as WebException;
+			FtpWebResponse fr = we == null ? null : we.Response as FtpWebResponse;
+			if (fr == null) return ex.Message;
+			string d = (fr.StatusDescription ?? "").Trim();
+			return ex.Message + (d.Length > 0 ? "  [" + (int)fr.StatusCode + ": " + d + "]" : "");
+		}
+
 		public static bool NeedsPassword(Profile p)
 		{
 			if (p.Protocol == Protocol.Sftp && !string.IsNullOrEmpty(p.KeyFile)) return false;
@@ -155,7 +165,22 @@ namespace FtpSync
 	public class FtpRemote : IRemoteFs
 	{
 		readonly Profile p; readonly int timeout;
+		bool? passiveOverride;
 		public FtpRemote(Profile p, int timeoutMs) { this.p = p; timeout = timeoutMs; }
+
+		/// <summary>Some servers answer 502 (command not implemented) to PASV or PORT: retry once in the other transfer mode.</summary>
+		T WithFallback<T>(Func<T> f)
+		{
+			try { return f(); }
+			catch (WebException ex)
+			{
+				FtpWebResponse fr = ex.Response as FtpWebResponse;
+				if (fr == null || passiveOverride.HasValue || (fr.StatusCode != FtpStatusCode.CommandNotImplemented && fr.StatusCode != FtpStatusCode.CommandSyntaxError)) throw;
+				passiveOverride = !p.Passive;
+				try { return f(); }
+				catch (WebException) { passiveOverride = null; throw; }
+			}
+		}
 
 		Uri MakeUri(string path)
 		{
@@ -170,7 +195,7 @@ namespace FtpSync
 			FtpWebRequest r = (FtpWebRequest)WebRequest.Create(MakeUri(path));
 			r.Method = method;
 			r.Credentials = new NetworkCredential(p.User, RemoteFactory.PasswordFor(p));
-			r.UsePassive = p.Passive; r.UseBinary = true; r.KeepAlive = false;
+			r.UsePassive = passiveOverride ?? p.Passive; r.UseBinary = true; r.KeepAlive = false;
 			r.EnableSsl = p.Protocol == Protocol.Ftpes;
 			r.Timeout = timeout; r.ReadWriteTimeout = timeout;
 			return r;
@@ -179,6 +204,11 @@ namespace FtpSync
 		public byte[] Download(string remotePath) { return Download(remotePath, null); }
 
 		public byte[] Download(string remotePath, ProgressFn progress)
+		{
+			return WithFallback<byte[]>(delegate { return DownloadOnce(remotePath, progress); });
+		}
+
+		byte[] DownloadOnce(string remotePath, ProgressFn progress)
 		{
 			try
 			{
@@ -208,6 +238,11 @@ namespace FtpSync
 
 		public void Upload(string remotePath, byte[] data, ProgressFn progress)
 		{
+			WithFallback<bool>(delegate { UploadOnce(remotePath, data, progress); return true; });
+		}
+
+		void UploadOnce(string remotePath, byte[] data, ProgressFn progress)
+		{
 			FtpWebRequest r = Req(remotePath, WebRequestMethods.Ftp.UploadFile);
 			r.ContentLength = data.Length;
 			using (Stream s = r.GetRequestStream())
@@ -225,10 +260,12 @@ namespace FtpSync
 
 		public List<RemoteEntry> List(string dir)
 		{
-			string text;
-			using (FtpWebResponse resp = (FtpWebResponse)Req(dir.TrimEnd('/') + "/", WebRequestMethods.Ftp.ListDirectoryDetails).GetResponse())
-			using (StreamReader sr = new StreamReader(resp.GetResponseStream(), System.Text.Encoding.UTF8))
-				text = sr.ReadToEnd();
+			string text = WithFallback<string>(delegate
+			{
+				using (FtpWebResponse resp = (FtpWebResponse)Req(dir.TrimEnd('/') + "/", WebRequestMethods.Ftp.ListDirectoryDetails).GetResponse())
+				using (StreamReader sr = new StreamReader(resp.GetResponseStream(), System.Text.Encoding.UTF8))
+					return sr.ReadToEnd();
+			});
 			return FtpListParser.Parse(text, dir);
 		}
 
