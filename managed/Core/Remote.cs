@@ -198,6 +198,7 @@ namespace FtpSync
 			r.UsePassive = passiveOverride ?? p.Passive; r.UseBinary = true; r.KeepAlive = false;
 			r.EnableSsl = p.Protocol == Protocol.Ftpes;
 			r.Timeout = timeout; r.ReadWriteTimeout = timeout;
+			r.Proxy = null; // never go through the system HTTP proxy (it answers 502 Bad Gateway to FTP)
 			return r;
 		}
 
@@ -276,7 +277,7 @@ namespace FtpSync
 			r.Method = WebRequestMethods.Ftp.PrintWorkingDirectory;
 			r.Credentials = new NetworkCredential(p.User, RemoteFactory.PasswordFor(p));
 			r.UsePassive = p.Passive; r.KeepAlive = false; r.EnableSsl = p.Protocol == Protocol.Ftpes;
-			r.Timeout = timeout; r.ReadWriteTimeout = timeout;
+			r.Timeout = timeout; r.ReadWriteTimeout = timeout; r.Proxy = null;
 			using (FtpWebResponse resp = (FtpWebResponse)r.GetResponse())
 				return ParsePwd(resp.StatusDescription);
 		}
