@@ -336,13 +336,14 @@ namespace FtpSync
 			root.Nodes.Clear();
 			string[] segs = start.Replace('\\', '/').Split(new[] { '/' }, StringSplitOptions.RemoveEmptyEntries);
 			TreeNode cur = MakeDirNode(p, "/", "/", segs.Length > 0);
+			List<TreeNode> levels = new List<TreeNode>();
 			root.Nodes.Add(cur);
 			string path = "";
 			for (int i = 0; i < segs.Length; i++)
 			{
 				path += "/" + segs[i];
 				TreeNode c = MakeDirNode(p, segs[i], path, i < segs.Length - 1);
-				cur.Nodes.Add(c); cur = c;
+				levels.Add(cur); cur.Nodes.Add(c); cur = c;
 			}
 			Populate(cur, entries, null);
 			tree.EndUpdate();
@@ -353,6 +354,22 @@ namespace FtpSync
 			suppressScroll = false;
 			tree.SelectedNode = cur; cur.EnsureVisible();
 			if (stamp == tree.Stamp) CenterNode(cur);
+			FillLevels(levels, 0);
+		}
+
+		/// <summary>Lists every folder on the way down to the start folder, so its neighbours are visible too (an unreadable level is skipped).</summary>
+		void FillLevels(List<TreeNode> levels, int i)
+		{
+			if (i >= levels.Count) return;
+			TreeNode n = levels[i];
+			if (n.TreeView == null) return;
+			LoadDir(n, delegate
+			{
+				if (n.TreeView == null) return;
+				suppressScroll = true;
+				try { n.Expand(); } finally { suppressScroll = false; }
+				FillLevels(levels, i + 1);
+			}, false);
 		}
 
 		readonly Dictionary<TreeNode, int> pendingScroll = new Dictionary<TreeNode, int>();
@@ -390,7 +407,7 @@ namespace FtpSync
 			else LoadDir(e.Node, delegate { e.Node.Expand(); });
 		}
 
-		void LoadDir(TreeNode node, Action done)
+		void LoadDir(TreeNode node, Action done, bool cascade = true)
 		{
 			ExNode n = (ExNode)node.Tag;
 			bool hadReal = node.Nodes.Count > 0 && node.Nodes[0].Tag != null;
@@ -406,7 +423,7 @@ namespace FtpSync
 			});
 		}
 
-		void Populate(TreeNode node, List<RemoteEntry> list, Action done)
+		void Populate(TreeNode node, List<RemoteEntry> list, Action done, bool cascade = true)
 		{
 			ExNode n = (ExNode)node.Tag;
 			Dictionary<string, TreeNode> keep = new Dictionary<string, TreeNode>();
@@ -445,7 +462,7 @@ namespace FtpSync
 			}
 			foreach (TreeNode orphan in keep.Values) { node.Nodes.Add(orphan); if (orphan.IsExpanded) reload.Add(orphan); } // chain child that the listing did not show
 			Explorer.Remember(n.Profile, n.Remote);
-			foreach (TreeNode r in reload) { TreeNode rn = r; LoadDir(rn, delegate { rn.Expand(); }); } // expanded subfolders refresh too
+			if (cascade) foreach (TreeNode r in reload) { TreeNode rn = r; LoadDir(rn, delegate { rn.Expand(); }); } // expanded subfolders refresh too
 			if (done != null) done();
 		}
 
