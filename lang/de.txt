@@ -472,3 +472,4 @@ DNS-записи домена	DNS-Einträge einer Domain
 Задать переменную окружения	Umgebungsvariable setzen
 Для этого языка в Notepad++ нет сворачивания блоков, отступы определить нельзя.	Notepad++ hat für diese Sprache kein Code-Folding, daher lassen sich Einrückungen nicht bestimmen.
 Исправлено отступов: {0}	Einrückungen korrigiert: {0}
+загружаем…	wird geladen…

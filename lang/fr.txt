@@ -472,3 +472,4 @@ DNS-записи домена	Enregistrements DNS d'un domaine
 Задать переменную окружения	Définir une variable d'environnement
 Для этого языка в Notepad++ нет сворачивания блоков, отступы определить нельзя.	Notepad++ n'a pas de repliement de code pour ce langage, les indentations ne peuvent pas être déterminées.
 Исправлено отступов: {0}	Indentations corrigées : {0}
+загружаем…	chargement…

@@ -472,3 +472,4 @@ DNS-записи домена	Registros DNS de un dominio
 Задать переменную окружения	Definir una variable de entorno
 Для этого языка в Notepad++ нет сворачивания блоков, отступы определить нельзя.	Notepad++ no tiene plegado de código para este lenguaje, por lo que no se pueden determinar las sangrías.
 Исправлено отступов: {0}	Sangrías corregidas: {0}
+загружаем…	cargando…

@@ -93,6 +93,7 @@ namespace FtpSync
 		public Profile Profile;
 		public RemoteEntry Entry;   // null for a profile root
 		public bool Chain;          // path-only node on the way to the start folder (not listed yet)
+		public bool Pinned;         // start folder while the levels above it are being listed: keep this node
 		public string Remote;
 		public bool IsRoot { get { return Entry == null; } }
 		public bool IsDir { get { return Entry == null || Entry.IsDir; } }
@@ -346,30 +347,36 @@ namespace FtpSync
 				levels.Add(cur); cur.Nodes.Add(c); cur = c;
 			}
 			Populate(cur, entries, null);
+			((ExNode)cur.Tag).Pinned = true;
 			tree.EndUpdate();
-			int stamp = tree.Stamp;
-			suppressScroll = true;
-			root.Expand();
-			for (TreeNode t = cur; t != null && t != root; t = t.Parent) t.Expand();
-			suppressScroll = false;
-			tree.SelectedNode = cur; cur.EnsureVisible();
-			if (stamp == tree.Stamp) CenterNode(cur);
-			FillLevels(levels, 0);
+			// the tree stays collapsed ("loading") until every level is listed, then it opens in one go on the last working folder
+			string rootText = root.Text;
+			root.Text = rootText + "  ⟳ " + L.T("загружаем…");
+			TreeNode last = cur;
+			FillLevels(levels, 0, delegate
+			{
+				((ExNode)last.Tag).Pinned = false;
+				if (root.TreeView == null) return;
+				root.Text = rootText;
+				int stamp = tree.Stamp;
+				suppressScroll = true;
+				tree.BeginUpdate();
+				root.Expand();
+				for (TreeNode t = last; t != null && t != root; t = t.Parent) t.Expand();
+				tree.EndUpdate();
+				suppressScroll = false;
+				tree.SelectedNode = last; last.EnsureVisible();
+				if (stamp == tree.Stamp) CenterNode(last);
+			});
 		}
 
 		/// <summary>Lists every folder on the way down to the start folder, so its neighbours are visible too (an unreadable level is skipped).</summary>
-		void FillLevels(List<TreeNode> levels, int i)
+		void FillLevels(List<TreeNode> levels, int i, Action finished)
 		{
-			if (i >= levels.Count) return;
+			if (i >= levels.Count) { finished(); return; }
 			TreeNode n = levels[i];
-			if (n.TreeView == null) return;
-			LoadDir(n, delegate
-			{
-				if (n.TreeView == null) return;
-				suppressScroll = true;
-				try { n.Expand(); } finally { suppressScroll = false; }
-				FillLevels(levels, i + 1);
-			}, false);
+			if (n.TreeView == null) { finished(); return; }
+			LoadDir(n, delegate { FillLevels(levels, i + 1, finished); }, false);
 		}
 
 		readonly Dictionary<TreeNode, int> pendingScroll = new Dictionary<TreeNode, int>();
@@ -433,7 +440,7 @@ namespace FtpSync
 			{
 				ExNode on = old.Tag as ExNode;
 				if (on == null) continue;
-				if (on.Chain) keep[on.Remote] = old;
+				if (on.Chain || on.Pinned) keep[on.Remote] = old;
 				else if (on.Entry != null && on.Entry.IsDir && old.IsExpanded) opened[on.Remote] = old;
 			}
 			node.Nodes.Clear();
